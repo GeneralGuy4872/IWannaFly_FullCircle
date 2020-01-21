@@ -455,7 +455,7 @@ playertyp PLAYER;	//may be mmapped
 roomstackholder * ROOMSTACK;	//may be anonymously mmapped
 #define ROOM ROOMSTACK->swapin
 #define ROOM_NOT_NULL(X,Y) ((ROOM != NULL) ? X : Y)
-#define WORLD ROOM_NOT_NULL( ROOM->latlon , (latlontyp){0,0,0,0,0,0} )
+#define WORLD ROOM_NOT_NULL( ROOM->globpos , (ucoord4){0,0,0,0} )
 //WORLD is a relic of an earlier design, and is not intended to be part of the API
 #define CEILING	ROOM_NOT_NULL( ROOM->ceiling , MAX_Z )
 #define OLDCEILING (CEILING + 1)
@@ -490,7 +490,7 @@ struct odds_n_ends * GLOBOOLS	//shared; may be mmapped
 #define NOON GLOBOOLS->noon
 #define EVE GLOBOOLS->eve
 #define MIDNIT GLOBOOLS->midnit
-char TMPBUFFERS[16][BUFFER_MAX];	//not saved
+char TMPBUFFERS[16][2 * BUFFER_MAX];	//not saved
 uchar TMPBUFFERNEXT;	//not saved
 /*end GLOBALS*/
 
@@ -992,7 +992,7 @@ switch (direction) : {
 	case 0 : break;
 	case ROOM_UP : saveroom(NULL);WORLD = touchroom(ROOM->neighborhood->up);
 
-roomwarp(latlontyp)
+roomwarp(ucoord4)
 
 coordjump(coordx,coordy,coordz)
 
@@ -1026,85 +1026,13 @@ else {
 	return zpos
 	}
 
-bool maskfetch(zcoord,ycoord,xcoord,mask)
-uchar zcoord
-uchar ycoord
-uchar xcoord
-shadowmask * mask
-{
-switch (zcoord) : {
-	case 0 : return (bool) (mask[ycoord][xcoord] & 0x8000);
-	case 1 : return (bool) (mask[ycoord][xcoord] & 0x4000);
-	case 2 : return (bool) (mask[ycoord][xcoord] & 0x2000);
-	case 3 : return (bool) (mask[ycoord][xcoord] & 0x1000);
-	case 4 : return (bool) (mask[ycoord][xcoord] & 0x0800);
-	case 5 : return (bool) (mask[ycoord][xcoord] & 0x0400);
-	case 6 : return (bool) (mask[ycoord][xcoord] & 0x0200);
-	case 7 : return (bool) (mask[ycoord][xcoord] & 0x0100);
-	case 8 : return (bool) (mask[ycoord][xcoord] & 0x0080);
-	case 9 : return (bool) (mask[ycoord][xcoord] & 0x0040);
-	case 0xA : return (bool) (mask[ycoord][xcoord] & 0x0020);
-	case 0xB : return (bool) (mask[ycoord][xcoord] & 0x0010);
-	case 0xC : return (bool) (mask[ycoord][xcoord] & 0x0008);
-	case 0xD : return (bool) (mask[ycoord][xcoord] & 0x0004);
-	case 0xE : return (bool) (mask[ycoord][xcoord] & 0x0002);
-	case 0xF : return (bool) (mask[ycoord][xcoord] & 0x0001);
-	default : return false;
+bool shadowmask__fetch (shadowmask * this,unsigned x,unsigned y,unsigned z,bool q) {
+	return this[x][y] & (1 << z) == q;
 	}
-}
 
-/*implicit*/maskset(zcoord,ycoord,xcoord,mask,value)
-uchar zcoord;
-uchar ycoord;
-uchar xcoord;
-shadowmask * maskptr;
-bool value;
-{
-shadowmask mask = *maskptr;
-if (value) {
-	switch (zcoord) : {
-		case 0 : return mask[ycoord][xcoord] |= 0x8000;
-		case 1 : return mask[ycoord][xcoord] |= 0x4000;
-		case 2 : return mask[ycoord][xcoord] |= 0x2000;
-		case 3 : return mask[ycoord][xcoord] |= 0x1000;
-		case 4 : return mask[ycoord][xcoord] |= 0x0800;
-		case 5 : return mask[ycoord][xcoord] |= 0x0400;
-		case 6 : return mask[ycoord][xcoord] |= 0x0200;
-		case 7 : return mask[ycoord][xcoord] |= 0x0100;
-		case 8 : return mask[ycoord][xcoord] |= 0x0080;
-		case 9 : return mask[ycoord][xcoord] |= 0x0040;
-		case 0xA : return mask[ycoord][xcoord] |= 0x0020;
-		case 0xB : return mask[ycoord][xcoord] |= 0x0010;
-		case 0xC : return mask[ycoord][xcoord] |= 0x0008;
-		case 0xD : return mask[ycoord][xcoord] |= 0x0004;
-		case 0xE : return mask[ycoord][xcoord] |= 0x0002;
-		case 0xF : return mask[ycoord][xcoord] |= 0x0001;
-		default : return ERR;
-		}
+shadowmask__set(shadowmask * this,unsigned x,unsigned y,unsigned z,bool q) {
+	return this[x][y] |= (q & 1) << z;
 	}
-else {
-	switch (zcoord) : {
-		case 0 : return mask[ycoord][xcoord] &= ~0x8000;
-		case 1 : return mask[ycoord][xcoord] &= ~0x4000;
-		case 2 : return mask[ycoord][xcoord] &= ~0x2000;
-		case 3 : return mask[ycoord][xcoord] &= ~0x1000;
-		case 4 : return mask[ycoord][xcoord] &= ~0x0800;
-		case 5 : return mask[ycoord][xcoord] &= ~0x0400;
-		case 6 : return mask[ycoord][xcoord] &= ~0x0200;
-		case 7 : return mask[ycoord][xcoord] &= ~0x0100;
-		case 8 : return mask[ycoord][xcoord] &= ~0x0080;
-		case 9 : return mask[ycoord][xcoord] &= ~0x0040;
-		case 0xA : return mask[ycoord][xcoord] &= ~0x0020;
-		case 0xB : return mask[ycoord][xcoord] &= ~0x0010;
-		case 0xC : return mask[ycoord][xcoord] &= ~0x0008;
-		case 0xD : return mask[ycoord][xcoord] &= ~0x0004;
-		case 0xE : return mask[ycoord][xcoord] &= ~0x0002;
-		case 0xF : return mask[ycoord][xcoord] &= ~0x0001;
-		default : return ERR;
-		}
-	}
-return ERR;
-}
 
 bool langetx(race,id) __attribute__((const))
 basentyp race

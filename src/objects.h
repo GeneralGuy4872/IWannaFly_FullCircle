@@ -37,7 +37,7 @@ extern roomstackobj__setswap (roomstackobj * this, roomtyp * that);
 #define roomstackobj__setswap_ele(X,Y) roomstackobj__setswap(X,roomstackobj__drop(X,Y))
 #define ROOMSTACK__setswap_ele(Y) roomstackobj__setswap_ele(ROOMSTACK,Y)
 
-extern roomstackobj__makecurrent(roomstackobj * this,latlontyp query);
+extern roomstackobj__makecurrent(roomstackobj * this,ucoord4 query);
 #define ROOMSTACK__makecurrent(Q) roomstackobj__makecurrent(ROOMSTACK,Q)
 
 extern roomstackobj__scroll(roomstackobj * this,playertyp * you,char dir);
@@ -46,8 +46,8 @@ extern roomstackobj__scroll(roomstackobj * this,playertyp * you,char dir);
 extern roomstackobj__neighbor_reset (struct roomstack * this);
 #define ROOMSTACK__neighbor_reset() roomstackobj__neighbor_reset(ROOMSTACK)
 
-extern smrtloadroom (struct latlontyp query);
+extern smrtloadroom (ucoord4 query);
 
-extern struct planetyp getplanetyp (struct latlontyp input);
+extern struct planetyp getplanetyp (ucoord4 input);
 
 #endif

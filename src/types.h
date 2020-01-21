@@ -16,21 +16,13 @@
 #define uchar unsigned char
 #define ushort unsigned short
 #define ulong unsigned long
-#define 8BITPTR uint8_t
+#define ptrchar uint8_t
+#define ptrshort uint16_t
 
 struct odds_n_ends {
 uint64_t turn;
 turntype date;
 uchar roomturn;
-cameratyp camera;
-bool new : 1;
-bool first : 1;
-bool day : 1;
-bool night : 1;
-bool morn : 1;
-bool noon : 1;
-bool eve : 1;
-bool midnit : 1;
 }
 
 struct stringlistyp {
@@ -62,75 +54,36 @@ ushort lineno
 char * text
 }
 
-/*depracated
-struct blitimgcolor {
-	struct attr_t attr[6];
-	uchar fgcolor[4];
-	uchar bgcolor[4];
-	char ** img[16];
-	}
-	?*			[0]	[1]	[2]	[3]	fgcolor
-	 *			0x0000	[0]	[1]	[2]	attr
-	 *	[0]	0x0000	[0]	[1]	[2]	[3]	img
-	 *	[1]	[3]	[4]	[5]	[6]	[7]
-	 *	[2]	[4]	[8]	[9]	[10]	[11]
-	 *	[3]	[5]	[12]	[13]	[14]	[15]
-	 *	bgcolor	attr
-	 * the first row and column never have any attributes
-	 * NULL img pointers are skipped, rather than acting as sentries
-	 */
-
-struct drawvector {
-	ucoord3 a;
-	ucoord3 b;
-	char16_t ch;	// if set to \0, then assume that attr also holds an ascii symbol and switch accordingly.
-	struct attrcolortyp attrcolor;
-	ushort uslp;	/* how long to delay between each character; calls usleep.
-			 * there is already a miniscule delay for the stepwise pathfinder calculation
-			 */
-	}
-
-/* note: make function where some glyph is swept to some azimuth
- * ( char16_t unichar, struct attrcolortyp attrcolor, uchar az ¿, float dist?, ushort uslp)
- */
-
-/* not implemented yet
-struct glyphtyp {
-unsigned typ;
-int attrs;
-void *glyph;
-}
-?* cast void to (OR flags) :
- *
- * 0x80 : char16_t instead of char
- * 0x70 : elements are nul terminated strings of whatevers
- * 0xn0 : for 1 ≤ n ≤ 6, elements are fixed sized arrays of n whatevers
- *
- * 0x00 : toplevel is not an array
- * 0x01 : [10] = {up,north,ne,left,se,south,sw,right,nw,down}
- * 0x02 :  [2] = {left,right}
- * 0x03 :  [2] = {north,south}
- * 0x04 :  [4] = {north,left,south,right}
- * 0x06 :  [6] = {up,north,left,south,right,down}
- * 0x07 :  [8] = {north,ne,left,se,south,sw,right,nw}
- */
-
 struct chaptertyp {
 unsigned c : 7;	//chapter number
 unsigned a : 9;	//alignment type
 }
 
-struct turntyp:
-uchar sec : 6;
-uchar min : 6;
-uchar hour : 5;
-uchar day : 5;
-uchar weekday : 3;
-uchar month : 4;
-ushort year : 11;
+struct turntyp {
+unsigned second : 6;	//mod 60
+unsigned mm : 6;	//mod 60
+unsigned hour : 5;	//mod 24
+unsigned dayhour : 5	//mod 24, set to hour + sunrise
+unsigned dayear : 9;	//mod 360
+unsigned weekday : 3;	//mod 7
+unsigned moonphase : 2;	//rollover
+unsigned moonhour : 4;	//mod 15
+unsigned daymonth : 5;	//mod 30
+unsigned month : 4;	//mod 12
+unsigned seasoncounter : 2;	//rollover
+unsigned season : 2;	//rollover
+char : 0;
+}
 
+struct sphere {
+Vector3 center
+float radius
+}
+
+typedef uchar ucoord4[4];
 typedef uchar ucoord3[3];
 typedef uchar ucoord2[2];
+typedef char scoord4[4];
 typedef char scoord3[3];
 typedef char scoord2[2];
 //sentinal for an array of coord3 is {0,0,-1}
@@ -147,14 +100,11 @@ typedef char *strarry[]
 typedef void *ptrarry[]
 
 struct lightyp {
-struct lightyp * prev
-struct lightyp * next
-unsigned x : 7;
-unsigned y : 5;
-unsigned z : 4;
-unsigned xx : 7;
-unsigned yy : 5;
-unsigned zz : 4;
+struct lightyp * prev;
+struct lightyp * next;
+uchar x[2];
+uchar y[2];
+uchar z[2];
 }
 
 struct agetyp {
@@ -170,30 +120,9 @@ struct agetyp {
 				 * effects. (href shiftstackobj)
 				 */
 
-struct mapcoord3:
-unsigned x : 7
-unsigned y : 5
-unsigned z : 4
-
-struct chgat_args_typ {
-	uchar y;
-	uchar x;
-	char n;
-	attr_t attr;
-	short color;
-	}
-
 struct nibbles {
 unsigned lo : 4
 unsigned hi : 4
-}
-
-struct cameratyp {
-unsigned dir : 4	//href CAMERA_? in constants.h
-bool seeinvis : 1
-bool detectalign : 1
-bool arrows : 1
-bool dingbats : 1
 }
 
 struct racetyp {
@@ -203,28 +132,12 @@ unsigned meta : 4
 	// 00,0,F is nul
 }
 
-struct attrcolortyp {
-	attr_t attr;
-	short color;
-	}
-
-typedef nanovector {
+struct nanovector {
 signed x : 2
 signed y : 2
 signed z : 2
 signed w : 2
 }
-
-typedef float vector2[2]
-typedef float vector3[3]
-//not implemented
-/* used for velocity, a parameter that holds
- * motion that carries accross turns. this motion
- * is not always cleared after being done; horizontal
- * velocity persists until a tile with friction is
- * encountered, while downwards vertical velocity 
- * accumulates and persists until the ground is encountered.
- */
 
 typedef char *pluralwords[3];
 
@@ -235,8 +148,6 @@ typedef char *pluralwords[3];
 struct selftyp {
 unsigned az : 3
 unsigned phi : 3
-unsigned fov : 2
-unsigned range : 6
 unsigned movetoken : 2
 unsigned gravdir : 3 //not implemented
 char : 0 // 5 pad
@@ -261,57 +172,20 @@ unsigned range : 6
  * -1
  */
 
-/*
- * notetyp {
- * (self) next
- * unsigned evnt : 4
- * unsigned chan : 4
- * unsigned note : 8
- * unsigned velo : 8
- * clock_t delay
- * }
- * for interfacing with a raw midi library
- *
- * delay is not part of the midi data, rather,
- * it tells how long to wait until sending the
- * next packet. set to 0 to send immidiately.
- */
-
-/* typedef short sprite[16]
- * typedef sprite *voxel[5]	?/ top, bottom, sides, front, back. if front or back == NULL, side is substituted.
- * typedef sprite vwing[2]	?/ front and back only
- *
- * for future use by a vector graphics library, for 3d rendering by algorithem
- * in non-isogonal modes, single-point perspective is used; points are calculated by adverageing the boundries of a voxel box's perpendicular sides.
- * perpindicular side sizes are calculated by altering the camera's distance and focal length
- *
- * these types provide an abstraction layer for an xlib- or xcb-like frontend,
- * uses a 17*17 point vector grid, distorted according to the perspective, to draw squares for each 1-bit in the sprite array.
- */
-
-//some specific use cases require spheres. these are simply numeric types.
-
 struct diceodds:
 unsigned num : 3
 unsigned side : 5
 unsigned tobeat : 8
 
 struct planetyp {
+bool : 1
 unsigned rho : 2
 unsigned az : 3
 signed el : 2
-char : 0
 }
 
-struct latlontyp {
-unsigned dep : 8
-unsigned lat : 8
-unsigned lon : 9
-unsigned rho : 2	//are you plane shifted?
-unsigned az : 3
-signed el : 2
-}
-/* in-game altitude is given as the distance from layer 100
+/* if the poles of a sphere are unaccessible, it may be cylindrically
+ * projected; otherwise, it must be cube mapped
  *
  * rho 0 is the prime plane
  * rho 1 are the elemental planes
@@ -361,7 +235,9 @@ struct placetyp {
 (self) *next
 eventdata eventident
 char* name
-latlontyp latlon
+ucoord4 globpos
+planetyp plane
+Vector2 latlon
 ucoord3 pos
 }
 
@@ -392,10 +268,9 @@ z : 1
 struct ray_vfx_typ {
 (self) * prev
 (self) * next
-ucoord3 p
-uchar dir	//must be a valid octant
-float mag
-struct attrcolortyp ac
+Vector3 end
+Vector3 from
+Color color
 }
 
 struct multiclasstyp:
@@ -419,8 +294,7 @@ uchar spd
 char airspd
 uchar air
 struct conlangtyp lang
-_8BITPTR spell[2]
-bitfield psyattack
+cantriptyp spell[2]
 bool mindless : 1
 bool shadow : 1
 bool incoporeal : 1
@@ -439,28 +313,32 @@ fort : u5
 intl : u5
 wis : u5
 bluff : u5
+struct movelimit {
+float spd
+float airspd
+float watspd
+uchar lung
+uchar wing
+}
 
 struct movecount {
-uchar lungs //number of turns that you can go without air.
-uchar spd //added to move each turn
-char airspd	/* if this is negative, then it's value is immediately
+float spd //added to move each turn
+float airspd	/* if this is negative, then it's value is immediately
 		 * subtracted from move whenever flying is attempted.
 		 * otherwise, added to fly each turn
 		 */
-char knots //ditto but added to swim
+float watspd //ditto but added to swim
 float move //value is capped at 2*spd
 float fly 	/* carries the extra moves that can be used in the air;
 		 * they are used first when applicable
 		 */
 float swim //ditto but used in water
-scoord3 skillgain	/* [0] = ground, [1] = water, [2] = air.
+ucoord3 skillgain	/* [0] = ground, [1] = water, [2] = air.
 			 * when these overflow, a skill level is
-			 * gained if applicable, and they are zeroed.
-			 * the existance of a negative value other than
-			 * the most negative number in these fields
-			 * indicates that an error has occured
+			 * gained if applicable.
 			 */
-uchar breath //number of turns left before you drown
+ucoord2 lung //number of turns that you can go without air.
+ucoord2 wing //number of turns left before you fall
 }
 
 struct conlangtype:
@@ -520,8 +398,8 @@ short food
 float wallet
 langlistele *lang_ptr
 spellistele *spell_ptr
+cantriplistele *cant_ptr
 heldobjtyp *bag_ptr
-bitfield psyattack
 oneobjtyp helm	//any item
 subobjtyp shield	//shld
 subobjtyp bow	//weapon
@@ -530,8 +408,8 @@ subobjtyp cape	//armor
 subobjtyp amul	//baub
 unsigned n_arms : 4
 unsigned n_legs : 4
-armtyp *arms[2]
-legtyp *legs[2]
+armtyp * arms
+legtyp * legs
 
 struct armtyp {
 struct armtyp * next
@@ -555,21 +433,16 @@ ENUM_WRIST_RIGHT}
 struct basentyp:
 aggrotyp aggro	//here, shiftable denotes a monster's aggro state is locked. also gives the value that patience is set to when a monster calms down, the value that cooldown is set to when it is angered, and the default AI.
 paffectyp base
+struct movelimit move
 unsigned n_arms : 4
 unsigned n_legs : 4
-uchar spd	//distance calculations use M_SQRT2 and local SQRT3 for diagonals
-char airspd
 uchar hplvl
 uchar mplvl
 uchar xplvl
-uchar air	//how long you can hold your breath
 struct conlangtyp lang[2]
-_8BITPTR spell[4]
-bitfield psyattack
-char16_t sprite
-struct attrcolortyp attrcolor
-char16_t altsprite
-struct attrcolortyp altattrcolor
+spelltyp spell[4]
+Mesh * shape
+Texture2D * texture
 signed size : 2
 bool mindless : 1
 bool shadow : 1
@@ -609,6 +482,8 @@ ushort mp
 uint32_t xp
 uchar lvl
 float wallet
+spellistele *spell_ptr
+cantriplistele *cant_ptr
 oneobjtyp loot
 oneobjtyp helm
 subobjtyp shield
@@ -618,8 +493,8 @@ subobjtyp cape
 subobjtyp amul
 unsigned n_arms : 4
 unsigned n_legs : 4
-armtyp *arms[2]
-legtyp *legs[2]
+armtyp * arms
+legtyp * legs
 
 struct npctyp {
 (self) *prev
@@ -655,7 +530,8 @@ uint32_t xp
 uchar lvl
 short food
 float wallet
-bitfield psyattack
+spellistele *spell_ptr
+cantriplistele *cant_ptr
 oneobjtyp holding
 oneobjtyp helm
 subobjtyp shield
@@ -665,8 +541,8 @@ subobjtyp cape
 subobjtyp amul
 unsigned n_arms : 4
 unsigned n_legs : 4
-armtyp *arms[2]
-legtyp *legs[2]
+armtyp * arms
+legtyp * legs
 
 struct spawntyp:
 npctyp * depth
@@ -685,8 +561,8 @@ subobjtyp cape
 subobjtyp amul
 unsigned n_arms : 4
 unsigned n_legs : 4
-armtyp *arms[2]
-legtyp *legs[2]
+armtyp * arms
+legtyp * legs
 
 struct oneobjtyp {
 objid type
@@ -709,7 +585,13 @@ struct conlangtyp data
 struct spellistele {
 (self) * prev
 (self) * next
-_8BITPTR data
+spelltyp this
+}
+
+struct cantriplistele {
+(self) * prev
+(self) * next
+cantriptyp this
 }
 
 struct subobjtyp:
@@ -776,37 +658,47 @@ struct altertimertyp talons;
   * changed in future if memory footprint allows.
   */
 
-struct spelltyp:
-intptr_t itemid : 8
-diceodds odds
-uchar prof
-
-struct basespelltyp:
-bool poly : 1
-bool self : 1
-unsigned lvl : 6
-magictyp type
+struct cantriptyp {
+funcptr spell;
+diceodds odds;
+uchar prof;
 char cost_typ : 2 //0 = at will, 1 = gold, -1 = mp, -2 = hp
 unsigned cost_amnt : 6
-potiontyp effect
-beamtyp delivery
-intptr_t polyref : 8
+}
 
-struct psytyp:
-signed cost_typ : 2 //0 = at will, 1 = gold, -1 = mp, -2 = hp
+struct spelltyp {
+basespelltyp * spell;
+diceodds odds;
+uchar prof;
+char cost_typ : 2 //0 = at will, 1 = gold, -1 = mp, -2 = hp
 unsigned cost_amnt : 6
+}
+
+typedef int (*funcptr)();
+
+struct passiveffectlistele {
+struct passiveffectlistele * prev;
+struct passiveffectlistele * next;
+funcptr whenthis;
+funcptr dothis;
+funcptr undothis;
+intptr_t statedata;
+}
+
+struct basespelltyp:
+unsigned lvl : 6
+char : 0
+magictyp type
 potiontyp effect
 missiletyp delivery
 
-struct missiletyp:
-bool psion : 1
+struct missiletyp {
 bool vamp : 1
-unsigned damage : 8
+unsigned damage : 7
 signed recoil : 8
-unsigned range : 6
-unsigned spread : 4
-unsigned splash : 3 //radius of damage on impact
-bool dig : 1 
+float range;
+float spread;
+float splash;
 }
 
 struct baseweaptyp:
@@ -1035,24 +927,34 @@ unsigned color : 3
 paffectyp enchnt
 
 struct roomneighbors {
-bool north
-bool south
-bool east
-bool west
-bool up
-bool down
-bool upstair
-bool downstair
-latlontyp latlon[6]	//href ROOM_? in constants.h
+bool north : 1
+bool south : 1
+bool east : 1
+bool west : 1
+bool up : 1
+bool down : 1
+bool upstair : 1
+bool downstair : 1
+bool show_north : 1
+bool show_south : 1
+bool show_east : 1
+bool show_west : 1
+bool show_up : 1
+bool show_down : 1
+bool subterr : 1
+bool gnomon : 1
+ucoord4 globpos[6]	//href ROOM_? in constants.h
 }
 
 struct roomtyp: //top-down display of a 3d space
-latlontyp latlon
+ucoord4 globpos
+struct planetyp plane
+Vector3 latlon	//reported as the latitude, longitude, and elevation of the current room. NaN may be helpful.
+intptr_t area : 16 //the name of the area from a table of names
 tileset *hightiles
 char* tiledata[][MAX_Y][MAX_X]
-unsigned ceiling : 4
-unsigned bgcolor : 3
-bool visited : 1
+unsigned ceiling : 5
+unsigned grav : 3
 shadowmask * seen
 shadowmask * light
 shadowmask * collimap	//entity collision mask
@@ -1067,6 +969,9 @@ ucoord3 * path_ptr
 ucoord2 downstair
 ucoord2 upstair
 ucoord3 home
+char filltile
+bool visited : 1
+unsigned meta : 7
 struct roomneighbors neighborhood
 /* if invalid coords are given for a warp (typically {$FF,$FF}),
  * then the player is dumped at the location indicated by home.
@@ -1119,18 +1024,7 @@ char down[MAX_Y][MAX_X]
  * up and down do not need secondary directions as the map cannot be scrolled that way
  */
 
-typedef ushort shadowmask[MAX_Y][MAX_X]
-typedef bitfield starfield[MAX_Y][MAX_X/8]
-
-typedef ushort collisionmapcols[MAX_Y+2][MAX_X+2]
-typedef uchar collisionmapholes[MAX_Y][MAX_X/8]
-
-struct collisionmaptyp {
-	collisionmapcols solid
-	collisionmapholes holes
-	shadowmask ents
-	}
-
+typedef uint32_t shadowmask[MAX_Y][MAX_X]
 typedef tilemeta tileset[128]
 
 struct tilemeta {
@@ -1162,7 +1056,8 @@ unsigned density
 bool blink : 1
 unsigned color : 6
 
-char16_t unichar : 16
+Mesh * shape
+Texture2D * texture
 }
 /* tiles can be effected by stuff happening around them.
  *
@@ -1205,7 +1100,8 @@ void* data
 mapobjflags flags
 
 struct signtyp {
-char16_t unichar
+Mesh * shape
+Texture2D * texture
 conlangtyp lang
 char* lines
 char* gibber
@@ -1296,12 +1192,29 @@ void * data
 }
 
 enum eventdatastack_objid = {
+EDS_DYNASHAREDLIB_FLAG
 EDS_ROOMOBJ_FLAG
 EDS_QGLOBOBJ_FLAG
 EDS_EVENTTYP_FLAG
 EDS_QGLOBEV_FLAG
 EDS_ENCONTYP_FLAG
 EDS_PLACETYP_FLAG
+EDS_SPELL_FLAG
+EDS_CANTRIP_FLAG
+EDS_PASSIVE_FLAG
+}
+
+
+union hitboxuni {
+BoundingBox square
+struct sphere
+Vector3 geom
+Ray ray
+}
+
+struct hitboxtyp {
+union hitboxuni
+uchar type
 }
 
 struct eventtyp:
@@ -1310,15 +1223,13 @@ struct eventtyp:
 ucoord3 pos
 eventdata eventdatavals
 unsigned hours : 24
-int (*dothis)(void*,void*,void*,void*)
-unsigned radius : 7
+int (*dothis)(intptr_t,intptr_t,intptr_t,intptr_t)
 bool interact : 1
-char16_t unichar
-struct attrcolortyp attrcolor
-unsigned up : 4
-unsigned down : 4
-unsigned duration : 16
-unsigned remduration : 16
+bool look : 1
+unsigned duration : 15
+unsigned remduration : 15
+Mesh * shape
+Texture2D * texture
 
 struct triggertyp {
 triggerenum key : 4
@@ -1330,7 +1241,7 @@ struct qglobobj: //queued global object
 (self) *next
 eventdata eventident
 qglobflags flags
-latlontyp latlon
+ucoord4 globpos
 ucoord3 pos
 objid type
 void* data
@@ -1339,15 +1250,15 @@ struct qglobev: //queued global event
 (self) *prev
 (self) *next
 qglobflags flags
-latlontyp latlon
+ucoord4 globpos
 ucoord3 pos
 eventdata eventdatavals
 unsigned hours : 24
 int (*dothis)(void*,void*,void*,void*)
 unsigned radius : 7
 bool interact : 1
-char16_t unichar
-struct attrcolortyp attrcolor
+Mesh * shape
+Texture2D * texture
 unsigned up : 4
 unsigned down : 4
 unsigned duration : 16
@@ -1363,7 +1274,8 @@ alignment : u9
 }
 
 struct traptyp:
-char16_t unichar
+Mesh * shape
+Texture2D * texture
 ushort duration
 magictyp element
 stattyp stat
@@ -1400,9 +1312,9 @@ struct warptyp:
 bool perm : 1
 bool blink : 1
 unsigned color : 6
-latlontyp glob_loc
+ucoord4 glob_loc
 ucoord3 pos
-latlontyp glob_dest
+ucoord4 glob_dest
 ucoord3 dest
 short duration
 
@@ -1440,8 +1352,7 @@ ARMOR_FLAG : contains subobjtyp calling basearmortyp
 SHLD_FLAG : contains subobjtyp calling baseshldtyp
 BAUB_FLAG : contains subobjtyp calling baubtyp
 CONLANG_FLAG : contains conlangtyp
-SPELL_FLAG : contains spelltyp
-MISC_FLAG : contains _8bitPtr
+MISC_FLAG : contains ptrchar or ptrshort
 GEM_FLAG : contains gemstonetyp
 TRAP_FLAG : contains traptyp
 WARP_FLAG : contains warptyp

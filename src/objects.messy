@@ -6,9 +6,9 @@
  * void roomstackobj__drop_free(roomstackobj,roomstackele*)	...drop and free the most stale node from the stack
  * void roomstackobj__trim(roomstackobj*)	...drop and free the most stale nodes until the size of the stack is acceptable
  * roomstackele* roomstackobj__nth(roomstackobj*,int)	...get the nth element; NULL on sentry
- * roomstackele* roomstackobj__roomp(roomstackobj*,latlontyp)	...if an element exists, return it; else NULL
- * implicit roomstackobj__roompull(roomstackobj*,latlontyp)	...if an element exists, move it to the front. OK or ERR
- * implicit roomstackobj__roomset(roomstackobj*,latlontyp)	...if an element exists, move it to swapin. OK or ERR
+ * roomstackele* roomstackobj__roomp(roomstackobj*,ucoord4)	...if an element exists, return it; else NULL
+ * implicit roomstackobj__roompull(roomstackobj*,ucoord4)	...if an element exists, move it to the front. OK or ERR
+ * implicit roomstackobj__roomset(roomstackobj*,ucoord4)	...if an element exists, move it to swapin. OK or ERR
  * implicit roomstackobj__pull(roomstackobj*,roomstackele*)	...move the element to the front. OK or ERR
  * implicit roomstackobj__set(roomstackobj*,roomstackele*)	...move the element to swapin. OK or ERR
  * implicit roomstackobj__setswap(roomstackobj*,roomtyp*)	...create a room and push it to a swap slot, setting swapin.
@@ -16,8 +16,8 @@
  * roomtyp * roomstackobj__resetswap(roomstackobj*,planetyp)	...recall the room in the given swap slot to swapin. invalid plane will call topswap; this may not be what you want.
  * roomtyp * roomstackobj__topswap(roomstackobj*)	...recall the top of the stack to swapin.
  * implicit roomstackobj__setswap_ele(roomstackobj*,roomstackele*)	...push the room contained in an element to swap.
- * implicit roomstackobj__makecurrent(roomstackobj*,latlontyp)	...smart swap function. if an element doesn't exist, it is created. if it does, it is moved.
- * roomstackobj__neighbor_query(latlontyp)	...check if a room is in the neighbor register
+ * implicit roomstackobj__makecurrent(roomstackobj*,ucoord4)	...smart swap function. if an element doesn't exist, it is created. if it does, it is moved.
+ * roomstackobj__neighbor_query(ucoord4)	...check if a room is in the neighbor register
  * roomstackobj__neighbor_get()	...set the neighbors register according to the current room
  * roomstackobj__neighbor_clear()
  * roomstackobj__neighbor_pull(uchar)	...copy a pointer from the neighbors register to the swapin register and clear the neighbors register
@@ -80,7 +80,7 @@ roomstackele * roomstackobj__pull (roomstackobj * this, roomstackele * that) {
 	}
 
 roomstackobj__setswap (roomstackobj * this, roomtyp * that) {
-	struct planetyp plane = getplanetyp(that->latlon);
+	struct planetyp plane = getplanetyp(that->globpos);
 	roomstackobj__push(this,roomstackobj__getswap(plane))
 	if (plane.rho < 3) {
 		if (!(plane.el)) {
@@ -105,13 +105,13 @@ return 0;}
 
 #define roomstackobj__setswap_ele(X,Y) roomstackobj__setswap(X,roomstackobj__drop(X,Y))
 
-roomstackobj__makecurrent(roomstackobj * this,latlontyp query) {
+roomstackobj__makecurrent(roomstackobj * this,ucoord4 query) {
 	roomtyp * neighborptr = roomstackobj__neighbor_tmpquery(this,query);
 	if (neighborptr != NULL) {
 		roomstackobj__setswap(this,neighborptr);
 		}
 	planetyp plane = getplanetyp(query);
-	else if (query == roomstackobj__getswap(this,plane)->latlon) {
+	else if (query == roomstackobj__getswap(this,plane)->globpos) {
 		roomstackobj__resetswap(this,plane);
 		}
 	else if (roomstackobj__roompull(this,query) != NULL) {
@@ -158,16 +158,16 @@ roomstackobj__neighbor_get (struct roomstack * this) {
 		}
 	struct roomneighbors neighborhood = (*this.swapin)->neighborhood;
 #define IFSWITCH(X,Y) if (neighborhood.X) {\
-		struct planetyp plane = getplanetyp(neighborhood.latlon[Y]);\
-		roomstackele * ele = roomstackobj__roomp(this,neighborhood.latlon[Y]);\
-		if (neighborhood.latlon[Y] == roomstackobj__getswap(this,plane).latlon {\
+		struct planetyp plane = getplanetyp(neighborhood.globpos[Y]);\
+		roomstackele * ele = roomstackobj__roomp(this,neighborhood.globpos[Y]);\
+		if (neighborhood.globpos[Y] == roomstackobj__getswap(this,plane).globpos {\
 			this.neighbor[0][Y] = roomstackobj__getswap(this,plane);\
 			}\
 		else if (ele != NULL) {\
 			this.neighbor[0][Y] = ele.room;\
 			}\
 		else {\
-			this.neighbor[1][Y] = smrtloadroom(neighborhood.latlon[Y]);\
+			this.neighbor[1][Y] = smrtloadroom(neighborhood.globpos[Y]);\
 			this.neighbor[0][Y] = this.neighbor[1][Y];\
 			}\
 		}
@@ -208,10 +208,10 @@ umint value
 
 /**File Operations**
  * implicit saveroom(roomtyp*)
- * roomtyp* loadroom(latlontyp)
- * roomtyp* smrtloadroom(latlontyp)
+ * roomtyp* loadroom(ucoord4)
+ * roomtyp* smrtloadroom(ucoord4)
  * void freeroom(roomtyp*)
- * bool roomp(latlontyp)
+ * bool roomp(ucoord4)
  * bool planep(planetyp)
  * implicit loadplane(planetyp)
  * implicit saveplane(planetyp)
@@ -295,7 +295,7 @@ if (roomptr == NULL) {roomptr = ROOM}
  * DONE
  */
 
-roomtyp * smrtloadroom (struct latlontyp query) {
+roomtyp * smrtloadroom (ucoord4 query) {
 	if (roomp(query)) {
 		return loadroom(query);
 		}
@@ -305,7 +305,7 @@ roomtyp * smrtloadroom (struct latlontyp query) {
 	}
 
 /**getplanetyp**/
-struct planetyp getplanetyp(struct latlontyp input) {
+struct planetyp getplanetyp(ucoord4 input) {
 	struct planetype output;
 	output.rho = input.rho;
 	output.az = input.az;
