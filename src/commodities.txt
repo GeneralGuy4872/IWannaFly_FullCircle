@@ -1,166 +1,182 @@
-magnetite
-haematite
-limonite
-akome
-masa
-cuprite
-malachite
-stibnite
+/* for things that are solid, metadata2 indicates mass, area, or count
+ * for things that are liquid, metadata2 indicates the volume of liquid
+ * for things that are linear, metadata2 indicates the length
+ *
+ * for any given identical items with a metadata2 that is not at maximum,
+ * they may be stacked. for any metadata2 amount that is required, it may
+ * be subtracted from as many entries as needed
+ *
+ * collecting a liquid consumes a container. you don't get it back.
+ */
+magnetite / haematite / red haematite / limonite / siderite / pyrite
+cuprite / malachite
 calamine
-galena
+argentite / galena / stibnite / molybdenite
 nickeline
 chromite
 cinnabar
 wolframite
-charcoal
-bitumous
-andersite	//contains jets if powdered
-graphite	//contains carbonados if powdered or burned
-manganese
+magnesite
+manganite
+childrenite
 sulphur
-spiegeleisen
 ytterbite
-meteorite	//contains stardust if powderized
-lapis lazuli
-red ocher
-yellow ocher
 bauxite
 sphalerite
 acanthite
-arquerite
-natural gold
-natural brass
-orichalcum
 ilmenite
-indigo
-muricidae shell
-tyrian purple
-abalone shell
-perl
-kermes
-woad
-woad seed
-weld
-weld seed
-madder
-madder seed
-henna
+gold telluride
+
+sand / silica	// sand is not pure silica
+akome / masa
+calcium carbonate / quicklime / lye
+soda ash / potash / volcanic ash	//baking soda and soda ash should be interchangeable
+borax / boron trioxide
+
+meteorite	//contains stardust if powderized
+arquerite / gold amalgum / aluminum amalgum
+orichalcum / natural gold / natural silver / natural electrum
+lodestone
+
+soot / lampblack / vine black / bone char
+charcoal / coke
+bitumous /*←contains bitumen*/ andersite /*←contains jet*/ graphite /*←contains carbonado*/
+
+lapis lazuli / purpurite
+perl / abalone shell / oyster shell / muricidae shell
+vermilio shell / cochineal shell
+woad seed / weld seed / madder seed / henna seed / saffron seed
+
+(red | yellow | brown) ocher / sienna / umber
+tyrian purple / kermes / carmine
+woad / weld / madder / henna / saffron
 logwood
-saffron
-saffron seed
-titania
-gypsum
-gold dust
-stardust
-silk, thread
-silk, yarn
-silk, bolt
-spider silk, silver, thread
-spider silk, silver, yarn
-spider silk, silver, bolt
-spider silk, gold, thread
-spider silk, gold, yarn
-spider silk, gold, bolt
-spider silk, rope
-cotton, fluff	//also seeds
-cotton, thread
-cotton, yarn
-cotton, fabric
-cotton, rope
-linseed	//contains linseed oil if "powderized"
-linseed oil
-flax, thread
-flax, yarn
-flax, rope
-rayon, thread
-rayon, yarn
-rayon, fabric
-rayon, rope
-wool, fluff
-wool, thread
-wool, yarn
-wool, bolt
-coir, fiber	//coconut
-coir, twine
-coir, rope
-jute seed
-jute, fiber
-jute, twine
-jute, rope
-linen
+ferric oxide / verdigris / silver oxide / purple plague
+indigo / cerulean
+
+(silk | spider silk | gold spider silk | rayon) thread
+(silk | spider silk | gold spider silk | rayon) yarn
+(silk | spider silk | gold spider silk | rayon) bolt
+(silk | spider silk | gold spider silk | rayon) rope
+cotton seed / flax seed	/ <?> x 2 / jute seed / hemp seed //flax seeds contain linseed oil, coconuts are in food list
+<?> / flax fiber / wool / (coir | jute | hemp) fiber 
+(cotton | flax | wool) thread
+(cotton | flax | wool) yarn / (coir | jute | hemp) twine
+cotton fabric / linen / wool fabric
 burlap
-pigiron ingot
-iron ingot
-iron plate
-carbon steel ingot	//flattens to steel plate
-sword steel ingot
-spring steel ingot
-tool steel ingot	//flattens to steel plate
-stainless steel ingot	//flattens to stainless steel plate
-damascus steel ingot
-steel plate
-stainless steel plate
-copper billet	//flattens to copper plate
-bronze billet	//flattens to bronze plate
-brass billet	//flattens to brass plate
-copper plate
-bronze plate
-brass plate
-gold ingot	//powders to gold dust, flattens to goldfoil
-silver ingot
-electrum ingot
-tin ingot	//flattens to tinfoil
-bellmetal billet
-ferrochrome ingot
-nickel ingot
+(cotton | flax) rope / <?> / (coir | jute | hemp) rope
+
+ferrochrome
+spiegeleisen
+
+iron ingot / pigiron ingot
+carbon steel ingot / sword steel ingot / spring steel ingot / tool steel ingot / stainless steel ingot / damascus steel ingot
+copper billet / bronze billet / brass billet / bellmetal billet
+tin ingot / gold ingot / silver ingot / electrum ingot
+lead ingot / molybdenum ingot
+nickel ingot / cobolt ingot
+tellurium ingot / niobium ingot / tantalum ingot
 aluminum billet
-aluminum plate
 tungsten ingot
-titanium ingot	//flattens to titanium plate
-titanium gold ingot	//flattens to titanium gold plate
-titanium plate
-titanium gold plate
-fine pewter ingot
-ley pewter ingot
-aluminum amalgam
-gold amalgum
-gold foil
-tinfoil
-flint
-slate
-obsidian
-flugurite	//lightning glass
-bone	//metadata enabled
-tusk	//metadata enabled
-horn	//metadata enabled
-antler	//metadata enabled
-leather	//metadata enabled
-tooth	//metadata enabled
-feathers	//metadata enabled
-stick	//metadata enabled
-log	//metadata enabled
-gear	//metadata enabled
-spring
-hairspring
-clay
-papyrus
-paper
-brick
-tablet
-pumice
-limestone block	//contains flint if powderized
-dolomite block	//contains flint if powderized
+titanium ingot / titanium gold ingot
+fine pewter ingot / ley pewter ingot
+ferrite magnet / neodymium magnet / alnico magnet
+magnesium coil
+
+iron plate
+(carbon | sword | spring | tool | stainless | damascus) steel plate
+copper plate / bronze plate / brass plate
+lead plate
+aluminum sheet
+titanium plate / titanium gold plate
+tinplate
+
+gold foil / tinfoil / aluminum foil
+quicksilver
+
+rusty chunck of iron / rusty chunk of steel
+corroded chunk of copper / corroded chunck of brass / corroded chunck of bronze
+
+tincan / aluminum can / brass can / stainless steel can
+
+flint / chert
+slate / shale / peat
+obsidian / flugurite
+bone	//metadata enabled, species
+tusk	//metadata enabled, species
+horn	//metadata enabled, species
+antler	//metadata enabled, species
+leather	//metadata enabled, species
+tooth	//metadata enabled, species
+
+hair	//metadata enabled, species
+feathers	//metadata enabled, species and type
+leaf	//metadata enabled, type; some leaves are in food list
+(oak | larch | maple | boxelder | ash | rowan | cornel | sassafras | alder | elderberry | elm | birch | dogwood | hawthorn | redbud | gumball | sycamore | locust | honeylocust | olive | laural | yew | boxwood | hedgeapple | pine | fir | cedar | spruce | juniper | cypress | cork | redwood | sequoia | rubber | ebony | mahogony | rosewood | monkey puzzle | ecalyptus | tea | bananna | plantain | lemon | lime | orange | bitter-orange | citron | grapefruit | apple | coconut | fig | guava | date palm | hickory | pecan | deadly nightshade | walnut | hazelnut | almond | brazil nut | carob | cashew | coffee | cacao | durian | linden | silverbell | snowbell | cottenwood | ironwood | cherry | sakura | plum | pear | papaya | pawpaw | peach | nectarine | avacado | willow | umbrella | beech | balsa | holly | mustard | mimosa | magnolia | princess | lily-of-the-vally | fragrant lilac | trumpet | ginkgo | kapok | cinnimon | nutmeg | acadia | aspen | bamboo) stick
+(oak | larch | maple | boxelder | ash | rowan | cornel | sassafras | alder | elderberry | elm | birch | dogwood | hawthorn | redbud | gumball | sycamore | locust | honeylocust | olive | laural | yew | boxwood | hedgeapple | pine | fir | cedar | spruce | juniper | cypress | cork | redwood | sequoia | rubber | ebony | mahogony | rosewood | monkey puzzle | ecalyptus | tea | bananna | plantain | lemon | lime | orange | bitter-orange | citron | grapefruit | apple | coconut | fig | guava | date palm | hickory | pecan | deadly nightshade | walnut | hazelnut | almond | brazil nut | carob | cashew | coffee | cacao | durian | linden | silverbell | snowbell | cottenwood | ironwood | cherry | sakura | plum | pear | papaya | pawpaw | peach | nectarine | avacado | willow | umbrella | beech | balsa | holly | mustard | mimosa | magnolia | princess | lily-of-the-vally | fragrant lilac | trumpet | ginkgo | kapok | cinnimon | nutmeg | acadia | aspen ) log
+wicker	//metadata enabled, wood
+mesh	//metadata enabled, type and material
+tinder
+waddle
+
+bearing	//metadata enabled, type and material
+spur gear	//metadata enabled, material (including wood) and ?helical
+bevel gear	//metadata enabled, material and ?helical
+sprocket gear	//metadata enabled, material
+worm gear	//metadata enabled, material
+crown gear	//metadata enabled, material
+cage gear	//metadata enabled, material (including wood)
+drive chain	//metadata enabled, material
+chain	//metadata enabled
+belt	//metadata enabled, ?mobius
+coil spring / hairspring / leafspring
+millstone / bedstone
+
+papyrus seed
+paper / parchment / papyrus
+pulp
+
+
+grout / loam / mud / daub / stucco
+red clay / fireclay / china clay / plaster / concrete
+
+red brick / firebrick / glass brick / cinderblock / mudbrick
+stone tablet / clay tablet
+pumice / basalt
+limestone block	/*←contains chert*/ travertine block / chalk block /*←contains flint*/ dolomite block / marble block / alabaster slab / coral
 soapstone block
-marble block
-sandstone block
-quartzite block	//contains quartz (assorted) if powderized
-granite block
+sandstone block /*←contains sand*/ quartzite block /*←contains assorted quartz*/
+orthoclase block /*←contains moonstone*/ granite block / gneiss block
 gabbro block
-basalt column
 kimberlite chunk	//contains diamonds if powderized
 peridotite chunk	//contains peridots if powderized
-flint arrowhead
+
+crushed limestone / crushed travertine / crushed chalk / crushed dolomite / crushed marble / crushed coral
+crushed basalt / crushed pumice
+titania / alumina
+gypsum
+mica
+gold dust / diamond grit / stardust
+
+canola seed / linseed
+canola oil / linseed oil / soybean oil
+
+petroleum / bitumen / grease
+wood tar / coal tar
+resin / latex
+beeswax / tallow / paraffin / sealing wax
+naptha / ethanol / kerosene
+greek fire
+
+ammonium chloride
+niter / gunpowder / thermite
+
+citric acid / sulfuric acid / nitric acid / phosphoric acid / hydrochloric acid / aqua regia
+
+flint arrowhead	//all tool/weapon parts have metadata enabled, but there might not be enough room for the material
 obsidian arrowhead
+glass arrowhead
+skyglass arrowhead
 brass arrowhead
 bronze arrowhead
 steel arrowhead

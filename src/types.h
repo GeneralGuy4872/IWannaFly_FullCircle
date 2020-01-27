@@ -4,6 +4,10 @@
  * and a second that is a dispatch table.
  */
 
+/* uuid's are used to cache dynamiclly allocated memory into the savefile;
+ * think of them like portable pointers.
+ */
+
 #ifndef IWANNAFLY_TYPES_H_REENTRANT
 #define IWANNAFLY_TYPES_H_REENTRANT 1
 
@@ -22,7 +26,7 @@
 struct odds_n_ends {
 uint64_t turn;
 turntype date;
-uchar roomturn;
+ushort roomturn;
 }
 
 struct stringlistyp {
@@ -141,16 +145,17 @@ signed w : 2
 
 typedef char *pluralwords[3];
 
+#define MOVETOKEN_ICE 8
 #define MOVETOKEN_LAND 4
 #define MOVETOKEN_FLY 1
 #define MOVETOKEN_SWIM 2
 
 struct selftyp {
-unsigned az : 3
-unsigned phi : 3
-unsigned movetoken : 2
-unsigned gravdir : 3 //not implemented
-char : 0 // 5 pad
+unsigned az : 3	//yaw in eighth turns
+unsigned phi : 3	//polar angle in eighth turns
+unsigned movetoken : 4
+unsigned gravdir : 5	//changes the up vector, must be a valid octant
+bool weightless : 1
 }
 
 struct beamtyp {
@@ -233,7 +238,7 @@ signed el : 2
 struct placetyp {
 (self) *prev
 (self) *next
-eventdata eventident
+uuid_t uuid
 char* name
 ucoord4 globpos
 planetyp plane
@@ -379,7 +384,11 @@ uchar questcollect[3];
  */
 
 struct playertyp:
+playertyp * prev
+playertyp * next
 char * name
+ushort storyseed	//the story entrypoint for this player
+uuid_t root	//the uuid for this player's story; should they die, everything with this uuid as a parent is garbage collected
 classtyp class[3]
 uchar element
 agetyp age
@@ -399,13 +408,13 @@ float wallet
 langlistele *lang_ptr
 spellistele *spell_ptr
 cantriplistele *cant_ptr
-heldobjtyp *bag_ptr
-oneobjtyp helm	//any item
-subobjtyp shield	//shld
-subobjtyp bow	//weapon
-subobjtyp armor	//armor
-subobjtyp cape	//armor
-subobjtyp amul	//baub
+bagitemtyp *bag_ptr
+helditemtyp helm	//any item
+helditemtyp shield	//shld
+helditemtyp bow	//weapon
+helditemtyp armor	//armor
+helditemtyp cape	//armor
+helditemtyp amul	//baub
 unsigned n_arms : 4
 unsigned n_legs : 4
 armtyp * arms
@@ -413,17 +422,17 @@ legtyp * legs
 
 struct armtyp {
 struct armtyp * next
-subobjtyp weap[2]
-subobjtyp ring[2]
-subobjtyp wrist[2]
-subobjtyp gloves
-subobjtyp cannon
+helditemtyp weap[2]
+helditemtyp ring[2]
+helditemtyp wrist[2]
+helditemtyp gloves
+helditemtyp cannon
 }
 
 struct legtyp {
 legtyp * next
-subobjtyp boots
-subobjtyp greev
+helditemtyp boots
+helditemtyp greev
 }
 
 enum equipenum = {ENUM_WEAP_LEFT,ENUM_WEAP_RIGHT,ENUM_SHIELD_ENUM_BOW,ENUM_ARMOR,ENUM_CAPE,ENUM_HELM,
@@ -484,13 +493,13 @@ uchar lvl
 float wallet
 spellistele *spell_ptr
 cantriplistele *cant_ptr
-oneobjtyp loot
-oneobjtyp helm
-subobjtyp shield
-subobjtyp bow
-subobjtyp armor
-subobjtyp cape
-subobjtyp amul
+helditemtyp loot
+helditemtyp helm
+helditemtyp shield
+helditemtyp bow
+helditemtyp armor
+helditemtyp cape
+helditemtyp amul
 unsigned n_arms : 4
 unsigned n_legs : 4
 armtyp * arms
@@ -509,40 +518,6 @@ char **lines[9];	//accessor: (lines[n])[m]
  * should be events.
  */
 
-struct followtyp:
-(self) * prev
-(self) * next
-npctyp * depth
-agetyp age
-classtyp class
-uchar element
-aggrotyp aggro
-struct shiftstackobj race
-ucoord3 pos
-selftyp etc
-struct movecount move
-paffectyp permenent
-effectyp fromequip
-trackaligntyp align
-ushort hp
-ushort mp
-uint32_t xp
-uchar lvl
-short food
-float wallet
-spellistele *spell_ptr
-cantriplistele *cant_ptr
-oneobjtyp holding
-oneobjtyp helm
-subobjtyp shield
-subobjtyp bow
-subobjtyp armor
-subobjtyp cape
-subobjtyp amul
-unsigned n_arms : 4
-unsigned n_legs : 4
-armtyp * arms
-legtyp * legs
 
 struct spawntyp:
 npctyp * depth
@@ -552,29 +527,28 @@ aggrotyp aggro
 struct shiftstackobj race
 paffectyp paffect
 effectyp effect
-oneobjtyp loot
-oneobjtyp helm
-subobjtyp shield
-subobjtyp bow
-subobjtyp armor
-subobjtyp cape
-subobjtyp amul
+helditemtyp loot
+helditemtyp helm
+helditemtyp shield
+helditemtyp bow
+helditemtyp armor
+helditemtyp cape
+helditemtyp amul
 unsigned n_arms : 4
 unsigned n_legs : 4
 armtyp * arms
 legtyp * legs
 
-struct oneobjtyp {
-objid type
-void* data
+struct helditemtyp {
+masteritemptr itemid;
+extendedmetadata data;
 }
 
-struct heldobjtyp:
+struct bagitemtyp:
 (self) *prev
 (self) *next
-uchar stack //stack+1 items are present. lumping them together is a complicated operation. 
-objid type
-void* data
+masteritemptr itemid;
+extendedmetadata data;
 
 struct langlistele {
 (self) * prev
@@ -594,6 +568,7 @@ struct cantriplistele {
 cantriptyp this
 }
 
+/*replace
 struct subobjtyp:
 intptr_t itemid : 8
 bool cursed : 1
@@ -601,6 +576,7 @@ bool oxide : 1
 bool burned : 1
 signed bonus : 5
 intptr_t metadata : 8 //secondary _8bitPtr for legendary objects
+*/
 
 struct magictyp:
 bool fire : 1
@@ -675,6 +651,11 @@ unsigned cost_amnt : 6
 }
 
 typedef int (*funcptr)();
+typedef int (*funcptr_1arg)(intptr_t);
+typedef int (*funcptr_2arg)(intptr_t,intptr_t);
+typedef int (*funcptr_3arg)(intptr_t,intptr_t,intptr_t);
+typedef int (*funcptr_4arg)(intptr_t,intptr_t,intptr_t,intptr_t);
+typedef int (*eventcleanup)(eventdatastack_ele,bool);
 
 struct passiveffectlistele {
 struct passiveffectlistele * prev;
@@ -946,7 +927,7 @@ bool gnomon : 1
 ucoord4 globpos[6]	//href ROOM_? in constants.h
 }
 
-struct roomtyp: //top-down display of a 3d space
+struct roomtyp:
 ucoord4 globpos
 struct planetyp plane
 Vector3 latlon	//reported as the latitude, longitude, and elevation of the current room. NaN may be helpful.
@@ -1093,10 +1074,10 @@ unsigned alignment : 9
 struct mapobjtyp:
 (self) *prev
 (self) *next
-eventdata eventident
+uuid_t uuid
 ucoord3 pos
-objid type
-void* data
+masteritemptr itemid;
+extendedmetadata data;
 mapobjflags flags
 
 struct signtyp {
@@ -1137,10 +1118,30 @@ trapflag flags;
 struct encontyp {
 (self) *prev
 (self) *next
-eventdata eventident
+uuid_t uuid
 uchar tobeat	//of 10D20
 spawntyp spawn
 
+struct masteritemptr {
+intptr_t id : 16;
+unsigned meta : 8;
+unsigned n : 8;
+}
+
+struct extendedmetadata {
+void * data;
+uuid_t uuid;
+}
+
+struct masteritemlistentry {
+objid type
+void * data
+}
+
+typedef struct masteritemlistentry *(*(*(*(const * masteritemlist)[16])[16])[16])[16];
+//array of 16 pointers to arrays of 16 pointers to arrays of 16 pointers to arrays of 16 pointers to string-like arrays
+
+/*to be replaced
 struct miscitembasetyp:
 bool key : 1
 bool pick : 1
@@ -1160,50 +1161,29 @@ bool poisoned : 1
 bool unbreak : 1
 unsigned uses : 8
 intptr_t metadata : 8
+*/
 
-struct eventdata {
-unsigned identnumber : 16
-bool uses_race : 1
-bool uses_role : 1
-bool uses_class : 1
-unsigned race : 5
-unsigned element : 8
-unsigned role : 2
-unsigned class : 3
-unsigned lde : 3
-unsigned chapter : 7
-unsigned align : 9
+struct eventdatastack_uuidptr {
+uuid_t uuid;
+void * ptr;
 }
 
-struct eventdatastack_ele {	//list of events
-(self)* prev
-(self)* next
-eventdata data
-char * heylisten
-eventdatastack_garbage * head
-eventdatastack_garbage * tail
+struct eventdatastack_top {
+struct eventdatastack_top * prev;
+struct eventdatastack_top * next;
+struct eventdatastack_sub * this;
+struct eventdatastacl_uuidptr * up;	//what events depend on this one
+uuid_t uuid;
+unsigned cleanup[2];	//keys to a dispatch table
 }
 
-struct eventdatastack_garbage {
-(self) * next
-(self) * prev
-objid type
-void * data
+struct eventdatastack_sub {
+(self)* prev;
+(self)* next;
+uuid_t uuid;
+void * data;
+size_t length;
 }
-
-enum eventdatastack_objid = {
-EDS_DYNASHAREDLIB_FLAG
-EDS_ROOMOBJ_FLAG
-EDS_QGLOBOBJ_FLAG
-EDS_EVENTTYP_FLAG
-EDS_QGLOBEV_FLAG
-EDS_ENCONTYP_FLAG
-EDS_PLACETYP_FLAG
-EDS_SPELL_FLAG
-EDS_CANTRIP_FLAG
-EDS_PASSIVE_FLAG
-}
-
 
 union hitboxuni {
 BoundingBox square
@@ -1221,7 +1201,7 @@ struct eventtyp:
 (self) *prev
 (self) *next
 ucoord3 pos
-eventdata eventdatavals
+uuid_t uuid
 unsigned hours : 24
 int (*dothis)(intptr_t,intptr_t,intptr_t,intptr_t)
 bool interact : 1
@@ -1236,41 +1216,13 @@ triggerenum key : 4
 unsigned value : 4
 }
 
-struct qglobobj: //queued global object
-(self) *prev
-(self) *next
-eventdata eventident
-qglobflags flags
-ucoord4 globpos
-ucoord3 pos
-objid type
-void* data
-
-struct qglobev: //queued global event
-(self) *prev
-(self) *next
-qglobflags flags
-ucoord4 globpos
-ucoord3 pos
-eventdata eventdatavals
-unsigned hours : 24
-int (*dothis)(void*,void*,void*,void*)
-unsigned radius : 7
-bool interact : 1
-Mesh * shape
-Texture2D * texture
-unsigned up : 4
-unsigned down : 4
-unsigned duration : 16
-unsigned remduration : 16
-
-struct qglobflags {
-struct racetyp race
-canforceload : 1
-race-specific : 1
-role : u2
-class : u3
-alignment : u9
+struct qglobev { //queued global event. can be modifications to distant rooms, or stuff like cutscenes.
+(self) *prev;
+(self) *next;
+uuid_t parent;
+ucoord4 globpos;
+funcptr dothis;
+bool pres;	//whether to act as soon as the room is on the stack, or if the player must be present
 }
 
 struct traptyp:
@@ -1323,6 +1275,7 @@ unsigned color : 3
 unsigned quality : 2
 unsigned cut : 2
 
+/* to be replaced
 struct meattyp:
 struct racetyp race
 uchar sellby
@@ -1340,7 +1293,9 @@ diceodds odds
 uchar keepsfor	//0 means non-perishable
 uchar hp
 uchar nutri
+*/
 
+/* rework to resemble a true trampoline key
 enum objid:
 WEAPON_FLAG : contains subobjtyp calling baseweaptyp
 LEGEND_FLAG : contains subobjtyp calling baseweaptyp
@@ -1363,5 +1318,6 @@ LOCK_FLAG : contains locktyp (gates are this)
 MONEY_FLAG : contains float
 SPAWN_FLAG : contains spawntyp
 SIGN_FLAG : contains signtyp
+*/
 
 #endif
