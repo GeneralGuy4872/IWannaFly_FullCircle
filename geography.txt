@@ -25,7 +25,8 @@ northeren continent:
 		mixture of volcanic and icecapped mountains, occasionally
 		broken by taiga forests or barren glacial plains
 		broken planer gates (◬)
-		sirens live in small villages around thermals
+		sirens live in small villages, around thermals,
+		in forests, or under ice
 		surface otherwise cold and lifeless
 
 		the sirens were once the dominant power over the entire
