@@ -1,7 +1,6 @@
 /* todo:
- * tools implementation as a pair of arrays;
- * one array of normal item data
- * and a second that is a dispatch table.
+ * tools in the first (128|256) indicies of the item list
+ * paired with a dispatch table of equal size
  */
 
 /* uuid's are used to cache dynamiclly allocated memory into the savefile;
@@ -13,7 +12,11 @@
 
 /* note: if the compiler complains about mixing tightly packed and loosly packed fields,
  * the tightly packed ones will be split off into a seperate type with "_bits" affixed to
- * the name, which will be placed in a consistantly-named member "_bits" at the end of the struct.
+ * the name, which will be placed in a member "_bits" at the end of the struct.
+ *
+ * only structs that mix odd-sized members and subcontainer structs or true pointers will have this problem;
+ * technically, even true pointers can be size-allocated if you want to maintain seperate 32 and 64 bit sources,
+ * but I don't. debugging multiple builds from a single source will be difficult enough.
  */
 
 #define uint unsigned int
@@ -90,7 +93,6 @@ typedef uchar ucoord2[2];
 typedef char scoord4[4];
 typedef char scoord3[3];
 typedef char scoord2[2];
-//sentinal for an array of coord3 is {0,0,-1}
 
 struct setcoord3 {
 struct setcoord3 * prev
@@ -106,9 +108,9 @@ typedef void *ptrarry[]
 struct lightyp {
 struct lightyp * prev;
 struct lightyp * next;
-uchar x[2];
-uchar y[2];
-uchar z[2];
+ucoord2 x;
+ucoord2 y;
+ucoord2 z;
 }
 
 struct agetyp {
@@ -183,7 +185,7 @@ unsigned side : 5
 unsigned tobeat : 8
 
 struct planetyp {
-bool : 1
+bool shadow : 1
 unsigned rho : 2
 unsigned az : 3
 signed el : 2
@@ -259,16 +261,6 @@ typedef short trackalignplayertyp[3]
  *
  * most negative number in both fields is an antagonist
  */
-
-struct bitfield:
-a : 1
-b : 1
-c : 1
-d : 1
-w : 1
-x : 1
-y : 1
-z : 1
 
 struct ray_vfx_typ {
 (self) * prev
@@ -357,6 +349,7 @@ chaptertyp chapter;
 uint64_t kills;
 uchar elecollect[8];
 uchar questcollect[3];
+bagitemptr * bag;
 }
 
 /* note: everything related to players and entitys is
@@ -403,12 +396,11 @@ ushort hp	//they're fun and easy to...wait
 ushort mp
 uint32_t xp
 uchar lvl
-short food
+Vector2 hunger
 float wallet
 langlistele *lang_ptr
 spellistele *spell_ptr
 cantriplistele *cant_ptr
-bagitemtyp *bag_ptr
 helditemtyp helm	//any item
 helditemtyp shield	//shld
 helditemtyp bow	//weapon
@@ -459,6 +451,7 @@ bool incoporeal : 1
 unsigned age_rate : 8
 unsigned element : 8
 unsigned lde : 3
+float hunger
 /* entitys of size 1 or -2 cannot use armor.
  * entitys of larger size automaticly win grapples.
  * entitys of 2 sizes smaller can be picked up and thrown.
@@ -541,14 +534,15 @@ legtyp * legs
 
 struct helditemtyp {
 masteritemptr itemid;
-extendedmetadata data;
+uuid_t uuid;	//the null uuid for no extended metadata
+extendedmetadata * data;	//the null pointer for no extended metadata
 }
 
 struct bagitemtyp:
 (self) *prev
 (self) *next
 masteritemptr itemid;
-extendedmetadata data;
+extendedmetadata * data;
 
 struct langlistele {
 (self) * prev
@@ -1077,7 +1071,7 @@ struct mapobjtyp:
 uuid_t uuid
 ucoord3 pos
 masteritemptr itemid;
-extendedmetadata data;
+extendedmetadata * data;
 mapobjflags flags
 
 struct signtyp {
@@ -1129,8 +1123,8 @@ unsigned n : 8;
 }
 
 struct extendedmetadata {
+char * name;
 void * data;
-uuid_t uuid;
 }
 
 struct masteritemlistentry {
@@ -1271,9 +1265,9 @@ ucoord3 dest
 short duration
 
 struct gemstonetyp:
-unsigned color : 3
-unsigned quality : 2
-unsigned cut : 2
+unsigned color : 5
+unsigned cut : 3
+unsigned quality : 8
 
 /* to be replaced
 struct meattyp:
@@ -1295,7 +1289,7 @@ uchar hp
 uchar nutri
 */
 
-/* rework to resemble a true trampoline key
+/* rework be a type enum for unified object table
 enum objid:
 WEAPON_FLAG : contains subobjtyp calling baseweaptyp
 LEGEND_FLAG : contains subobjtyp calling baseweaptyp

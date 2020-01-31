@@ -1,12 +1,6 @@
 foods (* = uses meta)
 hardtak tortilla cornmeal cornbread
-flour cheese wine bread
-mead ale scotch ethenol
-grapes fig date plum
-apple banana apricot papaya
-orange pear pinapple coconut
-kiwi dragonfruit durin peach
-grapefruit lemon lime citron
+flour cheese bread
 spinach artichoke asparagus bamboo
 cucumbers zuccini pickles squash
 carrot corn potato celery
@@ -19,16 +13,15 @@ watercress chives ketchup mustard
 parsly sage rosmary thyme
 basil oregano allspice nutmeg
 salt bellpeppers peppercorns redpepper
-vanillabean cinnimonstick cocoabean sugarbeet
+cinnimonstick sugarbeet
 walnut pecan cashew peanut
 sunflowerseed pistachio almond chestnuts
-cranberrys blueberrys raspberry blackberry
-strawberry cherry peppermint pawpaw
+peppermint
 sugarcane syrup* molasses honey
 seseme poppy fennel eyeofnewt
 mushroom* truffel penecillin yeast
 barly wheat rye rice
-ginger sasafrass blueraspberries bubbles 
+ginger sasafrass
 geletin starch creamoftartar bakingpowder
 vinager bakingsoda calciumhydroxide hemlock
 popcorn nachos cookies milk*
@@ -40,8 +33,8 @@ spaghetti&meatballs ramen&dumplings chickenalfredo brocllialfredo
 guacamole nachos* chili salsa
 pie* cake* soda* chips
 salad* hotdog* hamburger* fries
-vanilla cinnimon chocolate sugar
-cocoapowder cocoabutter cocoaliquor fudge
+cinnimon sugar
+fudge
 egg fat* caramel butterscotch
 sourcream butter/shortening* mayo dressing*
 pie* pie_alamode* englishfruitcake bread*
@@ -53,7 +46,7 @@ sunnysideup overeasy scrambled hardboiled
 bacon* sausage* jerky* spam
 nutbrittle* trailmix rasin* peanutbuttersandwich*
 baconlettucetomatosandwich clubsandwich fingersandwich* coldcutsandwich*
-milkshake* icecream* sorbet* icecreamfloat*
+milkshake* icecream* icecreamfloat*
 icecreamcone* banannasplit neopolitan rockyroad
 gumdrop* hardcandy* candycane filledchocolate*
 jelly* jam* preserves* peanutbutter

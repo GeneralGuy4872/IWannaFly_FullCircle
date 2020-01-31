@@ -1,0 +1,108 @@
+lore (version 3, now with geography)
+
+northeren continent:
+	eastern extent:
+		inhabited primarily by elves; dwarfs run large
+		subterrainian mining operations, but not as large as on
+		the southern continent. drow live further below
+		and frequently interrupt said mining operations.
+		broken planer gate under southen tip (☾)
+		a mountain range extends most of the way south from the
+		polar extent of the continent. ruins of times past
+		can be found readily should one venture away from
+		the well-traveled roads. opulant cities from times of myth
+		are still inhabited.
+
+		the elves live in 3 nations which use delagates to
+		rule by the will of the people. delagates derive
+		authority from the population of a given area,
+		who must be consulted before the delagate has any
+		power to act. bypassing this consent has been
+		the first step of several ill-fated civil wars sparked
+		by runaway political ambition.
+
+	polar extent:
+		mixture of volcanic and icecapped mountains, occasionally
+		broken by taiga forests or barren glacial plains
+		broken planer gates (◬)
+		sirens live in small villages around thermals
+		surface otherwise cold and lifeless
+
+		the sirens were once the dominant power over the entire
+		continent, ruling it under a single nation in the same
+		method now used by the elves, after defeating an older,
+		draconic fudel empire in a centuries long civil war.
+		however, certain orkish barons remained loyal to their
+		absent kings and within decades sowed seeds of dissent
+		amoungst the other races. fueled by greed, many rebelled,
+		and the avians retreated to the mountains. the elves
+		re-established diplomatic relations with the sirens shortly
+		after exiling the parties responsible for the plot.
+
+		during times of crisis, representitives have asked the
+		sirens for help, but the sirens cannot be swayed to come
+		down from the mountains in great number. the sirens are
+		slow to trust others after the orkish plot, still
+		very recent by their timescale; but have been even slower
+		to trust themselves. no permenant central authority has
+		existed since the final disbanding of the pan-continental
+		house of delagates shortly after their retreat.
+
+		truly massive fortresses can be found around
+		the polar volcanic area; scars of forgotten battles
+		are etched upon the walls. carved out of the mountains
+		themselves, these fortifications have stood since time
+		immemorable; they have never fallen to a GROUND attack
+		some are still garrisoned in the summer, to stand guard
+		against the human's endless wars. like all siren armies,
+		they still fly the old standards from ages past on the
+		flagposts;
+		for want of new ones that hold fewer painful memories.
+
+	western extent:
+		densely populated by humans
+		orks underground
+		planer gate under southernmost tip (△)
+
+		changing their borders and leaders. after the orks pushed
+		the avians out of their fertile temperate lands, they had
+		no means to stop the unrest they had begun to do so,
+		and were soon ironically forced by humans, blinded
+		by greed, to move underground. the humans then proceeded to
+		turn on eachother, and still war with eachother constantly.
+		while some human kingdoms have stood for centuries, others
+		rise and fall in months, reflecting their short lifespan.
+		virtually nothing remains of the ancient lands, covered
+		by deep scars of constant war.
+
+southern continent:
+	polar:
+		homeland of the dwarfs, massive underground cities
+		broken planer gate in capital (⍫)
+		utterly inhospitibal above ground, cold and dead
+
+		the dwarves take pride in never being conquored by any
+		forign powers, and their underground city has
+		layer upon layer of fortification. their earliest written
+		history is scrawled upon these walls, and the bones of
+		slain dragons lie in the ice above.
+
+	eastern thaw:
+		city of gnomes
+		anachrostic advanced tech
+		broken planer gate (☼)
+
+		gnomish technology is used all throughout the world, and
+		has produced great advances in mining, metalurgy, and
+		communications that previously required dangerous
+		high-level magic.
+		the difference between gnomes and dwarfs is a matter of
+		ongoing debate, which elves wholly consider "silly"
+
+ocean 1:
+	merfolk, sea elves, coral, happy sunny islands
+	nearly complete planer gate (▽), on seafloor
+
+ocean 2:
+	shipwreaks, sea monsters, sharp jagged rocks, storms
+	complete planer gate at bottom of undersea trench

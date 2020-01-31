@@ -1,0 +1,99 @@
+/* same event takes place early in the avian black mage quest as well
+ * (ch 2) ; the two selections are thus mutually exclusive.
+ *
+ * this method of having alternate character options show up in
+ * eachother's stories will reduce the number of needed storylines
+ *
+ * this event has your typical court scene, with an atypical court.
+ * most of the things discussed here are of some importance,
+ * with plenty of conspirecy and intrigue to sustain sidequests for
+ * the majority of the game's first quarter
+ */
+chairelf - You have all been summoned here to discuss a request for
+military aid from the <nation to the south>. You have had time to speak
+with those you represent. What say you?
+delegate from <south border area> - I myself am alarmed, but my people
+cannot be persuaded during this famine. however; myself and my 2 guards
+can accompany the army to my borders, after which I will send my guards
+with the force
+mayor of the capital - I shall do the same, but the famine has
+reached even here, and riots are breaking out over food. I could not
+conduct a vote on the matter, and without the authority of my people,
+must abstain.
+delagate from <western port> - we have our own troubles; privateers from
+the ork empire have begun harassing merchant shipments. I havn't any troops
+to spare.
+*concerned grunts*
+chairelf - we will add these developments to the schedual. and you?
+delagate from <eastern agrarian plains> - nay. none of this concerns us.
+in fact, why should any of us get involved at all, in these trying times?
+delagate from <west> - it is the people's decision, not <I>yours</I>.
+chairelf - remain civil. the esteemed delagate from <east> would not risk
+repeating the grave misconduct of their predascessor, would he?
+delagate from <east> - <I>why, I am offended at the very notion¬</I>
+delagate from <mountains further east, border> - there have been certain
+...umm, developments... that have threatened us as well. we can provide
+supplies, including ampel food, but no soldiers. we will attempt a
+rendezous at the southern border.
+mayor - (ampel food?...)
+delagate from <north; you are standing with them> -
+	I can provide 4 soldiers: 3 archers and a paladin.
+	valiant soldiers from our small village.
+entering siren - then you seem to be in need of a caster.
+//the meeting falls into disarray, footnote 1
+1: delagate from <west> - ...erhm... how does this matter effect you,
+half a world away in the polar mountains?
+2: delagate from <eastern mountains> - (chairelf, might I have a word after
+this... <I>whatEVER this is</I>... is over?)
+1: siren - only curious¬
+3: mayor - (should we be concerned that an <I>ancient</I> finds this matter
+a curiosity?)
+3: delagate from <south> - (mayhaps...)
+2: chairelf - (see me in my quarters... ... ...this is quite a mess,
+isn't it⸮)
+4: chairelf - May we have order? Can I--
+1: delagate from <north> - I am sure your aid would be appriciated.
+4: chairelf - I said... ugh, forget it. this meeting is ajouned.
+
+/* player array setup as follows:
+ * [0] elf paladin - titanium maille, carbon steel chestplate, carbon steel greeves, carbon steel cannon, carbon steel boots, carbon steel gauntlets, silvered damascus steel broadsword, wood kite shield
+ * [1] siren black mage - carbon flightsuit, bronze spear, iron shortsword, bronze greves, iron cannon
+ * [2], [3] npc liegonary - carbon steel chestplate, carbon steel pike, wood round shield, carbon steel helm
+ * [4], [5] npc city guard - carbon steel maille shirt, carbon steel maille pants, tool steel halbard, black leather gloves
+ * [6], [7], [8] npc archer - carbon steel maille shirt, longbow, boiled leather bracer
+ */
+/* bag:
+ * 20 meters of jute rope
+ * 5 snares
+ * 50 spelter lawn darts
+ * 100 flint arrows
+ * 2 greek fire
+ * 2 gunpowder
+ * 5 gold ingots
+ * 8 hardtack biscuits
+ * 2 bottles of ale
+ * 4 bottles of contaminated water
+ * 8 smoked rats
+ * 5 bottles of rootbeer
+ * 1 candied velociraptor
+ * 5 natural electrum
+ * 20 bronze throwing knives
+ * 12 siren feathers
+ */
+// 2575 coin
+/* extra supplies:
+ * 25 loaves of sourdough
+ * 10 bottles of elvin wine
+ * 15 bushels of raisins
+ * 10 wheels of parmasean cheese
+ * 15 candied turkies
+ */
+
+/* footnote 1
+ * suppose that a 4,500 year old warrior from the semi-legendary, defunct
+ * empire (whose crumbling relics are still present in remote areas of the
+ * world) that your loose alliance of republics defeated and disposessed
+ * showed up, unnanounced, to a meeting of the delagates of said republics.
+ *
+ * awkward, eh?
+ */

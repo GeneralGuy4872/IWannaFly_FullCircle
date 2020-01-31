@@ -471,6 +471,7 @@ struct xtraplayertyp PLAYERMETA	//may be mmapped
 #define CHAPTER PLAYERMETA->chapter
 #define ELECOLLECT(N) PLAYERMETA->elecollect[N]
 #define QUESTCOLLECT(N) PLAYERMETA->questcollect[N]
+#define BAG PLAYERMETA->bag
 char* SAVEPATH	//unsaved; but needed to save
 //all linked lists are player-specific
 enttyp *PURS_ptr	//pursuers, i.e. paid assasins, ninjas, the reaper...
