@@ -1,7 +1,11 @@
 lore (version 3, now with geography)
 
+disclaimer: any resembalance, real or imagined,
+to real life political entities is purely coincidental.
+(or however the heck you're supposed to say that)
+
 northeren supercontinent:
-	eastern extent:
+	eastern subcontinent:
 		inhabited primarily by elves; dwarfs run large
 		subterrainian mining operations, but not as large as on
 		the southern continent. drow live further below
@@ -21,7 +25,7 @@ northeren supercontinent:
 		the first step of several ill-fated civil wars sparked
 		by runaway political ambition.
 
-	polar extent:
+	polar subcontinent:
 		mixture of volcanic and icecapped mountains, occasionally
 		broken by taiga forests or barren glacial plains
 		broken planer gates (◬)
@@ -60,7 +64,7 @@ northeren supercontinent:
 		flagposts;
 		for want of new ones that hold fewer painful memories.
 
-	western extent:
+	western subcontinent:
 		densely populated by humans
 		orks underground
 		planer gate under southernmost tip (△)
@@ -82,11 +86,11 @@ southern continent:
 		broken planer gate in capital (⍫)
 		utterly inhospitibal above ground, cold and dead
 
-		the dwarves take pride in never being conquored by any
-		forign powers, and their underground city has
-		layer upon layer of fortification. their earliest written
-		history is scrawled upon these walls, and the bones of
-		slain dragons lie in the ice above.
+		the dwarfs take pride in never being conquored by any
+		forign powers (perhaps too much), and their underground
+		city has layer upon layer of fortification. their earliest
+		written history is scrawled upon these walls, and the bones
+		of slain dragons lie in the ice above.
 
 	eastern thaw:
 		city of gnomes
@@ -114,5 +118,6 @@ northeran supercontinent's subcontinents (polar, oblique*2), the antarctic
 continent (polar), and the little ocean (equitorial). the entire northeran
 supercontinant is mapped with a transverse pseudocylindrical projection.
 the big ocean is being mapped with a normal pseudocylindrical projection.
-the entire planet can be mapped with an isohedral projection,
-but has not been (in universe).
+(the entire planet can be mapped with an isohedral projection, but has not
+been in universe. other real projections have high distortion and/or split
+through populated areas)
