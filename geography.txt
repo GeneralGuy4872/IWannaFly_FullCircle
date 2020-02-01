@@ -1,6 +1,6 @@
 lore (version 3, now with geography)
 
-northeren continent:
+northeren supercontinent:
 	eastern extent:
 		inhabited primarily by elves; dwarfs run large
 		subterrainian mining operations, but not as large as on
@@ -30,11 +30,11 @@ northeren continent:
 		surface otherwise cold and lifeless
 
 		the sirens were once the dominant power over the entire
-		continent, ruling it under a single nation in the same
+		continent. they ruled it under a single nation in the same
 		method now used by the elves, after defeating an older,
 		draconic fudel empire in a centuries long civil war.
 		however, certain orkish barons remained loyal to their
-		absent kings and within decades sowed seeds of dissent
+		absent kings, and within decades sowed seeds of dissent
 		amoungst the other races. fueled by greed, many rebelled,
 		and the avians retreated to the mountains. the elves
 		re-established diplomatic relations with the sirens shortly
@@ -53,7 +53,7 @@ northeren continent:
 		the polar volcanic area; scars of forgotten battles
 		are etched upon the walls. carved out of the mountains
 		themselves, these fortifications have stood since time
-		immemorable; they have never fallen to a GROUND attack
+		immemorable; they have never fallen to a GROUND attack.
 		some are still garrisoned in the summer, to stand guard
 		against the human's endless wars. like all siren armies,
 		they still fly the old standards from ages past on the
@@ -100,10 +100,19 @@ southern continent:
 		the difference between gnomes and dwarfs is a matter of
 		ongoing debate, which elves wholly consider "silly"
 
-ocean 1:
+little ocean:
 	merfolk, sea elves, coral, happy sunny islands
 	nearly complete planer gate (▽), on seafloor
 
-ocean 2:
+big ocean:
 	shipwreaks, sea monsters, sharp jagged rocks, storms
 	complete planer gate at bottom of undersea trench
+	rarely used for long-distance navigation; largely unexplored
+
+various types of azimuthal projections are used to map each of the
+northeran supercontinent's subcontinents (polar, oblique*2), the antarctic
+continent (polar), and the little ocean (equitorial). the entire northeran
+supercontinant is mapped with a transverse pseudocylindrical projection.
+the big ocean is being mapped with a normal pseudocylindrical projection.
+the entire planet can be mapped with an isohedral projection,
+but has not been (in universe).
