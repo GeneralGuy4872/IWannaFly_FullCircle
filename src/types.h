@@ -1,6 +1,13 @@
 /* todo:
- * tools in the first (128|256) indicies of the item list
- * paired with a dispatch table of equal size
+ * tools??? - segment item table like an address space, then do
+ *	glue to route relavant bits to smaller dispatch tableS?
+ * variable room size (in multiples of 32 to align with neighbors)
+ * 	[1] cast each chunk's stringy pointer to a multidiminsional
+ *	array, or implement array unflattening manually
+ *	- implement chunk scrolling
+ * rework roomstack neighbors:
+ * 	render all king's norm adjacent rooms (if two different rooms are not occupying the same space)
+ * redo language
  */
 
 /* uuid's are used to cache dynamiclly allocated memory into the savefile;
@@ -95,11 +102,11 @@ typedef char scoord3[3];
 typedef char scoord2[2];
 
 struct setcoord3 {
-struct setcoord3 * prev
-struct setcoord3 * next
-uchar x
-uchar y
-uchar z
+struct setcoord3 * prev;
+struct setcoord3 * next;
+uchar x;
+uchar y;
+uchar z;
 }
 
 typedef char *strarry[]
@@ -116,8 +123,8 @@ ucoord2 z;
 struct agetyp {
 	unsigned chrono : 16;
 	signed bio : 8;	//entity dies on overflow
-	unsigned rem : 8;	/* bio remainder after chrono;
-	}			 * bio increments on the next modulo_0 of
+	unsigned rem : 8;	// bio's remainder after chrono;
+	}			/* bio increments on the next modulo0 of
 				 * the entity's current aging factor
 				 * (href basentyp). exploiting the
 				 * immediately apparent flaw of this
@@ -131,11 +138,23 @@ unsigned lo : 4
 unsigned hi : 4
 }
 
+struct snibbles {
+signed lo : 4
+signed hi : 4
+}
+
 struct racetyp {
 intptr_t race : 8
 intptr_t table : 4
 unsigned meta : 4
 	// 00,0,F is nul
+}
+
+struct microvector {
+unsigned x : 2
+unsigned y : 2
+unsigned z : 2
+unsigned w : 2
 }
 
 struct nanovector {
@@ -248,25 +267,26 @@ Vector2 latlon
 ucoord3 pos
 }
 
-typedef short trackaligntyp[2]
-typedef short trackalignplayertyp[3]
-/* neutral is the area between -10,000 and 10,000
- * alignments can be between -30,000 and 30,000
+typedef float trackaligntyp[2]
+typedef float trackalignplayertyp[3]
+/* alignments satisfy the equasion { x^2 + y^2 ≤ 1000^2 }
+ * neutral is the area satisfying { x^2 + y^2 ≤ 100^2 }
+ * other alignments are deternmined by lines extending at the following
+ * azimuths: 30, 60, 120, 150, -150, -120, -60, -30 (use atan2)
+ * corner cases round twords a cardinal direction
+ *	
  * actions, quests, and being polymorphed into
  * certain monsters can alter your alignment
- * [0] is good/evil, [1] is lawful/chaotic
+ * [0] is {+good,-evil}, [1] is {+lawful,-chaotic}
  *
  * for players, proactivness/passivity is also
  * tracked
- *
- * most negative number in both fields is an antagonist
  */
 
 struct ray_vfx_typ {
 (self) * prev
 (self) * next
-Vector3 end
-Vector3 from
+Ray this
 Color color
 }
 
@@ -342,7 +362,7 @@ struct conlangtype:
 unsigned id : 5
 bool r : 1
 bool w : 1
-bool x : 1	//can be spoken
+bool x : 1
 
 struct xtraplayertyp {
 chaptertyp chapter;
@@ -350,6 +370,7 @@ uint64_t kills;
 uchar elecollect[8];
 uchar questcollect[3];
 bagitemptr * bag;
+walletyp wallet;
 }
 
 /* note: everything related to players and entitys is
@@ -376,6 +397,11 @@ bagitemptr * bag;
  * the remainder are based on backstory and user input.
  */
 
+walletyp {
+unsigned whole : 25
+unsigned cent : 7
+}
+
 struct playertyp:
 playertyp * prev
 playertyp * next
@@ -397,7 +423,6 @@ ushort mp
 uint32_t xp
 uchar lvl
 Vector2 hunger
-float wallet
 langlistele *lang_ptr
 spellistele *spell_ptr
 cantriplistele *cant_ptr
@@ -649,6 +674,7 @@ typedef int (*funcptr_1arg)(intptr_t);
 typedef int (*funcptr_2arg)(intptr_t,intptr_t);
 typedef int (*funcptr_3arg)(intptr_t,intptr_t,intptr_t);
 typedef int (*funcptr_4arg)(intptr_t,intptr_t,intptr_t,intptr_t);
+typedef int (*funcptr_multi)(uint,intptr_t*);
 typedef int (*eventcleanup)(eventdatastack_ele,bool);
 
 struct passiveffectlistele {
@@ -902,12 +928,18 @@ unsigned color : 3
 paffectyp enchnt
 
 struct roomneighbors {
-bool north : 1
-bool south : 1
-bool east : 1
-bool west : 1
-bool up : 1
-bool down : 1
+ucoord4 * north
+ucoord4 * south
+ucoord4 * east
+ucoord4 * west
+ucoord4 * up
+ucoord4 * down
+microvector * north_offset
+microvector * south_offset
+microvector * east_offset
+microvector * west_offset
+microvector * up_offset
+microvector * down_offset
 bool upstair : 1
 bool downstair : 1
 bool show_north : 1
@@ -916,9 +948,13 @@ bool show_east : 1
 bool show_west : 1
 bool show_up : 1
 bool show_down : 1
-bool subterr : 1
-bool gnomon : 1
-ucoord4 globpos[6]	//href ROOM_? in constants.h
+}
+
+struct chunktyp {
+char* tiledata[CHUNK][CHUNK][CHUNK]
+shadowmask * seen
+shadowmask * light
+shadowmask * collimap	//entity collision mask
 }
 
 struct roomtyp:
@@ -927,20 +963,15 @@ struct planetyp plane
 Vector3 latlon	//reported as the latitude, longitude, and elevation of the current room. NaN may be helpful.
 intptr_t area : 16 //the name of the area from a table of names
 tileset *hightiles
-char* tiledata[][MAX_Y][MAX_X]
-unsigned ceiling : 5
-unsigned grav : 3
-shadowmask * seen
-shadowmask * light
-shadowmask * collimap	//entity collision mask
+struct chunktyp * chunks
+struct microvector size //field w has no effect, other fields bias +1
 encontyp *encon_ptr
 enttyp *ent_ptr
 eventtyp *ev_ptr
 mapobjtyp *obj_ptr
 ray_vfx_typ *ray_ptr
 lightyp *light_ptr
-char skylightsource	//must be a valid octant
-ucoord3 * path_ptr
+ucoord3 ** path_ptr
 ucoord2 downstair
 ucoord2 upstair
 ucoord3 home
@@ -967,39 +998,7 @@ struct roomneighbors neighborhood
  * cull plane of the "camera", and as the boundries of a given room.
  */
 
-struct subroomtyp: //used by mapgen
-char tiledata[MAX_Z][MAX_Z][MAX_Z]	//cube of MAX_Z
-ucoord3 dim
-enttype *ent_ptr
-mapobjtyp *obj_ptr
-
-struct mapgen_bordertyp {
-tileset *hightiles_n
-char north[MAX_Z][MAX_X]
-tileset *hightiles_s
-char south[MAX_Z][MAX_X]
-tileset *hightiles_e
-char east[MAX_Z][MAX_Y]
-tileset *hightiles_w
-char west[MAX_Z][MAX_Y]
-tileset *hightiles_ne
-char northeast[MAX_Z]
-tileset *hightiles_nw
-char northwest[MAX_Z]
-tileset *hightiles_se
-char southeast[MAX_Z]
-tileset *hightiles_sw
-char southwest[MAX_Z]
-tileset *hightiles_u
-char up[MAX_Y][MAX_X]
-tileset *hightiles_d
-char down[MAX_Y][MAX_X]
-}
-/* only used during mapgen, freed immediatly since it's so huge
- * up and down do not need secondary directions as the map cannot be scrolled that way
- */
-
-typedef uint32_t shadowmask[MAX_Y][MAX_X]
+typedef uint32_t shadowmask[CHUNK][CHUNK]
 typedef tilemeta tileset[128]
 
 struct tilemeta {

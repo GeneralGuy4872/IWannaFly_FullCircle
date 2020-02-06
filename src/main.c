@@ -15,7 +15,7 @@
  *
  * C++ was found unsuitable for the majority of the program, however
  * Perl is seeming more and more of an extravagance; a C/C++ hybrid,
- * using std::string, may be called upon to replace it.
+ * using std::string and other stuff, may be called upon to replace it.
  *
  * the idioms and formatting I am using throughout the project are
  * based on the way my mind works rather than a specific programming
@@ -58,10 +58,8 @@
 
 /******************************
  * IWANNAFLY (working title)  *
- * Top-down 3D Rogue-like     *
- * Game engine with C API     *
- * using NCurses, with        *
- * extensions in Perl         *
+ * 3D turn-based game engine  *
+ * with C API using Raylib    *
  ******************************/
 
 /* Hey, you. yeah, you. who do you think I'm talking to; the mouse?
@@ -459,19 +457,17 @@ playertyp * PLAYER;	/* may be mmapped.
 roomstackholder * ROOMSTACK;	//may be anonymously mmapped
 #define ROOM ROOMSTACK->swapin
 #define ROOM_NOT_NULL(X,Y) ((ROOM != NULL) ? X : Y)
-#define WORLD ROOM_NOT_NULL( ROOM->globpos , (ucoord4){0,0,0,0} )
-//WORLD is a relic of an earlier design, and is not intended to be part of the API
-#define CEILING	ROOM_NOT_NULL( ROOM->ceiling , MAX_Z )
-#define OLDCEILING (CEILING + 1)
-/* several different variations on how to calculate/store CEILING have been used,
- * and the one chosen was "off-by-one" from the original (last index vs length)
- */
+#define WORLD ROOM_NOT_NULL(ROOM->globpos , (ucoord4){0,0,0,0})
+#define SIZE_X ROOM_NOT_NULL((ROOM->size.x + 1) * CHUNK,0)
+#define SIZE_Y ROOM_NOT_NULL((ROOM->size.y + 1) * CHUNK,0)
+#define SIZE_Z ROOM_NOT_NULL((ROOM->size.z + 1) * CHUNK,0)
 struct xtraplayertyp PLAYERMETA	//may be mmapped
 #define KILLS PLAYERMETA->kills
 #define CHAPTER PLAYERMETA->chapter
 #define ELECOLLECT(N) PLAYERMETA->elecollect[N]
 #define QUESTCOLLECT(N) PLAYERMETA->questcollect[N]
 #define BAG PLAYERMETA->bag
+#define WALLET PLAYERMETA->wallet
 char* SAVEPATH	//unsaved; but needed to save
 //all linked lists are player-specific
 enttyp *PURS_ptr	//pursuers, i.e. paid assasins, ninjas, the reaper...

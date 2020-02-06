@@ -8,9 +8,7 @@
 #define ERR -1
 #endif
 
-#define MAX_X 64
-#define MAX_Y 64	//MAX_X ≥ MAX_Y ≥ MAX_Z
-#define MAX_Z 32
+#define CHUNK 32
 
 // **.alignmet : 9
 #define GOOD_MASK 0700

@@ -63,7 +63,9 @@ isn't it⸮)
  * [6], [7], [8] npc archer - carbon steel maille shirt, longbow, boiled leather bracer
  */
 /* bag:
- * 20 meters of jute rope
+ * 50 meters of jute rope
+ * carbon steel grappeling hook
+ * wroughtiron harpoon 	//the grappeling hook and harpoon both work in the same manner as a bow, but instead of selecting an arrow, you select a rope.
  * 5 snares
  * 50 spelter lawn darts
  * 100 flint arrows
