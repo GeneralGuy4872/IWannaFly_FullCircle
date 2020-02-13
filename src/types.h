@@ -1,17 +1,13 @@
 /* todo:
- * tools??? - segment item table like an address space, then do
- *	glue to route relavant bits to smaller dispatch tableS?
- * variable room size (in multiples of 32 to align with neighbors)
- * 	[1] cast each chunk's stringy pointer to a multidiminsional
- *	array, or implement array unflattening manually
- *	- implement chunk scrolling
  * rework roomstack neighbors:
- * 	render all king's norm adjacent rooms (if two different rooms are not occupying the same space)
- * redo language
+ * 	render all king's norm adjacent rooms
+ *	instead of taxicab norm adjacent
+ *	(if two different rooms are not occupying the same space)
+ * redo language tables
  */
 
 /* uuid's are used to cache dynamiclly allocated memory into the savefile;
- * think of them like portable pointers.
+ * think of them like shared pointers.
  */
 
 #ifndef IWANNAFLY_TYPES_H_REENTRANT
@@ -32,12 +28,6 @@
 #define ulong unsigned long
 #define ptrchar uint8_t
 #define ptrshort uint16_t
-
-struct odds_n_ends {
-uint64_t turn;
-turntype date;
-ushort roomturn;
-}
 
 struct stringlistyp {
 (self) *prev
@@ -77,17 +67,20 @@ struct turntyp {
 unsigned second : 6;	//mod 60
 unsigned mm : 6;	//mod 60
 unsigned hour : 5;	//mod 24
-unsigned dayhour : 5	//mod 24, set to hour + sunrise
+unsigned timezone : 5;
 unsigned dayear : 9;	//mod 360
 unsigned weekday : 3;	//mod 7
-unsigned moonphase : 2;	//rollover
-unsigned moonhour : 4;	//mod 15
+unsigned moonphase : 2;	//rollover ; solar-lunar phase shift is deferred
 unsigned daymonth : 5;	//mod 30
 unsigned month : 4;	//mod 12
-unsigned seasoncounter : 2;	//rollover
-unsigned season : 2;	//rollover
-char : 0;
+unsigned season : 2;	//month % 4
+
 }
+/* years will start on the vernal equinox, for multiple reasons:
+ *	- it adds to the exotic feel of the world
+ *	- it makes more sense than some random day in the middle of winter
+ *	->it's easier to the program the equinoxes/solstices that way
+ */
 
 struct sphere {
 Vector3 center
@@ -365,12 +358,16 @@ bool w : 1
 bool x : 1
 
 struct xtraplayertyp {
+uuid_t partyid;	//the folder in the savefile to save to
 chaptertyp chapter;
 uint64_t kills;
 uchar elecollect[8];
 uchar questcollect[3];
 bagitemptr * bag;
 walletyp wallet;
+turntyp date;
+uint64_t turn;
+ushort roomturn;
 }
 
 /* note: everything related to players and entitys is
@@ -1133,6 +1130,15 @@ void * data
 
 typedef struct masteritemlistentry *(*(*(*(const * masteritemlist)[16])[16])[16])[16];
 //array of 16 pointers to arrays of 16 pointers to arrays of 16 pointers to arrays of 16 pointers to string-like arrays
+
+struct toolsublistyp {
+struct toolsublistyp * prev;	//the previous tools block
+struct toolsublistyp * next;	//the next tools block
+ushort first;
+ushort last;
+unsigned n;
+funcptr * funcs;
+}
 
 /*to be replaced
 struct miscitembasetyp:

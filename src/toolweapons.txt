@@ -1,0 +1,157 @@
+tool/weapon list:
+
+dyes
+
+#farming
+pickaxe
+shovel
+plow
+hoe
+rake
+scyth
+
+#fire related
+lamp
+<any fuel>
+torch
+fashlight
+matches
+flint and steel
+magnesium striker
+candle, beeswax
+candle, parrafin
+candle, tallow
+candlestick
+fuse
+
+#openers
+key
+lockpick
+can opener
+jar opener
+
+#tableware
+dinner fork
+dessert fork
+soup spoon
+table spoon
+tea spoon
+grapfruit spoon
+table knife
+cheese knife
+paring knife
+throwing knife
+steak knife
+spork
+
+#hammers
+sledge
+ball-peen
+streight-peen
+cross-peen
+tenderizing
+war
+claw
+
+#other blacksmithing tools
+tongs
+fuller
+anvil
+
+#launchers
+sling
+slingshot
+longbow
+recurve bow
+laminate bow
+crossbow
+scorpio
+arablast
+falconet
+
+#ammunition
+arrow
+bolt
+cannonball
+
+#explosives and pyrotechnics
+greek fire
+quicklime
+gunpowder
+sodium
+potassium
+nak
+
+#useful gems
+diamond
+sapphire
+
+#daggers and swords
+dagger
+xiphos / gladius
+shortsword (the thin kind)
+arming sword / spartha
+longsword
+claymore
+flamberge
+foil
+rapier
+backsword
+sabre
+katana
+harpe
+
+#polarms
+spear / dori
+boarspear
+pike
+spontoon
+partasen
+halberd
+war axe
+polescyth
+trident
+fork
+earspoon
+
+#axes
+hatchet
+axe
+
+#thrown projectiles
+harpoon
+grapnel
+javalin
+lawn dart / plumbata
+
+#axes that are thrown projectiles
+tomahawk
+
+#maces and flails
+mace (ribbed ball on a stick)
+morningstar (spiked ball on a stick)
+flail (spiked club on a swivel)
+meteor hammer (smoothe ball on a chain, no handle)
+ball and chain (spiked ball on a chain)
+nunchuck
+kusarigama (scythe on a chain)
+
+#whips
+bullwhip
+scourge
+
+#defensive weapons that are not staves
+sai
+
+#staves
+bo
+hanbo
+tanbo
+
+#primative weapons
+club
+bat
+spiked club
+<anything heavy>
+<anything glass>
+<anything sharp>

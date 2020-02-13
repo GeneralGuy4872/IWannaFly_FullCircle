@@ -37,7 +37,7 @@ sea salt / halite / sylvite / flourite
 sand / silica	// sand is not pure silica
 akome / masa
 calcium carbonate / quicklime / lye
-soda ash / baking soda / potash / volcanic ash
+soda ash / baking soda / potash / volcanic ash / bone ash
 borax / boron trioxide
 
 meteorite	//contains stardust if powderized
@@ -97,10 +97,10 @@ tooth	//metadata enabled, species
 hair	//metadata enabled, species
 feathers	//metadata enabled, species and type
 leaf	//metadata enabled, type
-(oak | larch | maple | boxelder | ash | rowan | cornel | sassafras | alder | elderberry | elm | birch | dogwood | hawthorn | redbud | gumball | sycamore | locust | honeylocust | bloodwood | olive | laural | yew | boxwood | hedgeapple | pine | fir | cedar | spruce | juniper | cypress | cork | redwood | sequoia | rubber | ebony | mahogony | rosewood | monkey puzzle | ecalyptus | tea | bananna | plantain | lemon | lime | orange | bitter-orange | citron | grapefruit | apple | coconut | fig | guava | date palm | hickory | pecan | deadly nightshade | walnut | hazelnut | almond | brazil nut | carob | cashew | coffee | cacao | durian | linden | silverbell | snowbell | cottenwood | ironwood | cherry | sakura | plum | pear | papaya | pawpaw | peach | nectarine | avacado | willow | umbrella | beech | balsa | holly | mustard | mimosa | magnolia | princess | lily-of-the-vally | fragrant lilac | trumpet | ginkgo | kapok | cinnimon | nutmeg | acadia | aspen | cinchona | bamboo) stick
-(oak | larch | maple | boxelder | ash | rowan | cornel | sassafras | alder | elderberry | elm | birch | dogwood | hawthorn | redbud | gumball | sycamore | locust | honeylocust | bloodwood | olive | laural | yew | boxwood | hedgeapple | pine | fir | cedar | spruce | juniper | cypress | cork | redwood | sequoia | rubber | ebony | mahogony | rosewood | monkey puzzle | ecalyptus | tea | bananna | plantain | lemon | lime | orange | bitter-orange | citron | grapefruit | apple | coconut | fig | guava | date palm | hickory | pecan | deadly nightshade | walnut | hazelnut | almond | brazil nut | carob | cashew | coffee | cacao | durian | linden | silverbell | snowbell | cottenwood | ironwood | cherry | sakura | plum | pear | papaya | pawpaw | peach | nectarine | avacado | willow | umbrella | beech | balsa | holly | mustard | mimosa | magnolia | princess | lily-of-the-vally | fragrant lilac | trumpet | ginkgo | kapok | cinnimon | nutmeg | acadia | aspen | cinchona | <?>) log
-(oak | larch | maple | boxelder | ash | rowan | cornel | sassafras | alder | elderberry | elm | birch | dogwood | hawthorn | redbud | gumball | sycamore | locust | honeylocust | bloodwood | olive | laural | yew | boxwood | hedgeapple | pine | fir | cedar | spruce | juniper | cypress | cork | redwood | sequoia | rubber | ebony | mahogony | rosewood | monkey puzzle | ecalyptus | tea | bananna | plantain | lemon | lime | orange | bitter-orange | citron | grapefruit | apple | coconut | fig | guava | date palm | hickory | pecan | deadly nightshade | walnut | hazelnut | almond | brazil nut | carob | cashew | coffee | cacao | durian | linden | silverbell | snowbell | cottenwood | ironwood | cherry | sakura | plum | pear | papaya | pawpaw | peach | nectarine | avacado | willow | umbrella | beech | balsa | holly | mustard | mimosa | magnolia | princess | lily-of-the-vally | fragrant lilac | trumpet | ginkgo | kapok | cinnimon | nutmeg | acadia | aspen | cinchona | bamboo) woodchips
-(oak | larch | maple | boxelder | ash | rowan | cornel | sassafras | alder | elderberry | elm | birch | dogwood | hawthorn | redbud | gumball | sycamore | locust | honeylocust | bloodwood | olive | laural | yew | boxwood | hedgeapple | pine | fir | cedar | spruce | juniper | cypress | cork | redwood | sequoia | rubber | ebony | mahogony | rosewood | monkey puzzle | ecalyptus | tea | bananna | plantain | lemon | lime | orange | bitter-orange | citron | grapefruit | apple | coconut | fig | guava | date palm | hickory | pecan | deadly nightshade | walnut | hazelnut | almond | brazil nut | carob | cashew | coffee | cacao | durian | linden | silverbell | snowbell | cottenwood | ironwood | cherry | sakura | plum | pear | papaya | pawpaw | peach | nectarine | avacado | willow | umbrella | beech | balsa | holly | mustard | mimosa | magnolia | princess | lily-of-the-vally | fragrant lilac | trumpet | ginkgo | kapok | cinnimon | nutmeg | acadia | aspen | cinchona | <?>) bark
+(oak | larch | maple | boxelder | ash | rowan | cornel | sassafras | alder | elderberry | elm | birch | dogwood | hawthorn | redbud | gumball | sycamore | locust | honeylocust | bloodwood | olive | laural | yew | boxwood | hedgeapple | pine | fir | cedar | spruce | juniper | cypress | cork | redwood | sequoia | rubber | ebony | mahogony | teak | rosewood | monkey puzzle | ecalyptus | tea | bananna | plantain | lemon | lime | orange | bitter-orange | citron | grapefruit | apple | sorbus | coconut | fig | guava | date palm | hickory | pecan | deadly nightshade | walnut | hazelnut | almond | brazil nut | carob | cashew | coffee | cacao | durian | linden | silverbell | snowbell | cottenwood | ironwood | cherry | sakura | plum | pear | papaya | pawpaw | peach | nectarine | avacado | willow | umbrella | beech | balsa | holly | mustard | mimosa | magnolia | princess | lily-of-the-vally | fragrant lilac | trumpet | ginkgo | kapok | cinnimon | nutmeg | acadia | aspen | cinchona | bamboo) stick
+(oak | larch | maple | boxelder | ash | rowan | cornel | sassafras | alder | elderberry | elm | birch | dogwood | hawthorn | redbud | gumball | sycamore | locust | honeylocust | bloodwood | olive | laural | yew | boxwood | hedgeapple | pine | fir | cedar | spruce | juniper | cypress | cork | redwood | sequoia | rubber | ebony | mahogony | teak | rosewood | monkey puzzle | ecalyptus | tea | bananna | plantain | lemon | lime | orange | bitter-orange | citron | grapefruit | apple | sorbus | coconut | fig | guava | date palm | hickory | pecan | deadly nightshade | walnut | hazelnut | almond | brazil nut | carob | cashew | coffee | cacao | durian | linden | silverbell | snowbell | cottenwood | ironwood | cherry | sakura | plum | pear | papaya | pawpaw | peach | nectarine | avacado | willow | umbrella | beech | balsa | holly | mustard | mimosa | magnolia | princess | lily-of-the-vally | fragrant lilac | trumpet | ginkgo | kapok | cinnimon | nutmeg | acadia | aspen | cinchona | <?>) log
+(oak | larch | maple | boxelder | ash | rowan | cornel | sassafras | alder | elderberry | elm | birch | dogwood | hawthorn | redbud | gumball | sycamore | locust | honeylocust | bloodwood | olive | laural | yew | boxwood | hedgeapple | pine | fir | cedar | spruce | juniper | cypress | cork | redwood | sequoia | rubber | ebony | mahogony | teak | rosewood | monkey puzzle | ecalyptus | tea | bananna | plantain | lemon | lime | orange | bitter-orange | citron | grapefruit | apple | sorbus | coconut | fig | guava | date palm | hickory | pecan | deadly nightshade | walnut | hazelnut | almond | brazil nut | carob | cashew | coffee | cacao | durian | linden | silverbell | snowbell | cottenwood | ironwood | cherry | sakura | plum | pear | papaya | pawpaw | peach | nectarine | avacado | willow | umbrella | beech | balsa | holly | mustard | mimosa | magnolia | princess | lily-of-the-vally | fragrant lilac | trumpet | ginkgo | kapok | cinnimon | nutmeg | acadia | aspen | cinchona | bamboo) woodchips
+(oak | larch | maple | boxelder | ash | rowan | cornel | sassafras | alder | elderberry | elm | birch | dogwood | hawthorn | redbud | gumball | sycamore | locust | honeylocust | bloodwood | olive | laural | yew | boxwood | hedgeapple | pine | fir | cedar | spruce | juniper | cypress | cork | redwood | sequoia | rubber | ebony | mahogony | teak | rosewood | monkey puzzle | ecalyptus | tea | bananna | plantain | lemon | lime | orange | bitter-orange | citron | grapefruit | apple | sorbus | coconut | fig | guava | date palm | hickory | pecan | deadly nightshade | walnut | hazelnut | almond | brazil nut | carob | cashew | coffee | cacao | durian | linden | silverbell | snowbell | cottenwood | ironwood | cherry | sakura | plum | pear | papaya | pawpaw | peach | nectarine | avacado | willow | umbrella | beech | balsa | holly | mustard | mimosa | magnolia | princess | lily-of-the-vally | fragrant lilac | trumpet | ginkgo | kapok | cinnimon | nutmeg | acadia | aspen | cinchona | <?>) bark
 wicker	//metadata enabled, wood
 mesh	//metadata enabled, type and material
 
@@ -129,6 +129,7 @@ planoconvex lens	//metadata: type of glass
 planoconcave lens	//metadata: type of glass
 positive corrective lens	//metadata: type of glass
 negitive corrective lens	//metadata: type of glass
+sphereical lense	//metadata: type of glass
 asphereic lense	//metadata: type of glass
 frensal lense	//metadata: type of glass
 mirror / burning mirror / convex mirror
@@ -163,7 +164,8 @@ stone tablet / clay tablet
 	//orthoclase may contain moonstone, hornblende may contain biotite, blueschist may contain jade, greenschist may contain serpentine
 	//peridotite may contain peridot if powderized
 
-crushed (limestone | travertine | chalk | dolomite | marble | alabaster | coral | pumice | basalt | kimberlite | diabase | sandstone | quartzite | soapstone | orthoclase | feldspar | granite | syenite | hornblende | gneiss | schist | blueschist | jade | greenschist | serpentine | gabbero | peridotite)
+(limestone | travertine | chalk | dolomite | marble | alabaster | coral | pumice | basalt | kimberlite | diabase | sandstone | quartzite | soapstone | orthoclase | feldspar | granite | syenite | hornblende | gneiss | schist | blueschist | jade | greenschist | serpentine | gabbero | peridotite) boulder
+(limestone | travertine | chalk | dolomite | marble | alabaster | coral | pumice | basalt | kimberlite | diabase | sandstone | quartzite | soapstone | orthoclase | feldspar | granite | syenite | hornblende | gneiss | schist | blueschist | jade | greenschist | serpentine | gabbero | peridotite) pebbles	//1d30 +10 per block or boulder
 titania / alumina / zirconia / lead oxide
 talc
 gypsum
@@ -173,7 +175,7 @@ gold dust / diamond grit / stardust
 canola seed / linseed / soybean
 canola oil / linseed oil / soybean oil
 tofu
-grape / fig / date / plum / apple / crabapple / banana / apricot / papaya / orange / bitter-orange / pear / pineapple / coconut / kiwi / dragonfruit / durin / peach / grapefruit / lemon / lime / citron / cranberry / blueberry / raspberry / blackberry / strawberry / cherry / pawpaw / cacao / vanilla bean
+grape / fig / date / plum / apple / crabapple / sorb /banana / apricot / papaya / orange / bitter-orange / pear / pineapple / coconut / kiwi / dragonfruit / durin / peach / grapefruit / lemon / lime / citron / cranberry / blueberry / raspberry / blackberry / strawberry / cherry / pawpaw / cacao / vanilla bean
 dark chocolate / milk chocolate / cocoa powder / cocoa butter / chocolate liquor
 vanilla extract / ethylvanillin
 dried fruit	//metadata: type
@@ -192,10 +194,10 @@ sealing wax	//metadata: pigment
 petroleum / bitumen / grease
 wood tar / coal tar
 resin / latex / turpentine
-naptha / ethanol / kerosene
+naptha / ethanol / kerosene / methenol
 greek fire
 
 ammonium chloride
-niter / gunpowder / thermite
+niter / nitratine / gunpowder / thermite
 
-citric acid / sulfuric acid / nitric acid / phosphoric acid / hydrochloric acid / aqua regia
+vinager / citric acid / sulfuric acid / nitric acid / nitrosylsulphic acid / phosphoric acid / hydrochloric acid / aqua regia

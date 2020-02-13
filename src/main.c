@@ -468,6 +468,16 @@ struct xtraplayertyp PLAYERMETA	//may be mmapped
 #define QUESTCOLLECT(N) PLAYERMETA->questcollect[N]
 #define BAG PLAYERMETA->bag
 #define WALLET PLAYERMETA->wallet
+#define PARTYID PLAYERMETA->partyid
+#define TURN PLAYERMETA->turn
+#define DATE PLAYERMETA->date
+#define ROOMTURN PLAYERMETA->ROOMTURN
+#define MIDNIT ((DATE.hour == 0) && !(DATE.min))
+#define MORN ((DATE.hour == 6) && !(DATE.min))
+#define NOON ((DATE.hour == 12) && !(DATE.min))
+#define EVE ((DATE.hour == 18) && !(DATE.min))
+#define DAY ((6 ≤ DATE.hour) && (DATE.hour < 18))
+#define NIGHT ((DATE.hour < 6) || (18 ≤ DATE.hour))
 char* SAVEPATH	//unsaved; but needed to save
 //all linked lists are player-specific
 enttyp *PURS_ptr	//pursuers, i.e. paid assasins, ninjas, the reaper...
@@ -476,19 +486,6 @@ placetyp *PLACE_ptr
 stringlistyp *HINT_ptr
 eventdatastack_ele *EVSTACK_ptr	//B L A R G
 qglobev * GLOBEV_ptr
-struct odds_n_ends * GLOBOOLS	//shared; may be mmapped
-#define TURN GLOBOOLS->turn
-#define DATE GLOBOOLS->date
-#define ROOMTURN GLOBOOLS->roomturn
-#define CAMERA GLOBOOLS->camera
-#define NEW GLOBOOLS->new
-#define FIRST GLOBOOLS->first
-#define DAY GLOBOOLS->day
-#define NIGHT GLOBOOLS->night
-#define MORN GLOBOOLS->morn
-#define NOON GLOBOOLS->noon
-#define EVE GLOBOOLS->eve
-#define MIDNIT GLOBOOLS->midnit
 char TMPBUFFERS[16][2 * BUFFER_MAX];	//not saved
 uchar TMPBUFFERNEXT;	//not saved
 uchar BOUNCEDISP;
@@ -530,44 +527,6 @@ char * getname(pluralwords this,bool plural) {
 	strcat(output,this[1 + plural]);
 	return output;
 	}
-
-bool ticktock() {
-TURN++;
-TIMER.lo++;
-if ((TIMER.lo == TIMER.hi) && (ALARM ≥ 0)) {ALARM++}
-if (ROOMTURN < 200) {ROOMTURN++;}
-DATE.sec += 6;
-if (DATE.sec ≥ 60) {
-	DATE.sec = 0;
-	DATE.min++;
-	if (DATE.min ≥ 60) {
-		DATE.min = 0;
-		DATE.hour++;
-		if (DATE.hour ≥ 24) {
-			DATE.hour = 0;
-			DATE.weekday++
-			if (DATE.weekday ≥ 7) {DATE.weekday = 0;}
-			DATE.day++;
-			if (DATE.day ≥ 30) {
-				DATE.day = 0;
-				DATE.month++;
-				if (DATE.month ≥ 12) {
-					DATE.month = 0;
-					DATE.year++;
-					if (!(DATE.year)) {return true}
-					else {return false}
-				}
-			}
-		}
-	}
-
-MIDNIT = ((DATE.hour == 0) && !(DATE.min))
-MORN = ((DATE.hour == 6) && !(DATE.min))
-NOON = ((DATE.hour == 12) && !(DATE.min))
-EVE = ((DATE.hour == 18) && !(DATE.min))
-DAY = ((6 ≤ DATE.hour) && (DATE.hour < 18))
-NIGHT = ((DATE.hour < 6) || (18 ≤ DATE.hour))
-}
 
 //projection, →x ↓y ↑z
 

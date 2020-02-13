@@ -1,0 +1,19 @@
+TIMED EVENTS
+============
+
+the game may have timed events.
+these events may expire after a certain in-game date.
+
+critical plot-important events should not be missable timed events;
+they may be annual, or renewable, however.
+
+many events will be dependant only on the chapter and prerequisites.
+the chapter update events themselves should never be timed.
+
+there will be some mechinism in the game to skip over large amounts of
+time, in case an annual event is missed. This can be done anywhere you
+can properly save.
+
+timing is also important for merging parties; the parties must both be at
+the rendezus on the same day. (while splitting parties is ardous for the
+player, merging parties is ardous for the engine.)
