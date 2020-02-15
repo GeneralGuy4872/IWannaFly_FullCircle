@@ -4,6 +4,9 @@ disclaimer: any resembalance, real or imagined,
 to real life political entities of the modern era
 is purely coincidental.
 
+PRIME
+=====
+
 northeren supercontinent:
 	eastern subcontinent:
 		inhabited primarily by elves; dwarfs run large
@@ -120,3 +123,15 @@ the big ocean is being mapped with a normal pseudocylindrical projection.
 (the entire planet can be mapped with an isohedral projection, but has not
 been in universe. other real projections have high distortion and/or split
 through populated areas)
+
+METAL
+=====
+
+A nivian ring around a blue star, kept aloft by a massive spell network
+that converts solar wind into an antigravity ridge which keeps the ring
+centered (antigravity, of course being the technical term for the force
+exerted by matter with negitive mass...no?). elemental planes and the prime
+plane are connected by wormholes, whose apetures travel forward in time
+at 1m/s/s, and are also always in the same 3-dimensional moment-slice of
+the universe; these usually contain a bridge so that people traversing
+them don't get spagettified.

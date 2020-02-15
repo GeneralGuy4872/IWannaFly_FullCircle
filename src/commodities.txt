@@ -75,7 +75,7 @@ fuse
 (iron | wrought iron | pigiron | ferrite | rusty iron | carbon steel | sword steel | spring steel | tool steel | stainless steel | damascus steel | thermite steel | rusty steel | ferrochrome | spiegeleisen | copper | bronze | brass | bellmetal | green copper | green bronze | green brass | green bellmetal | tin | gold | silver | tarnished silver | electrum | rosegold | lead | white lead | molybdenum | nickel | cobolt | tellurium | niobium | tantalum | zirconium | aluminum | aluminum gold intermetalic | tungsten | titanium | titanium gold | zinc | fine pewter | ley pewter | cupronickel | spelter | tarnished fine pewter | tarnished ley pewter | magnesium | alnico | invar | inconel | neodymium | gold amalgam | silver amalgam | copper amalgam | electrum amalgam | rosegold amalgam | fine pewter amalgam | ley pewter amalgam | aluminum amalgam) ingot
 (iron | wrought iron | pigiron | ferrite | rusty iron | carbon steel | sword steel | spring steel | tool steel | stainless steel | damascus steel | thermite steel | rusty steel | ferrochrome | spiegeleisen | copper | bronze | brass | bellmetal | green copper | green bronze | green brass | green bellmetal | tin | gold | silver | tarnished silver | electrum | rosegold | lead | white lead | molybdenum | nickel | cobolt | tellurium | niobium | tantalum | zirconium | aluminum | aluminum gold intermetalic | tungsten | titanium | titanium gold | zinc | fine pewter | ley pewter | cupronickel | spelter | tarnished fine pewter | tarnished ley pewter | magnesium | alnico | invar | inconel | neodymium | gold amalgam | silver amalgam | copper amalgam | electrum amalgam | rosegold amalgam | fine pewter amalgam | ley pewter amalgam | aluminum amalgam) billet	//12 ingots to a billet
 (iron | wrought iron | pigiron | ferrite | rusty iron | carbon steel | sword steel | spring steel | tool steel | stainless steel | damascus steel | thermite steel | rusty steel | ferrochrome | spiegeleisen | copper | bronze | brass | bellmetal | green copper | green bronze | green brass | green bellmetal | tin | gold | silver | tarnished silver | electrum | rosegold | lead | white lead | molybdenum | nickel | cobolt | tellurium | niobium | tantalum | zirconium | aluminum | aluminum gold intermetalic | tungsten | titanium | titanium gold | zinc | fine pewter | ley pewter | cupronickel | spelter | tarnished fine pewter | tarnished ley pewter | magnesium | alnico | invar | inconel | neodymium | gold amalgam | silver amalgam | copper amalgam | electrum amalgam | rosegold amalgam | fine pewter amalgam | ley pewter amalgam | aluminum amalgam) plate	//made from a billet
-tinfoil / gold foil / aluminum foil	//made from ingots
+tinfoil / gold foil / aluminum foil / zinc foil / copper foil	//made from ingots
 ferrite magnet / neodymium magnet / alnico magnet	//made from ingots
 tinplate	//made from iron or steel plate, and tinfoil
 (rusty iron | rusty steel | green copper | green brass | green bronze | green bellmetal | tarnished silver | white lead | aluminum gold intermetallic | tarnished fine pewter | tarnished ley pewter | gold amalgam | silver amalgam | copper amalgam | electrum amalgam | rosegold amalgam | fine pewter amalgam | ley pewter amalgam | aluminum amalgam) ...thing? [sic]
@@ -139,16 +139,22 @@ cylindrical planoconvex lens	//metadata: type of glass
 cylindrical planoconcave lens	//metadata: type of glass
 reversing prism	//metadata: type of glass
 calcite prism
+fiberoptic cable	//metadata: length
+	in-universe, magical light sources anchored to prisms and
+	fire spells allow rapid development of lense and optical
+	communications technology. 
 
 insulator stack //metadata: rating, number of disks
-toroid	//metadata: material
 wire	//metadata: material
-voltaic pile	//metadata: number of cells
-galvanic cell	//metadata: number of cells
-lyden jar / electrolytic rectifyer
+electrode	//metadata: material
+armature
+motor	//metadata: size
+aluminum torus
+voltaic pile / daniell cell / gravity cell / lead-acid cell
+leyden jar / electrolytic rectifyer / electrolytic capacitor / paper capacitor
 
 papyrus seed
-paper / parchment
+paper / parchment / waxed paper / carbon paper
 chaff
 pulp / papyrus fibers
 yeast / penicillium / lactococcus / lactobacillus
@@ -166,7 +172,7 @@ stone tablet / clay tablet
 
 (limestone | travertine | chalk | dolomite | marble | alabaster | coral | pumice | basalt | kimberlite | diabase | sandstone | quartzite | soapstone | orthoclase | feldspar | granite | syenite | hornblende | gneiss | schist | blueschist | jade | greenschist | serpentine | gabbero | peridotite) boulder
 (limestone | travertine | chalk | dolomite | marble | alabaster | coral | pumice | basalt | kimberlite | diabase | sandstone | quartzite | soapstone | orthoclase | feldspar | granite | syenite | hornblende | gneiss | schist | blueschist | jade | greenschist | serpentine | gabbero | peridotite) pebbles	//1d30 +10 per block or boulder
-titania / alumina / zirconia / lead oxide
+titania / alumina / zirconia / lead (oxide | dioxide) / (blue | white) vitriol
 talc
 gypsum
 mica / biotite

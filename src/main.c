@@ -3,15 +3,10 @@
  * outline pseudocode top-down, using blackboxes as neccisary
  * write real code bottom-up
  *
- * Once the engine's first principles are fully implemented,
- * the second stage of my development process will begin, which
- * consists of making the first chunk of code compile and work;
- * afterwards, development will continue in the more common
- * poke-build-test method.
- *
- * I have been laboring under some false assumptions about memory
- * management, and as a result, the program is optimized strangely,
- * for memory footprint and swappiness. speed has not been a concern.
+ * the trampoline-based main loop of the engine now exists in skeletal
+ * form, and can be found under the tests directory. however, the
+ * vast majority of this file is now obsolete and must now be rewritten
+ * to match.
  *
  * C++ was found unsuitable for the majority of the program, however
  * Perl is seeming more and more of an extravagance; a C/C++ hybrid,
@@ -486,43 +481,12 @@ placetyp *PLACE_ptr
 stringlistyp *HINT_ptr
 eventdatastack_ele *EVSTACK_ptr	//B L A R G
 qglobev * GLOBEV_ptr
-char TMPBUFFERS[16][2 * BUFFER_MAX];	//not saved
-uchar TMPBUFFERNEXT;	//not saved
-uchar BOUNCEDISP;
-intptr_t BOUNCEPTR;
-bool BOUNCENOW;
+struct trampolinestackele * TOPTRAMPOLINE;
+void * TRAMPOLINE_REGISTERS[16];
 /*end GLOBALS*/
 
-int rendertrampoline() {
-if (BOUNCENOW) {
-	/*TODO*/
-	switch BOUNCEDISP :
-		case 0 : roomrender(BOUNCEPTR); break;
-		case 1 : playerender(BOUNCEPTR); break;
-		case 2 : entrender(BOUNCEPTR); break;
-		case 3 : pursrender(BOUNCEPTR); break;
-		case 4 : eventrender(BOUNCEPTR); break;
-		/*etc*/
-		default : break;
-		}
-
-char * tmpbufferalloc() {
-	char * output = TMPBUFFERS[TMPBUFFERNEXT][0];
-	if (output[0]) {
-		memset(output,0,strlen(output));
-		}
-	TMPBUFFERNEXT = (TMPBUFFERNEXT + 1) & 0x0F;
-	return output;
-	}/* this construct eliminates the need for using dynamic variables
-	  * to pass buffers, and thus eliminates the possibility of memory
-	  * leaks from doing so poorly. as a trade-off, however, only 16
-	  * strings may be held in the pseudoregisters at a time before
-	  * being overwritten. there is no conceivable reason this should
-	  * be a problem, however, with the paradigms I am working under.
-	  */
-
 char * getname(pluralwords this,bool plural) {
-	char * output = tmpbufferalloc();
+	static char * output = tmpbufferalloc();
 	strcpy(output,this[0]);
 	strcat(output,this[1 + plural]);
 	return output;
@@ -1034,28 +998,6 @@ switch (tmp.rem) : {
 	}
 }
 
-engineloop () __attribute__((noreturn)) {
-forever {
-	if (NEW) {
-		checkglobal(NEW_FLAG,true)
-		NEW = false
-		}
-	checkevents()	//check event triggers
-	player_act()	//player's turn
-	follow_iter()	//iterate through follower entities
-	ent_iter()	//iterate through local entities
-	encounter(1D6,1d100)	//generate up to 1D6 of monster number 1d100, iff encounter != NULL
-	}
-}
-
-/*pseudocode*/ <follow|ent>_iter () {
-<ent|follow>typ* ptr = <head>
-while (ptr != NULL) {
-	<follow|ent>_act(&ptr) //&ptr's turn
-	ptr = ptr->next
-	}
-}
-
 /*pseudocode*/encounter(count,tableid)
 uchar count
 uchar tableid
@@ -1072,6 +1014,8 @@ for (;count != 0;count--) {
 		}
 	}
 }
+
+//EVERYTHING BELOW THIS POINT MUST BE REWRITTEN ENTIRELY**************************************************************************************************************************************************************************
 
 /*blackbox*/render() {
 /* flush THESHADOWKNOWS and SHINEALIGHT
@@ -1100,7 +1044,7 @@ const char* GAME_NAME GAME_VERSION STORY_REV
 	printf("\033]2;IWannaFlyCurses - %s\033\\",GAMENAME);
 	}
 printf(RESET);
-printf(" \033[1;95m~~ IWANNAFLY ROGUELIKE ENGINE ~~\033[m\n\033[97m          engine version: %s\n          rules revision: %s\n            API revision: %s\n        savefile version: %s\nextension parser version: %s\n    runcommander version: %s\n       midibasic version: %s\n       midi backend type: %s\n\n \033[96m - %s -\033[m\n\033[97m  game version: %s\nstory revision: %s\n\n\033[37mCompiled on %s\n\033m\a",ENGINE_VERSION,RULES_VERSION,API_VERSION,SAVE_VERSION,EXT_PARSE_VERSION,RUNCOM_VERSION,MIDIBAS_VERSION,MIDI_TYPE,GAME_NAME,GAME_VERSION,STORY_REV,__DATE__);
+printf(" \033[1;95m~~ IWANNAFLY RPG ENGINE ~~\033[m\n\033[97m          engine version: %s\n          rules revision: %s\n            API revision: %s\n        savefile version: %s\nextension parser version: %s\n    runcommander version: %s\n       midibasic version: %s\n       midi backend type: %s\n\n \033[96m - %s -\033[m\n\033[97m  game version: %s\nstory revision: %s\n\n\033[37mCompiled on %s\n\033m\a",ENGINE_VERSION,RULES_VERSION,API_VERSION,SAVE_VERSION,EXT_PARSE_VERSION,RUNCOM_VERSION,MIDIBAS_VERSION,MIDI_TYPE,GAME_NAME,GAME_VERSION,STORY_REV,__DATE__);
 fflush(stdout);
 sleep(4);
 printf(RESET);
@@ -1108,7 +1052,7 @@ printf("\033[1;32m\tEngine Copyright (C) 2019- \"GeneralGuy4872\"\n\n\tThis prog
 fflush(stdout);
 sleep(4);
 printf(RESET);
-printf("\033[92mLibraries linked:\nNCurses by Zeyd M Ben-Halim,\n           Eric S. Raymond,\n           Thomas E Dickey\n           and the Free Software Foundation\nLibTar by Mark D. Roth\nZlib by Jean-loup Gaully and Mark Adler\nLibBZip2 by Julian Steward\n");
+printf("\033[92mLibraries linked:\nraylib by "raysan5" et al,\nNCurses by Zeyd M Ben-Halim,\n           Eric S. Raymond,\n           Thomas E Dickey\n           and the Free Software Foundation\nLibTar by Mark D. Roth\nZlib by Jean-loup Gaully and Mark Adler\nLibBZip2 by Julian Steward\n");
 fflush(stdout);
 sleep(4);
 printf(RESET);

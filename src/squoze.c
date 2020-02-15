@@ -1,8 +1,14 @@
-ushort squoze(char[3] ascii) {
-	return squozebit(ascii[0]) + (40 * squozebit(ascii[1])) + (1600 * squozebit(ascii[2]));
+#define SQUOZE_MAX 63999
+#define SQUOZE_2PLACE 40
+#define SQUOZE_3PLACE 1600
+
+/*SUBROUTINE*/
+char16_t squoze(char[3] ascii) {
+	return squozebyte(ascii[0]) + (SQUOZE_2PLACE * squozebyte(ascii[1])) + (SQUOZE_3PLACE * squozebyte(ascii[2]));
 	}
 
-uchar squozebit(char ascii) {
+/*SUBROUTINE*/
+uchar squozebyte(char ascii) {
 	if (ascii <= ' ') {return 0}
 	else {
 		switch ascii :
@@ -73,5 +79,75 @@ uchar squozebit(char ascii) {
 			case '9' : return 047;
 			default : return 035;
 			}
+		}
+	}
+
+/*SUBROUTINE*/
+char unsquozebyte (uchar input,char special) {
+	switch (input) {
+		case 0 : return ' ';
+		case 1 : return 'A';
+		case 2 : return 'B';
+		case 3 : return 'C';
+		case 4 : return 'D';
+		case 5 : return 'E';
+		case 6 : return 'F';
+		case 7 : return 'G';
+		case 010 : return 'H';
+		case 011 : return 'I';
+		case 012 : return 'J';
+		case 013 : return 'K';
+		case 014 : return 'L';
+		case 015 : return 'M';
+		case 016 : return 'N';
+		case 017 : return 'O';
+		case 020 : return 'P';
+		case 021 : return 'Q';
+		case 022 : return 'R';
+		case 023 : return 'S';
+		case 024 : return 'T';
+		case 025 : return 'U';
+		case 026 : return 'V';
+		case 027 : return 'W';
+		case 030 : return 'X';
+		case 031 : return 'Y';
+		case 032 : return 'Z';
+		case 033 : return '$';
+		case 034 : return '.';
+		case 035 : return '%';
+		case 036 : return '0';
+		case 037 : return '1';
+		case 040 : return '2';
+		case 041 : return '3';
+		case 042 : return '4';
+		case 043 : return '5';
+		case 044 : return '6';
+		case 045 : return '7';
+		case 046 : return '8';
+		case 047 : return '9';
+		default : return ' ';
+		}
+	}
+
+/*SUBROUTINE*/
+char * unsquoze(char16_t input,char special) {
+	static char output[3];
+	if (input > SQUOZE_MAX) {
+		output[0] = '?';
+		output[1] = '?';
+		output[2] = '?';
+		return output;
+		}
+	} else {
+		div_t tmp;
+		uchar foo[3];
+		tmp = div(input,SQUOZE_3PLACE);
+		foo[0] = tmp.quot;
+		tmp = div(tmp.rem,SQUOZE_2PLACE);
+		foo[1] = tmp.quot;
+		foo[2] = tmp.rem;
+		output[0] = radixtoascii(foo[0],special);
+		output[1] = radixtoascii(foo[1],special);
+		output[2] = radixtoascii(foo[2],special);
 		}
 	}
