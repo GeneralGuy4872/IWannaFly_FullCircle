@@ -7,14 +7,14 @@ these programs test the sane-ity of my solutions
 
 ATan2Test
 =========
-cc atan2test.c -lm
+<CODE>cc atan2test.c -lm</CODE>
 
 calculates an alignment given a coordinate
 
 MainLoopTest
 ============
 
-cc mainlooptest.c -lraylib
+<CODE>cc mainlooptest.c -lraylib</CODE>
 
 The skeleton of the program
 
@@ -30,3 +30,5 @@ Home - Reset the Field of View
 Scrollwheel - Move the Camera closer/further in Third Person
 
 Mouse Movement - Look around (First Person) / Orbit Camera (Third Person)
+
+F2 - Get back the Cursor
