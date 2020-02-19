@@ -674,6 +674,11 @@ typedef int (*funcptr_4arg)(intptr_t,intptr_t,intptr_t,intptr_t);
 typedef int (*funcptr_multi)(uint,intptr_t*);
 typedef int (*eventcleanup)(eventdatastack_ele,bool);
 
+struct trampolinestackele {
+struct trampolinestackele * prev;
+funcptr exec;
+}
+
 struct passiveffectlistele {
 struct passiveffectlistele * prev;
 struct passiveffectlistele * next;
