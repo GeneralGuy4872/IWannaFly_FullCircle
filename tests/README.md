@@ -5,6 +5,28 @@ prooved to be a mistake, and the test programs will now be placed here.
 
 these programs test the sane-ity of my solutions
 
+ATan2Test
+=========
 cc atan2test.c -lm
 
-cc mainlooptest -lraylib
+calculates an alignment given a coordinate
+
+MainLoopTest
+============
+
+cc mainlooptest.c -lraylib
+
+The skeleton of the program
+
+controls:
+
+F1 - First Person Mode
+
+F3 - Third Person Mode
+
+Page Up, Page Down - Change the Field of View
+Home - Reset the Field of View
+
+Scrollwheel - Move the Camera closer/further in Third Person
+
+Mouse Movement - Look around (First Person) / Orbit Camera (Third Person)
