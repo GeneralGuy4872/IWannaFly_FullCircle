@@ -4,3 +4,7 @@ went. as the game and library have gotten mopre complex, however, this has
 prooved to be a mistake, and the test programs will now be placed here.
 
 these programs test the sane-ity of my solutions
+
+cc atan2test.c -lm
+
+cc mainlooptest -lraylib
