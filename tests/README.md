@@ -25,6 +25,7 @@ F1 - First Person Mode
 F3 - Third Person Mode
 
 Page Up, Page Down - Change the Field of View
+
 Home - Reset the Field of View
 
 Scrollwheel - Move the Camera closer/further in Third Person
@@ -32,3 +33,5 @@ Scrollwheel - Move the Camera closer/further in Third Person
 Mouse Movement - Look around (First Person) / Orbit Camera (Third Person)
 
 F2 - Get back the Cursor
+
+^C in the parent terminal to close

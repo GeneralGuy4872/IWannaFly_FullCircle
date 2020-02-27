@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 #include "raylib.h"
 #include "raymath.h"
 
@@ -14,20 +15,40 @@ typedef void (*funcptr)();
 struct trampolinestack {
 struct trampolinestack * prev;
 funcptr exec;
+intptr_t (*r)[8];
+void * x;
+void * y;
 };
 
 struct trampolinestack * TOPTRAMPOLINE;
+intptr_t ACC[8];
+#define R0 TOPTRAMPOLINE->r[0];
+#define R1 TOPTRAMPOLINE->r[1];
+#define R2 TOPTRAMPOLINE->r[2];
+#define R3 TOPTRAMPOLINE->r[3];
+#define R4 TOPTRAMPOLINE->r[4];
+#define R5 TOPTRAMPOLINE->r[5];
+#define R6 TOPTRAMPOLINE->r[6];
+#define R7 TOPTRAMPOLINE->r[7];
+#define IX TOPTRAMPOLINE->x;
+#define IY TOPTRAMPOLINE->y;
 
 void PUSHTRAMPOLINE (funcptr this) {
 	struct trampolinestack * new = malloc(sizeof(struct trampolinestack));
 	new->exec = this;
 	new->prev = TOPTRAMPOLINE;
+	new->r = calloc(8,sizeof(int));
+	new->x = TOPTRAMPOLINE->x;
+	new->y = TOPTRAMPOLINE->y;
 	TOPTRAMPOLINE = new;
 	}
 
 void POPTRAMPOLINE () {
 	struct trampolinestack * deadbeef = TOPTRAMPOLINE;
 	TOPTRAMPOLINE = TOPTRAMPOLINE->prev;
+	free(deadbeef->r);
+	if (deadbeef->x != TOPTRAMPOLINE->x) {free(deadbeef->x);};
+	if (deadbeef->y != TOPTRAMPOLINE->y) {free(deadbeef->y);};
 	free(deadbeef);
 	}
 
@@ -125,7 +146,6 @@ main () {
 	CAMERAMODE = CAMERA_FIRST_PERSON;
 	SetTargetFPS(60);
 	while(!ECODE) {
-		TOPTRAMPOLINE->exec();	// aren't lisp trampolines fun? boingboing!
 		if ((IsKeyDown(KEY_F1)) && (CAMERAMODE != CAMERA_FIRST_PERSON)) {
 			CAMERA.fovy = EYEFOV;
 			CAMERA.position = (Vector3){0.0,0.0,0.0};
@@ -151,7 +171,11 @@ main () {
 				default : break;
 				}
 			};
-		render();
+		render();	/* will be replaced by seperate iterators,
+				 * which will be stored so that only one from each list
+				 * needs to be rendered each loop
+				 */
+		TOPTRAMPOLINE->exec();	// aren't lisp trampolines fun? boingboing!
 		}
 	exit(ECODE);
 	}
