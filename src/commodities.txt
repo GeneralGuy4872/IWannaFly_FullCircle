@@ -152,6 +152,7 @@ motor	//metadata: size
 aluminum torus
 voltaic pile / daniell cell / gravity cell / lead-acid cell
 leyden jar / electrolytic rectifyer / electrolytic capacitor / paper capacitor
+relay
 
 papyrus seed
 paper / parchment / waxed paper / carbon paper

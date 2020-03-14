@@ -1,0 +1,49 @@
+get an off_t pointer: lseek(filed, 0, SEEK_CUR)
+set an off_t pointer: lseek(filed, n, SEEK_SET)
+rewind: lseek(filed, 0, SEEK_SET)
+
+since data is not garbage collected, files must be overwritten each append
+
+/*****/
+
+	/*...GLOBALS*/
+
+filed HOMEDOTDIR;
+filed TMPDIR;
+char * GOBACK;
+/*NOTconst*/ char TMPDIRNAME = "/tmp/IWF_SESSION_XXXXXX";
+
+	/*GLOBALS...init*/
+
+HOMEDOTDIR = diropen("~/IWannaFly");
+GOBACK = getenv("PWD");
+TMPDIRNAME = mkdtemp(TMPDIRNAME);
+chdir(TMPDIRNAME);
+TMPDIR = diropen(".");
+
+	/*init...onexit*/
+
+close(TMPDIR);
+close(HOMEDOTDIR);
+
+	/*...onexit*/
+
+struct savfiletyp openSAVfile(char * filename) {
+	chdir(TMPDIRNAME);
+	filed source = openat(HOMEDOTDIR,filename,O_RDONLY);
+	archive * input = archive_read_new();
+	archive_read_support_filter_bzip2(input);
+	archive_read_support_format_cpio(input);
+	archive_read_open_fd(input,source,512);
+	for (struct archive_entry * tmp;ARCHIVE_OK == archive_read_next_header2(archive,tmp);archive_read_extract(archive,tmp,0));
+	archive_read_close(input);
+	close(source);
+	}
+
+seperate files for each party and each room
+parties are named for the uuid of the party leader
+rooms are named for the room ID
+
+entire file is a .tar.bz2
+
+individual files are .dat

@@ -1,8 +1,9 @@
 /* todo:
- * rework roomstack neighbors:
- * 	render all king's norm adjacent rooms
- *	instead of taxicab norm adjacent
- *	(if two different rooms are not occupying the same space)
+ * compleate overhaul of rendering method:
+ *	chunkwise rendering
+ *	chunks are grouped into rooms
+ *	rooms share thing data between chunks
+ *	chunks are saved as data segments in room nodes
  * redo language tables
  */
 
@@ -29,34 +30,34 @@
 #define ptrchar uint8_t
 #define ptrshort uint16_t
 
-struct stringlistyp {
-(self) *prev
-(self) *next
-char* text
-}
+struct stringlistyp <%
+(self) * prev;
+(self) * next;
+char * text;
+%>
 /* used to store a list of strings
  * may be from a data object, or
  * stored in a tsv
  */
 
-struct singlestringlistyp {
-(self) * next
-char * text
-}
+struct singlestringlistyp <%
+(self) * next;
+char * text;
+%>
 
-struct filelinetyp {
-(self) *prev
-(self) *next
-ushort lineno
-char* text
-}
+struct filelinetyp <%
+(self) * prev;
+(self) * next;
+uint16_t lineno;
+char * text;
+%>
 // used by the line editor
 
-struct singlestringlistyp {
-(self) * next
-ushort lineno
-char * text
-}
+struct singlestringlistyp <%
+(self) * next;
+uint16_t lineno;
+char * text;
+%>
 
 struct chaptertyp {
 unsigned c : 7;	//chapter number
@@ -94,24 +95,24 @@ typedef char scoord4[4];
 typedef char scoord3[3];
 typedef char scoord2[2];
 
-struct setcoord3 {
+struct setcoord3 <%
 struct setcoord3 * prev;
 struct setcoord3 * next;
 uchar x;
 uchar y;
 uchar z;
-}
+%>
 
 typedef char *strarry[]
 typedef void *ptrarry[]
 
-struct lightyp {
+struct lightyp <%
 struct lightyp * prev;
 struct lightyp * next;
 ucoord2 x;
 ucoord2 y;
 ucoord2 z;
-}
+%>
 
 struct agetyp {
 	unsigned chrono : 16;
@@ -367,7 +368,7 @@ bagitemptr * bag;
 walletyp wallet;
 turntyp date;
 uint64_t turn;
-ushort roomturn;
+uint16_t roomturn;
 }
 
 /* note: everything related to players and entitys is
@@ -403,7 +404,6 @@ struct playertyp:
 playertyp * prev
 playertyp * next
 char * name
-ushort storyseed	//the story entrypoint for this player
 uuid_t root	//the uuid for this player's story; should they die, everything with this uuid as a parent is garbage collected
 classtyp class[3]
 uchar element
@@ -415,8 +415,8 @@ struct movecount move
 paffectyp paffect	//permenant
 effectyp effect	//from equipment
 trackalignplayertyp align
-ushort hp	//they're fun and easy to...wait
-ushort mp
+uint16_t hp
+uint16_t mp
 uint32_t xp
 uchar lvl
 Vector2 hunger
@@ -501,8 +501,8 @@ selftyp etc
 struct movecount move
 paffectyp paffect
 effectyp effect
-ushort hp
-ushort mp
+uint16_t hp
+uint16_t mp
 uint32_t xp
 uchar lvl
 float wallet
@@ -872,8 +872,8 @@ elixtyp ails_ya
 cursetyp curse
 resistyp resist
 sensetyp sense
-short hp
-short mp
+uint16_t hp
+uint16_t mp
 diceodds odds
 
 struct skilltyp {
@@ -930,18 +930,56 @@ unsigned color : 3
 paffectyp enchnt
 
 struct roomneighbors {
-ucoord4 * north
-ucoord4 * south
-ucoord4 * east
-ucoord4 * west
-ucoord4 * up
-ucoord4 * down
-microvector * north_offset
-microvector * south_offset
-microvector * east_offset
-microvector * west_offset
-microvector * up_offset
-microvector * down_offset
+ucoord4 north
+ucoord4 south
+ucoord4 east
+ucoord4 west
+ucoord4 up
+ucoord4 down
+uint16_t northsub
+uint16_t southsub
+uint16_t eastsub
+uint16_t westsub
+uint16_t upsub
+uint16_t downsub
+}
+
+struct chunktyp {
+char * tiledata[CHUNK][CHUNK][CHUNK]
+shadowmask * seen
+shadowmask * light
+shadowmask * collimap	//entity collision mask
+}
+
+#define roomsizeindex(T,Z,Y,X) (\
+(Z + Y + X) < (T->size.w + T->size.z + 1) ?\
+(\
+(Z * (T->size.w + T->size.y + 1)) +\
+(Y * (T->size.w + T->size.x + 1)) +\
+X) :\
+raise(SIGSEGV)\)
+
+struct roomtyp:
+ucoord4 globpos
+struct planetyp plane
+Vector3 latlon	//reported as the latitude, longitude, and elevation of the current room. NaN may be helpful.
+intptr_t area : 16 //the name of the area from a table of names
+intptr_t hightiles : 8	//dispatch table key
+struct chunktyp * chunks
+struct microvector size //field w is added to all fields, other fields bias +1
+encontyp * encon_ptr
+enttyp * ent_ptr
+eventtyp * ev_ptr
+mapobjtyp * obj_ptr
+ray_vfx_typ * ray_ptr
+lightyp * light_ptr
+setcoord3 * path_ptr
+ucoord2 downstair
+ucoord2 upstair
+ucoord3 home
+char filltile
+bool visited : 1
+unsigned meta : 7
 bool upstair : 1
 bool downstair : 1
 bool show_north : 1
@@ -950,36 +988,6 @@ bool show_east : 1
 bool show_west : 1
 bool show_up : 1
 bool show_down : 1
-}
-
-struct chunktyp {
-char* tiledata[CHUNK][CHUNK][CHUNK]
-shadowmask * seen
-shadowmask * light
-shadowmask * collimap	//entity collision mask
-}
-
-struct roomtyp:
-ucoord4 globpos
-struct planetyp plane
-Vector3 latlon	//reported as the latitude, longitude, and elevation of the current room. NaN may be helpful.
-intptr_t area : 16 //the name of the area from a table of names
-tileset *hightiles
-struct chunktyp * chunks
-struct microvector size //field w has no effect, other fields bias +1
-encontyp *encon_ptr
-enttyp *ent_ptr
-eventtyp *ev_ptr
-mapobjtyp *obj_ptr
-ray_vfx_typ *ray_ptr
-lightyp *light_ptr
-ucoord3 ** path_ptr
-ucoord2 downstair
-ucoord2 upstair
-ucoord3 home
-char filltile
-bool visited : 1
-unsigned meta : 7
 struct roomneighbors neighborhood
 /* if invalid coords are given for a warp (typically {$FF,$FF}),
  * then the player is dumped at the location indicated by home.
@@ -1139,8 +1147,8 @@ typedef struct masteritemlistentry *(*(*(*(const * masteritemlist)[16])[16])[16]
 struct toolsublistyp {
 struct toolsublistyp * prev;	//the previous tools block
 struct toolsublistyp * next;	//the next tools block
-ushort first;
-ushort last;
+uint16_t first;
+uint16_t last;
 unsigned n;
 funcptr * funcs;
 }
@@ -1232,15 +1240,15 @@ bool pres;	//whether to act as soon as the room is on the stack, or if the playe
 struct traptyp:
 Mesh * shape
 Texture2D * texture
-ushort duration
+uint16_t duration
 magictyp element
 stattyp stat
 cursetyp curse
 diceodds odds
 trapflags flags
 sensetyp sense
-short hp
-short mp
+int16_t hp
+int16_t mp
 
 struct trapflags:
 bool fireproof : 1
@@ -1261,7 +1269,7 @@ bool blink : 1
 unsigned color : 6
 ucoord3 pos
 ucoord3 dest
-short duration	//negative are uses, positive are turns
+int16_t duration	//negative are uses, positive are turns
 }
 
 struct warptyp:
@@ -1272,7 +1280,7 @@ ucoord4 glob_loc
 ucoord3 pos
 ucoord4 glob_dest
 ucoord3 dest
-short duration
+int16_t duration
 
 struct gemstonetyp:
 unsigned color : 5

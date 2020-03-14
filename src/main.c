@@ -1105,3 +1105,18 @@ notatruending() {	/* used when an early win condition is met.
 	puts(RESET);
 	quit(0);
 	}
+
+//TIRED CHECK THIS
+roomtyp__gettile(roomtyp * this,ucoord3 pos) {
+	div_t xx = div(pos[0],CHUNK);
+	div_t yy = div(pos[1],CHUNK);
+	div_t zz = div(pos[2],CHUNK);
+	return this->chunks[zz.quot][yy.quot][xx.quot].tiledata[zz.rem][yy.rem][xx.rem];
+	}
+
+roomtyp__gettilei(roomtyp * this,int x,int y,int z) {
+	div_t xx = div(x,CHUNK);
+	div_t yy = div(y,CHUNK);
+	div_t zz = div(z,CHUNK);
+	return this->chunks[zz.quot][yy.quot][xx.quot].tiledata[zz.rem][yy.rem][xx.rem];
+	}
