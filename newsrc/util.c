@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 /*---INTERGALS---*/
 
 signed __attribute__((const)) max(signed a,signed b) {
@@ -38,6 +40,36 @@ unsigned __attribute__((const)) squared(signed n) {
 
 unsigned __attribute__((const)) usquared(unsigned n) {
 	return n * n
+	}
+
+__attribute__((const)) cmp(signed a,signed b) {
+	if (a == b) {
+		return 0;
+		}
+	else if (a > b) {
+		return 1;
+		}
+	else if (a < b) {
+		return -1;
+		}
+	else {
+		return INT_MIN;
+		}
+	}
+
+__attribute__((const)) ucmp(unsigned a,unsigned b) {
+	if (a == b) {
+		return 0;
+		}
+	else if (a > b) {
+		return 1;
+		}
+	else if (a < b) {
+		return -1;
+		}
+	else {
+		return INT_MIN;
+		}
 	}
 
 __attribute__((const)) sgn(int n) {
@@ -97,6 +129,36 @@ unsigned long __attribute__((const)) usquaredl(unsigned long n) {
 	return n * n
 	}
 
+__attribute__((const)) cmpl(signed long a,signed long b) {
+	if (a == b) {
+		return 0;
+		}
+	else if (a > b) {
+		return 1;
+		}
+	else if (a < b) {
+		return -1;
+		}
+	else {
+		return INT_MIN;
+		}
+	}
+
+__attribute__((const)) ucmpl(unsigned long a,unsigned long b) {
+	if (a == b) {
+		return 0;
+		}
+	else if (a > b) {
+		return 1;
+		}
+	else if (a < b) {
+		return -1;
+		}
+	else {
+		return INT_MIN;
+		}
+	}
+
 __attribute__((const)) sgnl(long n) {
 	if (n == 0) {
 		return 0;
@@ -154,6 +216,36 @@ unsigned long long __attribute__((const)) usquaredll(unsigned long long n) {
 	return n * n
 	}
 
+__attribute__((const)) cmpll(signed long long a,signed long long b) {
+	if (a == b) {
+		return 0;
+		}
+	else if (a > b) {
+		return 1;
+		}
+	else if (a < b) {
+		return -1;
+		}
+	else {
+		return INT_MIN;
+		}
+	}
+
+__attribute__((const)) ucmpll(unsigned long long a,unsigned long long b) {
+	if (a == b) {
+		return 0;
+		}
+	else if (a > b) {
+		return 1;
+		}
+	else if (a < b) {
+		return -1;
+		}
+	else {
+		return INT_MIN;
+		}
+	}
+
 __attribute__((const)) sgnll(long long n) {
 	if (n == 0) {
 		return 0;
@@ -189,6 +281,21 @@ float __attribute__((const)) minf(float a,float b) {
 
 float __attribute__((const)) squaredf (float n) {
 	return n * n
+	}
+
+__attribute__((const)) cmpf(float a,float b) {
+	if (a == b) {
+		return 0;
+		}
+	else if (a > b) {
+		return 1;
+		}
+	else if (a < b) {
+		return -1;
+		}
+	else {
+		return INT_MIN;
+		}
 	}
 
 __attribute__((const)) sgnf(float n) {
@@ -228,6 +335,21 @@ double __attribute__((const)) squaredfd(double n) {
 	return n * n
 	}
 
+__attribute__((const)) cmpf(float a,float b) {
+	if (a == b) {
+		return 0;
+		}
+	else if (a > b) {
+		return 1;
+		}
+	else if (a < b) {
+		return -1;
+		}
+	else {
+		return INT_MIN;
+		}
+	}
+
 __attribute__((const)) sgnfd(double n) {
 	if (n == 0) {
 		return 0;
@@ -241,4 +363,23 @@ __attribute__((const)) sgnfd(double n) {
 	else {
 		return INT_MIN;
 		}
+	}
+
+double __attribute__((const)) norm2xy(double x,double y) {
+	return sqrt(fdsquared(x)+fdsquared(y));
+	}
+
+double __attribute__((const)) norm2xyz(double x,double y,double z) {
+	return sqrt(fdsquared(x)+fdsquared(y)+fdsquared(z));
+	}
+
+double __attribute__((const)) norm2xyzw(double x,double y,double z,double w) {
+	return sqrt(fdsquared(x)+fdsquared(y)+fdsquared(z)+fdsquared(z));
+	}
+
+/*---SWAP---*/
+void swap(intptr_t * x,intptr_t * y) {
+	intptr_t tmp = *x;
+	*x = *y;
+	*y = tmp;
 	}

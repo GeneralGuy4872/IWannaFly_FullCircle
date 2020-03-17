@@ -4,6 +4,7 @@
 #include <string.h>
 #include "raylib.h"
 #include "raymath.h"
+#include "rlightsbindings.h"
 
 #define SCREENH 800
 #define SCREENV 600
