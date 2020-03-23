@@ -1,25 +1,64 @@
-struct ev_data_bst {
-struct ev_data_bst * left;
-struct ev_data_bst * right;
+struct evdatatree {
+struct evdatatree * prev;
+struct evdatatree * left;
+struct evdatatree * right;
 uuid_t key;
 void * data;
 }
 
-struct ev_data_bst * ev_data_bst__leftmost(struct ev_data_bst * this) {
+struct evdatatree * evdatatree__leftmost(struct evdatatree * this) {
 	while (this->left != NULL) {
 		this = this->left;
 		}
 	return this;
 	}
 
-struct ev_data_bst * ev_data_bst__rightmost(struct ev_data_bst * this) {
+struct evdatatree * evdatatree__rightmost(struct evdatatree * this) {
 	while (this->right != NULL) {
 		this = this->right;
 		}
 	return this;
 	}
 
-void * ev_data_bst__fetch(struct ev_data_bst * root,uuid_t q) {
+evdatatree__splay(struct evdatatree ** slot,struct evdatatree * newroot) {
+	evdatatree__splayraw((*slot),newroot);
+	*slot = newroot;
+	return 0;
+	}	
+
+evdatatree__splayraw(struct evdatatree * oldroot,struct evdatatree * newroot) {
+	if (newroot->prev == NULL) {
+		return 1;
+		}
+
+	for (int n;oldroot->prev != NULL;n++) {
+		oldroot = oldroot->prev;
+		if (newroot->prev != oldroot) {
+			evdatatree__splayraw(oldroot,newroot->prev);
+			oldroot = newroot->prev;
+			}
+		if (n == -1) {
+			errno = ERANGE;
+			perror();
+			exit(9001);
+			}
+		}
+
+	if (oldroot->left == newroot) {
+		oldroot->left = newroot->right;
+		newroot->right = oldroot;
+	} else if (oldroot->right == newroot) {
+		oldroot->right = newroot->left;
+		newroot->left = oldroot;
+	} else {
+		return 1;
+		}
+	oldroot->prev = newroot;
+	newroot->prev = NULL;
+	}
+
+void * evdatatree__fetch(struct evdatatree ** slot,uuid_t q) {
+	struct evdatatree * root = *slot;
 	for (int cmp = uuid_compare(q,root->key);;) {
 		if (cmp < 0) {
 			if (root->left == NULL) {
@@ -34,32 +73,34 @@ void * ev_data_bst__fetch(struct ev_data_bst * root,uuid_t q) {
 				root = root->right;
 				}
 		} else {
-			return root->data;
+			void * output = root->data;
+			evdatatree__splay(slot,root);
+			return output;
 			}
 		}
 	}
 
-uuid_t ev_data_bst__insert(struct ev_data_bst * uroot,void * data) {
-	struct ev_data_bst * new = malloc(sizeof(struct ev_data_bst));
+evdatatree__insert(struct evdatatree ** slot,void * data) {
+	struct evdatatree * new = malloc(sizeof(struct evdatatree));
 	new->left = NULL;
 	new->right = NULL;
 	new->data = data;
 	/***/
 	oops:
-	struct ev_data_bst * root = uroot;
+	struct evdatatree * root = *slot;
 	uuid_generate(new->key);
 	for (int cmp = uuid_compare(new->key,root->key);;) {
 		if (cmp < 0) {
 			if (root->left == NULL) {
 				root->left = new;
-				return new->key;
+				return new;
 			} else {
 				root = root->left;
 				}
 		} else if (cmp > 0) {
 			if (root->right == NULL) {
 				root->right = new;
-				return new->key;
+				return new;
 			} else {
 				root = root->right;
 				}
@@ -69,8 +110,8 @@ uuid_t ev_data_bst__insert(struct ev_data_bst * uroot,void * data) {
 		}
 	}
 
-/*implicit*/ ev_data_bst__delete(struct ev_data_bst * this,uuid_t q) {
-	struct ev_data_bst * prev = NULL;
+/*implicit*/ evdatatree__delete(struct evdatatree * this,uuid_t q) {
+	struct evdatatree * prev = NULL;
 	int dir;
 	for (int cmp = uuid_compare(q,this->key);;) {
 		if (cmp < 0) {
@@ -96,11 +137,11 @@ uuid_t ev_data_bst__insert(struct ev_data_bst * uroot,void * data) {
 	last: switch (dir) {
 		case 1 :
 			prev->right = this->left;
-			ev_data_bst__rightmost(this->left)->right = this->right;
+			evdatatree__rightmost(this->left)->right = this->right;
 			break;
 		case -1 :
 			prev->left = this->right;
-			ev_data_bst__leftmost(this->right)->left = this->left;
+			evdatatree__leftmost(this->right)->left = this->left;
 			uuid_clear(this->key);
 			free(this->data);
 			free(this);
