@@ -1,5 +1,8 @@
 #include <stdint.h>
 
+#define tosignbit(X) (X < 0 ? 1 : 0)
+#define signbit(X) (X ? -1 : 1)
+
 /*---INTERGALS---*/
 
 signed __attribute__((const)) max(signed a,signed b) {
@@ -72,19 +75,14 @@ __attribute__((const)) ucmp(unsigned a,unsigned b) {
 		}
 	}
 
-__attribute__((const)) sgn(int n) {
-	if (n == 0) {
-		return 0;
+#define sgn(X) cmp(X,0)
+
+__attribute__((const)) ceildiv(int numer,int denom) {
+	div_t internal = div(numer,denom);
+	if (internal.rem) {
+		internal.quot++;
 		}
-	else if (n > 0) {
-		return 1;
-		}
-	else if (n < 0) {
-		return -1;
-		}
-	else {
-		return INT_MIN;
-		}
+	return internal.rem ? internal.quot + 1 : internal.quot;
 	}
 
 /*---LONG---*/
@@ -159,20 +157,7 @@ __attribute__((const)) ucmpl(unsigned long a,unsigned long b) {
 		}
 	}
 
-__attribute__((const)) sgnl(long n) {
-	if (n == 0) {
-		return 0;
-		}
-	else if (n > 0) {
-		return 1;
-		}
-	else if (n < 0) {
-		return -1;
-		}
-	else {
-		return INT_MIN;
-		}
-	}
+#define sgnl(X) cmpl(X,0)
 
 /*---LONG LONG---*/
 
@@ -246,20 +231,7 @@ __attribute__((const)) ucmpll(unsigned long long a,unsigned long long b) {
 		}
 	}
 
-__attribute__((const)) sgnll(long long n) {
-	if (n == 0) {
-		return 0;
-		}
-	else if (n > 0) {
-		return 1;
-		}
-	else if (n < 0) {
-		return -1;
-		}
-	else {
-		return INT_MIN;
-		}
-	}
+#define sgnll(X) cmpll(X,0)
 
 /*---FLOATS---*/
 
@@ -298,20 +270,7 @@ __attribute__((const)) cmpf(float a,float b) {
 		}
 	}
 
-__attribute__((const)) sgnf(float n) {
-	if (n == 0) {
-		return 0;
-		}
-	else if (n > 0) {
-		return 1;
-		}
-	else if (n < 0) {
-		return -1;
-		}
-	else {
-		return INT_MIN;
-		}
-	}
+#define sgnf(X) cmpf(X,0)
 
 /*---DOUBLES---*/
 
@@ -350,20 +309,7 @@ __attribute__((const)) cmpf(float a,float b) {
 		}
 	}
 
-__attribute__((const)) sgnfd(double n) {
-	if (n == 0) {
-		return 0;
-		}
-	else if (n > 0) {
-		return 1;
-		}
-	else if (n < 0) {
-		return -1;
-		}
-	else {
-		return INT_MIN;
-		}
-	}
+#define sgnfd(X) cmpfd(X,0)
 
 double __attribute__((const)) norm2xy(double x,double y) {
 	return sqrt(fdsquared(x)+fdsquared(y));
@@ -378,8 +324,153 @@ double __attribute__((const)) norm2xyzw(double x,double y,double z,double w) {
 	}
 
 /*---SWAP---*/
+
 void swap(intptr_t * x,intptr_t * y) {
 	intptr_t tmp = *x;
 	*x = *y;
 	*y = tmp;
+	}
+
+/*---STRUCTS---*/
+
+meminvert (void * acc,size_t size) {
+	unsigned char * q = acc;
+	for (int n = 0;n < size;n++) {
+		q[n] = ~(q[n]);
+		}
+	}
+
+memand (void * acc,void * lval,void * rval,size_t size) {
+	unsigned char * q = acc;
+	unsigned char * x = lval;
+	unsigned char * y = rval;
+	for (int n = 0;n < size;n++) {
+		q[n] = x[n] & y[n];
+		}
+	}
+
+memor (void * acc,void * lval,void * rval,size_t size) {
+	unsigned char * q = acc;
+	unsigned char * x = lval;
+	unsigned char * y = rval;
+	for (int n = 0;n < size;n++) {
+		q[n] = x[n] | y[n];
+		}
+	}
+
+memnand (void * acc,void * lval,void * rval,size_t size) {
+	unsigned char * q = acc;
+	unsigned char * x = lval;
+	unsigned char * y = rval;
+	for (int n = 0;n < size;n++) {
+		q[n] = ~(x[n] & y[n]);
+		}
+	}
+
+memnor (void * acc,void * lval,void * rval,size_t size) {
+	unsigned char * q = acc;
+	unsigned char * x = lval;
+	unsigned char * y = rval;
+	for (int n = 0;n < size;n++) {
+		q[n] = ~(x[n] | y[n]);
+		}
+	}
+
+memxor (void * acc,void * lval,void * rval,size_t size) {
+	unsigned char * q = acc;
+	unsigned char * x = lval;
+	unsigned char * y = rval;
+	for (int n = 0;n < size;n++) {
+		q[n] = x[n] ^ y[n];
+		}
+	}
+
+memxnor (void * acc,void * lval,void * rval,size_t size) {
+	unsigned char * q = acc;
+	unsigned char * x = lval;
+	unsigned char * y = rval;
+	for (int n = 0;n < size;n++) {
+		q[n] = ~(x[n] ^ y[n]);
+		}
+	}
+
+memandset (void * lval,void * rval,size_t size) {
+	unsigned char * x = lval;
+	unsigned char * y = rval;
+	for (int n = 0;n < size;n++) {
+		x[n] &= y[n];
+		}
+	}
+
+memorset (void * lval,void * rval,size_t size) {
+	unsigned char * x = lval;
+	unsigned char * y = rval;
+	for (int n = 0;n < size;n++) {
+		x[n] |= y[n];
+		}
+	}
+
+memnandset (void * lval,void * rval,size_t size) {
+	unsigned char * x = lval;
+	unsigned char * y = rval;
+	for (int n = 0;n < size;n++) {
+		x[n] = ~(x[n] & y[n]);
+		}
+	}
+
+memnorset (void * lval,void * rval,size_t size) {
+	unsigned char * x = lval;
+	unsigned char * y = rval;
+	for (int n = 0;n < size;n++) {
+		x[n] = ~(x[n] | y[n]);
+		}
+	}
+
+memxorset (void * lval,void * rval,size_t size) {
+	unsigned char * x = lval;
+	unsigned char * y = rval;
+	for (int n = 0;n < size;n++) {
+		x[n] ^= y[n];
+		}
+	}
+
+memxnorset (void * lval,void * rval,size_t size) {
+	unsigned char * x = lval;
+	unsigned char * y = rval;
+	for (int n = 0;n < size;n++) {
+		x[n] = ~(x[n] ^ y[n]);
+		}
+	}
+
+#define memeq(X,Y,Z) !memcmp(X,Y,Z)
+#define memlt(X,Y,Z) (memcmp(X,Y,Z) < 0)
+#define memle(X,Y,Z) (memcmp(X,Y,Z) <= 0)
+#define memgt(X,Y,Z) (memcmp(X,Y,Z) > 0)
+#define memge(X,Y,Z) (memcmp(X,Y,Z) >= 0)
+
+/*---RNG---*/
+
+int coin_flip () {
+	int n = rand();
+	if (n % 6000) {
+		return signbit(n % 2);
+	} else {
+		return 0;
+		}
+	}
+
+unsigned roll (unsigned number,unsigned sides,bool off) {
+	unsigned acc;
+	for (unsigned n;n < number;n++) {
+		acc += (rand() % sides) + off;
+		}
+	return acc;
+
+int roll_bonus (unsigned number) {
+	number = (2 * number) + 1;
+	int acc;
+	for (unsigned n;n < number;n++) {
+		acc += (rand() % 3) - 1;
+		}
+	return acc;
 	}

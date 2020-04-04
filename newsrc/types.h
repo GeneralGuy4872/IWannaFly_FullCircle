@@ -63,10 +63,13 @@ struct chunktyp <:
 	intptr_t tiles : 8;	//key to a table of alternate tilesets
 	uint8_t tiles[64][64][64];
 	struct encontyp * encon_ptr;
-	struct enttyp * ent_ptr;
-	struct eventtyp * ev_ptr;
-	struct mapobjtyp * obj_ptr;
-	struct ray_vfx_typ * ray_ptr;
-	struct light_vfx_typ * light_root
-
+	struct /*enttyp*/ kdtree * ent_ptr;
+	struct /*mapitemtyp*/ kdtree * mitem_ptr;
+	struct /*npctyp*/ kdtree * npc_ptr;
+	struct /*char **/ kdtree * npc_ptr;
+	struct /*ray_vfx_typ*/ kdtree * ray_ptr;
+	struct /*ray_vfx_typ*/ kdtree * light_ptr;
+	struct /*evtriggertyp*/ kdtree * ev_ptr;
+	:>
+	
 #endif

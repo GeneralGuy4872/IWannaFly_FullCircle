@@ -3,7 +3,7 @@ struct evdatatree * prev;
 struct evdatatree * left;
 struct evdatatree * right;
 uuid_t key;
-void * data;
+scalar * data;
 }
 
 struct evdatatree * evdatatree__leftmost(struct evdatatree * this) {
