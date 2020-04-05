@@ -1,9 +1,0 @@
-char *lines0[] = {
-	"MONS",
-	"MORS",
-	"ITERVM",
-	"RESVRGVM",
-	NULL}
-
-/*fix grammer later,
-there are more important issues atm*/

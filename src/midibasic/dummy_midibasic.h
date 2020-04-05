@@ -1,1 +1,0 @@
-#define MIDIBAS_VERSION "Prealpha"

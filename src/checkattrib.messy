@@ -1,2 +1,0 @@
-playertyp__movecheck(playertyp this,int x,int y, int z)
-	
