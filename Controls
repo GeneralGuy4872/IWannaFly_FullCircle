@@ -1,0 +1,43 @@
+Main Window *Raylib*
+--------------------
+- Triggers : strafe
+- A B X Y : item slots
+- left stick : Azimuth/Velocity
+- d pad : jump dodge
+- bumpers : roll dodge
+- right stick : Pitch/Post-pitch yaw
+- select : interact
+- start : pause and free cursor
+
+- F1 : First person view
+- F2 : Top-down view
+- F3 : Third person view
+- Move Mouse : Look around / Orbit around
+- Scrollwheel : Zoom in and out / Orbit closer and farther
+- Left click / Right click : Ranged item slot
+- Enter : enter-act
+- Escape : pause and free cursor
+- spacebar : jump / double jump to fly
+- Home : Center Camera
+- End : Hard Reset Camera
+
+Interaction Window *nCurses*
+----------------------------
+used to provide GUI elements. toplevel commands will change frequently
+during development, but will be enumerated when the window is not being
+used by another element.
+
+NOTE: the tty this is connected to should be open before starting the game,
+otherwise the information nCurses gets may be errornous. XTerm with 256
+colors and Unicode support is recommended.
+
+Pop-up Window *Xlib*
+--------------------
+used to implement a vector graphics system. this *could* be done with
+hardware acceleration, but it should not be necissary.
+space or click to close
+
+Console *<stdio.h>* *<iostream>*
+--------------------------------
+The C and C++ standard consoles are multiplexed onto the calling console.
+this console is used to get strings, and to call extended commands.

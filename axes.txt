@@ -1,0 +1,15 @@
+ axis2  -  axis5
+button4   button5
+
+button9   buttonX
+   a         3
+   x   ← →   Y
+ axis0 678 2X B1
+   s   (X)   A
+   1         0
+-              +
+   a         a
+   x         x
+ axis6     axis3
+   s         s
+   7    +    4

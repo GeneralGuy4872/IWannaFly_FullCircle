@@ -1,0 +1,13 @@
+Irrlicht
+OpenGL-mesa
+glX?
+NCurses
+NCursesw
+XLib
+libmd
+jsdev
+
+Currently in the midst of a flag day;
+libraries being phased out:
+Raylib
+RLights

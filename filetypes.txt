@@ -1,0 +1,28 @@
+.c	regular C
+.cc	C++
+.cpp	C++, depracated ambiguous notation
+
+.cnode	modular C snippet to be #include-ed
+.ccnode	modular C++ snippet to be #include-ed
+.clist	modular C snippet to be #include-ed consisting of a large array
+	(provides seperation of large translation units, to make wading
+	through code simpler. will also facilitate rapid prototyping on
+	scales smaller than can be justifyed by dynamic linking for the
+	course of the alpha build)
+
+.h	C or C++ header
+.hh	C++ only header
+.H	header needed for both compiling and linking
+
+.txt	text
+.nfo	text containing ansi strings
+	(many text editors do not like SGR codes.)
+
+.dumproutines.*
+	the routines used to save an object
+.dat	a binary dump of an object.
+	dumps are constructed using an internal system based off file
+	offset, uuids, and a priority queue. this enables data that relys
+	on pointers to be relocatable without the use of a java-style VM.
+
+.tar	a tar archive

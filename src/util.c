@@ -1,7 +1,5 @@
 #include <stdint.h>
-
-#define tosignbit(X) (X < 0 ? 1 : 0)
-#define signbit(X) (X ? -1 : 1)
+#include "util.H"
 
 /*---INTERGALS---*/
 
@@ -323,154 +321,13 @@ double __attribute__((const)) norm2xyzw(double x,double y,double z,double w) {
 	return sqrt(fdsquared(x)+fdsquared(y)+fdsquared(z)+fdsquared(z));
 	}
 
-/*---SWAP---*/
+/*---STDIN---*/
 
-void swap(intptr_t * x,intptr_t * y) {
-	intptr_t tmp = *x;
-	*x = *y;
-	*y = tmp;
-	}
-
-/*---STRUCTS---*/
-
-meminvert (void * acc,size_t size) {
-	unsigned char * q = acc;
-	for (int n = 0;n < size;n++) {
-		q[n] = ~(q[n]);
-		}
-	}
-
-memand (void * acc,void * lval,void * rval,size_t size) {
-	unsigned char * q = acc;
-	unsigned char * x = lval;
-	unsigned char * y = rval;
-	for (int n = 0;n < size;n++) {
-		q[n] = x[n] & y[n];
-		}
-	}
-
-memor (void * acc,void * lval,void * rval,size_t size) {
-	unsigned char * q = acc;
-	unsigned char * x = lval;
-	unsigned char * y = rval;
-	for (int n = 0;n < size;n++) {
-		q[n] = x[n] | y[n];
-		}
-	}
-
-memnand (void * acc,void * lval,void * rval,size_t size) {
-	unsigned char * q = acc;
-	unsigned char * x = lval;
-	unsigned char * y = rval;
-	for (int n = 0;n < size;n++) {
-		q[n] = ~(x[n] & y[n]);
-		}
-	}
-
-memnor (void * acc,void * lval,void * rval,size_t size) {
-	unsigned char * q = acc;
-	unsigned char * x = lval;
-	unsigned char * y = rval;
-	for (int n = 0;n < size;n++) {
-		q[n] = ~(x[n] | y[n]);
-		}
-	}
-
-memxor (void * acc,void * lval,void * rval,size_t size) {
-	unsigned char * q = acc;
-	unsigned char * x = lval;
-	unsigned char * y = rval;
-	for (int n = 0;n < size;n++) {
-		q[n] = x[n] ^ y[n];
-		}
-	}
-
-memxnor (void * acc,void * lval,void * rval,size_t size) {
-	unsigned char * q = acc;
-	unsigned char * x = lval;
-	unsigned char * y = rval;
-	for (int n = 0;n < size;n++) {
-		q[n] = ~(x[n] ^ y[n]);
-		}
-	}
-
-memandset (void * lval,void * rval,size_t size) {
-	unsigned char * x = lval;
-	unsigned char * y = rval;
-	for (int n = 0;n < size;n++) {
-		x[n] &= y[n];
-		}
-	}
-
-memorset (void * lval,void * rval,size_t size) {
-	unsigned char * x = lval;
-	unsigned char * y = rval;
-	for (int n = 0;n < size;n++) {
-		x[n] |= y[n];
-		}
-	}
-
-memnandset (void * lval,void * rval,size_t size) {
-	unsigned char * x = lval;
-	unsigned char * y = rval;
-	for (int n = 0;n < size;n++) {
-		x[n] = ~(x[n] & y[n]);
-		}
-	}
-
-memnorset (void * lval,void * rval,size_t size) {
-	unsigned char * x = lval;
-	unsigned char * y = rval;
-	for (int n = 0;n < size;n++) {
-		x[n] = ~(x[n] | y[n]);
-		}
-	}
-
-memxorset (void * lval,void * rval,size_t size) {
-	unsigned char * x = lval;
-	unsigned char * y = rval;
-	for (int n = 0;n < size;n++) {
-		x[n] ^= y[n];
-		}
-	}
-
-memxnorset (void * lval,void * rval,size_t size) {
-	unsigned char * x = lval;
-	unsigned char * y = rval;
-	for (int n = 0;n < size;n++) {
-		x[n] = ~(x[n] ^ y[n]);
-		}
-	}
-
-#define memeq(X,Y,Z) !memcmp(X,Y,Z)
-#define memlt(X,Y,Z) (memcmp(X,Y,Z) < 0)
-#define memle(X,Y,Z) (memcmp(X,Y,Z) <= 0)
-#define memgt(X,Y,Z) (memcmp(X,Y,Z) > 0)
-#define memge(X,Y,Z) (memcmp(X,Y,Z) >= 0)
-
-/*---RNG---*/
-
-int coin_flip () {
-	int n = rand();
-	if (n % 6000) {
-		return signbit(n % 2);
-	} else {
+insync () {
+	while (!getc(stdin));
+	if (feof(stdin)) {
 		return 0;
+	} else {
+		return ferror(stdin);
 		}
-	}
-
-unsigned roll (unsigned number,unsigned sides,bool off) {
-	unsigned acc;
-	for (unsigned n;n < number;n++) {
-		acc += (rand() % sides) + off;
-		}
-	return acc;
-
-int roll_bonus (unsigned number) {
-	number = (2 * number) + 1;
-	int acc;
-	for (unsigned n;n < number;n++) {
-		acc += (rand() % 3) - 1;
-		}
-	return acc;
 	}
