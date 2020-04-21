@@ -1,12 +1,9 @@
 #exclude files generated when compiling
 **/*.o
 **/*.so
-**/*.xso
 **/*.out
-**/*.bin
 #exclude files generated while testing
-**/*.sav
-**/*.log
+**/*.tar
 #exclude temporary files
 **/*.tmp
 **/*.swp

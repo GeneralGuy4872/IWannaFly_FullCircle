@@ -1,0 +1,20 @@
+after the first quarter of the game, partys can be merged. doing so
+requires that both games be in the same global chapter, that the game is
+saved in a "Designated Area", that 2 individuals are not duplicated, and
+that the subspell "Wormhole - Summon Party" is known by a member of the
+party to be merged into.
+
+***
+
+spells are called as thunks based on a dispatch table taking argc/argv.
+
+***
+
+save files are tar bz2 files. the file is extracted to tmpfs during
+gameplay
+
+***
+
+chunk buffer is 64 chunks in a fifo. the nearest chunks are always kept
+in the front 27 slots; others are allowed to fall further and further
+back until falling off the end, being synced to tmpfs, then unloaded.

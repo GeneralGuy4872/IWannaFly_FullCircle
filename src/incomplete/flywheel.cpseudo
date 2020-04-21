@@ -1,0 +1,73 @@
+typedef int (*subroutine)(div_t aux,void * input,size_t argc,void * argv);
+typedef void (*destructor)(void*);
+
+NEWSTRUCT flywheelnode {
+	STRUCT flywheelnode * down;
+	STRUCT flywheelnode * next;
+	char * module;
+	char * symbol;
+	char * cleanupsym;
+	subroutine exec;
+	destructor cleanup;
+	unsigned times;
+	div_t aux;
+	void * input;
+	size_t argc;
+	void * argv;
+	}//! a frame of a stack machine that uses a circular singly linked list instead of a stack
+	/**
+	 * the input field is a custom struct that holds the frame's local
+	 * variables. argc and argv are used for pointers to shared objects.
+	 *
+	 * dotimes is decremented each time the function is executed. when it reaches 0,
+	 * the frame is deconstructed. the function and cleanup are both loaded by symbol
+	 * to enable state saving.
+	 *
+	 * aux are the auxilury input fields. quot is the first field and rem is the second.
+	 */
+
+NEWSTRUCT flywheelindex {
+	STRUCT flywheelnode * ptr;
+	STRUCT flywheelnode * prev;
+	}
+
+flywheelpush (STRUCT flywheelindex * me,char * module,char * symbol,int hits,int argc,STRUCT scalar * argv) {
+	STRUCT flywheelnode * nova = calloc(1,sizeof(STRUCT flywheel));
+	nova->next = me->ptr->down;
+	me->ptr->down = nova;
+	return 0;
+	}
+
+flywheelshunt (STRUCT flywheelindex * me) {
+	if (me->ptr->times && ~(me->ptr->times)) {
+		me->ptr->times -= 1;
+		} 
+	if (me->ptr->exec == NULL) {
+		me->ptr->exec = PLUGIN_GETSUB(me->ptr->module,me->ptr->symbol);
+		me->ptr->dumper = PLUGIN_GETSUB(me->ptr->module,me->ptr->dumpsym);
+		if (me->ptr->cleanupsym != NULL) {
+			me->ptr->cleanup = PLUGIN_GETSUB(me->ptr->module,me->ptr->cleanupsym);
+		} else {
+			me->ptr->cleanup = free;
+			}
+		}
+	(*exec)(argc,argv);
+	if (me->ptr->times) {
+		me->prev = me->ptr;
+		me->ptr = me->prev->next;
+	} else {
+		STRUCT flywheelindex * deadbeef = me;
+		me->prev->next = me->ptr->next;
+		me->ptr = me->ptr->next;
+		(*(deadbeef->cleanup))(deadbeef->input);
+		if (deadbeef->argc && (deadbeef->argv != NULL)) {
+			free(deadbeef->argv);
+		} if (deadbeef->module != NULL) {
+			free(deadbeef->module);
+		} if (deadbeef->symbol) {
+			free(deadbeef->symbol);
+		} if (deadbeef->cleanupsym != NULL) {
+			free(deadbeef->cleanupsym);
+		} if (deadbeef->dumpsym != NULL) {
+			free(deadbeef->dumpsym);
+		} free(deadbeef);}}}}

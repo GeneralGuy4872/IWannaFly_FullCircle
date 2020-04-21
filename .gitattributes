@@ -7,74 +7,9 @@ core.autocrlf=false
 
 *.c = linguist-language=C
 *.h = linguist-language=C
-*.ch = linguist-language=C
 *.cc = linguist-language=C++
 *.hh = linguist-language=C++
-*.cchh = linguist-language=C++
-*.C = linguist-language=C++
-*.H = linguist-language=C++
-*.CH = linguist-language=C++
-*.m = linguist-language=Objective-C
-*.mm = linguist-language=Objective-C++
-*.xs = linguist-language=XS
-# *.m4 = linguist-language=M4
-# *.gpp = linguist-language=GPP
-# *.pas = linguist-language=Pascal
-# *.p = linguist-language=Pascal
-# *.pp = linguist-language=Pascal
-# *.a68 = linguist-language=Algol
-# *.icn = linguist-language=icon
-# *.u = linguist-language=unicon
-# *.awk = linguist-language=Awk
-*.pl = linguist-language=Perl
-*.pm = linguist-language=Perl
-*.PL = linguist-language=Perl
-*.pod = linguist-language=Pod
-# *.cl = linguist-language=Lisp
-# *.clp = linguist-language=Lisp
-*.scm = linguist-language=Scheme
-# *.sno = linguist-language=SNOBOL4
-# *.bas = linguist-language=BASIC
-# *.apl = linguist-language=APL
-# *.fth = linguist-language=forth 
-# *.asm = linguist-language=assembly
-# *.lua = linguist-language=lua
-# *.py = linguist-language=python
-# *.js = linguist-language=javascript
-# *.sh = linguist-language=Shell
-# *.lex = linguist-language=Lex
-# *.y = linguist-language=Yacc
-*.yp = linguist-language=Yacc
-make = linguist-language=makefile
-makefile = linguist-language=makefile
-Makefile = linguist-language=makefile
-# *.mk = linguist-language=makefile
-# *.cmake = linguist-language=CMake
-# CMakeLists.txt = linguist-language=CMake
-# *.ini = linguist-language=INI
-# *.tab = linguist-language=tsv
-# *.tsv = linguist-language=tsv
-# *.csv = linguist-language=csv
-# *.json = linguist-language=json
-# *.xml = linguist-language=xml
-# *.yaml = linguist-language=yaml
-*.pseudo = linguist-language=C
-*.messy = linguist-language=C
-# *.man.* = linguist-language=roff
-# *.html = linguist-language=HTML
-# *.css = linguist-language=CSS
-# *.sgml = linguist-language=SGML
-# *.sgml.* = linguist-language=SGML
-*.txt = linguist-language=text
-*.hex = binary diff
-*.bin = binary diff
-*.raw = binary diff
-*.r8 = binary diff
-*.r16 = binary diff
-*.dat = binary diff
-*.tar = binary diff
-*.tar.* = binary diff
-*.midi = binary diff
-*.nfo = binary linguist-language=text diff
-*.dump = linguist-language=unknown
-*.midibas = linguist-language=unknown
+*.H = linguist-language=C
+*.cnode = linguist-language=C
+*.ccnode = linguist-language=C++
+*.nfo = binary diff

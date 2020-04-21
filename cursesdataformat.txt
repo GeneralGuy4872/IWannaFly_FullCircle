@@ -1,0 +1,11 @@
+serialization format:
+
+size of field...	value field contains
+====================================
+header:
+sizeof(ptrdiff_t)...	number of blocks in file
+
+block:
+sizeof(ptrdiff_t)...	number of chars in the block
+sizeof(int)...	attribute mask
+char[]...	data of string

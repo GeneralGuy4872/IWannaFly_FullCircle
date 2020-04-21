@@ -3,7 +3,11 @@
  * through #L1101
  */
 
-#define coin_flip (rand() % 2)
+#ifdef __cplusplus
+#error this is not a C++ file
+#endif
+
+#include "random.h"
 
 int coin_flip_nickel () {
 	int n = rand();
@@ -30,3 +34,5 @@ signed short roll_bonus (unsigned number) {
 		}
 	return acc;
 	}
+
+char randchar() {return (rand() % 95) + ' '}

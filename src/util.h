@@ -1,8 +1,16 @@
-#ifndef __GG4872_UTIL_H_HEADER__
-#define __GG4872_UTIL_H_HEADER__
+#ifndef __GG4872_UTIL_H__
+#define __GG4872_UTIL_H__
 
-#include <stdint.h>
-#include "util.H"
+#ifndef __cplusplus
+#include <stdlib.h>
+#include <stdio.h>
+#else
+#include <cstdio>
+#endif
+#include "util.def"
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 extern signed max(signed a,signed b);
 extern signed min(signed a,signed b);
@@ -46,5 +54,10 @@ extern double norm2xy(double x,double y);
 extern double norm2xyz(double x,double y,double z);
 extern double norm2xyzw(double x,double y,double z,double w);
 
-extern void insync ();
+extern int eatline ();
+extern int eatall ();
+
+#ifdef __cplusplus
+}
+#endif
 #endif

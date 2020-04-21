@@ -1,0 +1,92 @@
+gnome - I call it a computational engine. it uses thousands of small
+	mechanical parts to store and manipulate data! and as a recent
+	improvement, it is powered by... <B><I>Electricity!</>
+
+	...or it will be. A freind of mine, accross the streight, has
+	developed a timing mechinism that never needs to be wound. the
+	device is based on a simple quartz spell crystal! however, piracy
+	accross the streight has increased in recent weeks, and the mail
+	has been suspended... I know that you suredly must be busy, but
+	could you perhaps fetch it for me?
+
+***
+
+sourcerer thug - oh, fiesty young street rat, eh? what are you going to do?
+	humans can't cast, so unless--
+mentor - *snrkt*
+thug - ...what are you laughing at, hag?
+mentor - <I>oh, nothing. carry on.</>
+
+***
+
+	*cold open*
+
+(redshirt) - GO TO HELL YOU MONSTERS!!
+���[evil] - <fg=red><B>Oh, I've been to hell. <I>I even <U>brought
+	some of it back with me</>
+
+	*chapter 2 titlecard*
+
+***
+
+elven magic professor - never draw magic until the moment you need it.
+	holding it too long will burn you from the inside out; the æthereal
+	nature of the energy is believed to destabilize matter native to
+	the mundane plane. so draw while you cast; not before.
+
+***
+
+siren magic instructor - it is easy for us to draw and hold magic; take
+	advantage of this. always draw enough magic to cast a spell before
+	you do so; if you do, your spells will be amplifyed if part of them
+	is blocked. it is said that the strongest of us could draw magic
+	and hold it indefinately...uhh, but don't try this.
+
+	you might explode.
+
+***
+
+���[0] - Stop. that's not necissarry. you are no longer drawing energy from
+	a well, or diverting it from a river. you are the precipace of a
+	waterfall, and if you cannot learn to stem the flow soon, you will
+	be eroded away by the current.
+
+	once I am sure you arn't a bigger threat than ���[evil], if only
+	from your inexperiance, you may leave.
+
+***
+
+���[0] - You're not the first to seek these monsters.
+
+	you know wat they say about the one who fights them...
+
+***
+
+���[0] - REMEMBER...
+
+*note: all required characters start getting this event halfway through
+chapter 2*
+
+***
+
+	*note: once per game, initiated when a required character enters
+	the room and triggers the oracle's event. the special version
+	of the event is missable, and can only be triggered duing the
+	first chapter*
+
+oracle - <fg=cyan><B><I>The endless cycle begun again,
+	with it each born anew...accross dimensions,
+	echos converge...time repeats...
+	will this time be like all the rest? no...
+	no, something different...</>
+
+	hmm? when did you walk in?
+	*normal dialog start*
+
+***
+
+extra 1 - "<B>Magic</B>" is such a vague, unscientific term...
+extra 2 - well, "<I>hyper-cosmic extradimensional currents induced by
+	exposing potential differentials in persistant background fields of
+	exotic quantum partical reservoirs</I>" is a bit verbose.
+extra 1 - <I><U>but it's percise!</>

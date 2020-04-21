@@ -1,0 +1,7 @@
+#ifndef __IWF_FDSHIM_DEF__
+#define __IWF_FDSHIM_DEF__
+
+#define write_2arg(X,Y,Z,W) write(W,X,Y * Z)
+#define read_2arg(X,Y,Z,W) read(W,X,Y * Z)
+
+#endif

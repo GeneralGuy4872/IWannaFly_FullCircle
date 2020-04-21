@@ -1,0 +1,13 @@
+at the beginning of the second half of the game, the majority of the possible roles
+will be at the point where they will need to reach the plane of Entropy before continuing
+on to the outer planes. doing so triggers a cutscene.
+
+??? - "Your journey is just beginning, traveler. but where you have sought to
+	enter is a dangerous place. I will guide you to a safe waystation, but you must
+	find your own way to your destination - and back. you will need to find a ship;
+	a most ancient ship once sailed by a would-be hero on an ill-fated voyage. it
+	has remained here for such time that the essance and matter that once comprised
+	it have seeped back to the prime plane, being gradually replaced by a cold
+	mirror of itself. one such as you could use it to return.
+
+	do you think it is still the same ship?"

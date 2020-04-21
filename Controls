@@ -2,27 +2,35 @@ Main Window *Raylib*
 --------------------
 - Triggers : strafe
 - A B X Y : item slots
-- left stick : Azimuth/Velocity
+- left stick axes : Azimuth/Velocity
 - d pad : jump dodge
 - bumpers : roll dodge
 - right stick : Pitch/Post-pitch yaw
-- select : interact
-- start : pause and free cursor
+- start&gt; : interact
+- &lt;back : pause and free cursor
+- ¤ : SCRAM button
 
-- F1 : First person view
-- F2 : Top-down view
-- F3 : Third person view
 - Move Mouse : Look around / Orbit around
 - Scrollwheel : Zoom in and out / Orbit closer and farther
 - Left click / Right click : Ranged item slot
-- Enter : enter-act
-- Escape : pause and free cursor
-- spacebar : jump / double jump to fly
-- Home : Center Camera
-- End : Hard Reset Camera
+- Center click : center camera
 
-Interaction Window *nCurses*
-----------------------------
+- esc : backup free cursor
+- f4 : backup SCRAM button
+- spacebar : jump / double jump to fly
+
+Camera settings window *X toolkit &amp; Athena widgets*
+-------------------------------------------------------
+click a button to do a thing
+- increase or decrease the rendering distance by 2 blocks.
+ must be between half a chunk and 3 chunks.
+ does not effect the hardcoaded chunk loading distace of ||1chunk||∞
+- increase or decrease the FOV by half degrees
+ value must be between .5 and 179.5.
+- change between first person and third person
+
+GUI Window *nCurses*
+--------------------
 used to provide GUI elements. toplevel commands will change frequently
 during development, but will be enumerated when the window is not being
 used by another element.
@@ -31,8 +39,8 @@ NOTE: the tty this is connected to should be open before starting the game,
 otherwise the information nCurses gets may be errornous. XTerm with 256
 colors and Unicode support is recommended.
 
-Pop-up Window *Xlib*
---------------------
+Pop-up Window *Cairo*
+---------------------
 used to implement a vector graphics system. this *could* be done with
 hardware acceleration, but it should not be necissary.
 space or click to close

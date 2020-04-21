@@ -1,13 +1,17 @@
+C
+C++
+M4
 Irrlicht
 OpenGL-mesa
-glX?
 NCurses
 NCursesw
-XLib
+Curses Forms
+Curses Menu
+X11
+X11 Raster Font I/O
+Fixed Font
+Cairo on X
+libuuid
 libmd
 jsdev
-
-Currently in the midst of a flag day;
-libraries being phased out:
-Raylib
-RLights
+doxygen

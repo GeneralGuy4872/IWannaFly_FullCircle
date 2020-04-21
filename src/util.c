@@ -1,10 +1,12 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include <stdint.h>
-#include "util.H"
+#include "util.h"
 
 /*---INTERGALS---*/
 
 signed __attribute__((const)) max(signed a,signed b) {
-	if (a ≥ b) {
+	if (a >= b) {
 		return a;
 		}
 	else {
@@ -12,7 +14,7 @@ signed __attribute__((const)) max(signed a,signed b) {
 		}
 
 signed __attribute__((const)) min(signed a,signed b) {
-	if (a ≥ b) {
+	if (a <= b) {
 		return a;
 		}
 	else {
@@ -20,7 +22,7 @@ signed __attribute__((const)) min(signed a,signed b) {
 		}
 
 unsigned __attribute__((const)) umax(unsigned a,unsigned b) {
-	if (a ≥ b) {
+	if (a >= b) {
 		return a;
 		}
 	else {
@@ -28,7 +30,7 @@ unsigned __attribute__((const)) umax(unsigned a,unsigned b) {
 		}
 
 unsigned __attribute__((const)) umin(unsigned a,unsigned b) {
-	if (a ≥ b) {
+	if (a <= b) {
 		return a;
 		}
 	else {
@@ -86,7 +88,7 @@ __attribute__((const)) ceildiv(int numer,int denom) {
 /*---LONG---*/
 
 signed long __attribute__((const)) maxl(signed long a,signed long b) {
-	if (a ≥ b) {
+	if (a >= b) {
 		return a;
 		}
 	else {
@@ -94,7 +96,7 @@ signed long __attribute__((const)) maxl(signed long a,signed long b) {
 		}
 
 signed long __attribute__((const)) minl(signed long a,signed long b) {
-	if (a ≥ b) {
+	if (a <= b) {
 		return a;
 		}
 	else {
@@ -102,7 +104,7 @@ signed long __attribute__((const)) minl(signed long a,signed long b) {
 		}
 
 unsigned long __attribute__((const)) umaxl(unsigned long a,unsigned long b) {
-	if (a ≥ b) {
+	if (a >= b) {
 		return a;
 		}
 	else {
@@ -110,7 +112,7 @@ unsigned long __attribute__((const)) umaxl(unsigned long a,unsigned long b) {
 		}
 
 unsigned long __attribute__((const)) uminl(unsigned long a,unsigned long b) {
-	if (a ≥ b) {
+	if (a <= b) {
 		return a;
 		}
 	else {
@@ -160,7 +162,7 @@ __attribute__((const)) ucmpl(unsigned long a,unsigned long b) {
 /*---LONG LONG---*/
 
 signed long long __attribute__((const)) maxll(signed long long a,signed long long b) {
-	if (a ≥ b) {
+	if (a >= b) {
 		return a;
 		}
 	else {
@@ -168,7 +170,7 @@ signed long long __attribute__((const)) maxll(signed long long a,signed long lon
 		}
 
 signed long long __attribute__((const)) minll(signed long long a,signed long long b) {
-	if (a ≥ b) {
+	if (a <= b) {
 		return a;
 		}
 	else {
@@ -176,7 +178,7 @@ signed long long __attribute__((const)) minll(signed long long a,signed long lon
 		}
 
 unsigned long long __attribute__((const)) umaxll(unsigned long long a,unsigned long long b) {
-	if (a ≥ b) {
+	if (a >= b) {
 		return a;
 		}
 	else {
@@ -184,7 +186,7 @@ unsigned long long __attribute__((const)) umaxll(unsigned long long a,unsigned l
 		}
 
 unsigned long long __attribute__((const)) uminll(unsigned long long a,unsigned long long b) {
-	if (a ≥ b) {
+	if (a <= b) {
 		return a;
 		}
 	else {
@@ -234,7 +236,7 @@ __attribute__((const)) ucmpll(unsigned long long a,unsigned long long b) {
 /*---FLOATS---*/
 
 float __attribute__((const)) maxf(float a,float b) {
-	if (a ≥ b) {
+	if (a >= b) {
 		return a;
 		}
 	else {
@@ -242,7 +244,7 @@ float __attribute__((const)) maxf(float a,float b) {
 		}
 
 float __attribute__((const)) minf(float a,float b) {
-	if (a ≥ b) {
+	if (a <= b) {
 		return a;
 		}
 	else {
@@ -273,7 +275,7 @@ __attribute__((const)) cmpf(float a,float b) {
 /*---DOUBLES---*/
 
 double __attribute__((const)) maxfd(double a,double b) {
-	if (a ≥ b) {
+	if (a >= b) {
 		return a;
 		}
 	else {
@@ -281,7 +283,7 @@ double __attribute__((const)) maxfd(double a,double b) {
 		}
 
 double __attribute__((const)) minfd(double a,double b) {
-	if (a ≥ b) {
+	if (a <= b) {
 		return a;
 		}
 	else {
@@ -323,11 +325,11 @@ double __attribute__((const)) norm2xyzw(double x,double y,double z,double w) {
 
 /*---STDIN---*/
 
-insync () {
-	while (!getc(stdin));
-	if (feof(stdin)) {
-		return 0;
-	} else {
-		return ferror(stdin);
-		}
+eatline() {
+	return scanf("%*[^\n]%*c");
+	}
+
+eatall(FILE * input) {
+	while (fgetc(input) != EOF);
+	return 0;
 	}

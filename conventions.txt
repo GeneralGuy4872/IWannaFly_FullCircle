@@ -1,0 +1,9 @@
+the perferred method of API function error checking is by ERRNO, in
+combination with an "IMPLICIT" (int) return value of 0 for no error, 1 for
+a mild error, and -1 for severe error. this matches the convention of most
+C standard library and nCurses functions, but not C++ functions.
+
+critical errors will exit, abort, or raise a signal as appropriate.
+
+bogon checking, to mitigate database corruption, will use assertions.
+example: assert(localfoo = *originalfoo)

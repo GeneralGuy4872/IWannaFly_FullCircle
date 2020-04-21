@@ -1,0 +1,26 @@
+#ifndef __GG4872_UTIL_DEF__
+#define __GG4872_UTIL_DEF__
+
+#define FILENO int
+#define BYTE unsigned char
+
+#define tosignbit(X) (X < 0 ? 1 : 0)
+#define signbit(X) (X ? -1 : 1)
+
+#define sgn(X) cmp(X,0)
+#define sgnl(X) cmpl(X,0)
+#define sgnll(X) cmpll(X,0)
+#define sgnf(X) cmpf(X,0)
+#define sgnfd(X) cmpfd(X,0)
+
+//choose the one that runs fastest on your machine.
+//define istrue(X) ((X) ? 1 : 0)
+#define istrue(X) ((X) || 0)
+//define istrue(X) ((X) && 1)
+//define istrue(X) ((X) != 0)
+//define istrue(X) (!!(X))
+
+#define iff(X,Y) (istrue(X) == istrue(Y))
+#define logicxor(X,Y) (istrue(X) != istrue(Y))
+
+#endif

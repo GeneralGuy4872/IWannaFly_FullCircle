@@ -1,0 +1,18 @@
+//idek what to do with these yet. are they headers or transclusions?
+
+#if 1
+template<typename ... argv>
+bool exists(std::map<argv...> * me,std::map<argv...>::key_type query) {
+	return me->find(query) != me->end();
+	}
+#else
+template<typename ... argv>
+bool exists(std::map<argv...> * me,std::map<argv...>::key_type query) {
+	try {
+		me->at(query);
+	} catch (std::out_of_bounds) {
+		return 0;
+		}
+	return 1;
+	}
+#endif
