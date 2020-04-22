@@ -18,14 +18,3 @@ extern "C" char * getsafe() {
 		}
 	return output;
 	}
-
-extern "C" IMPLICIT cat (const char * filename) {
-	std::fstream fs;
-	fs.open(filename,std::fstream::in);
-	std::stream buffer;
-	while (!fs.eof()) {
-		getline(fs,buffer);
-		std::cout << buffer;
-		}
-	fs.close();
-	}

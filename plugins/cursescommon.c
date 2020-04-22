@@ -4,6 +4,7 @@
 #include <unistd.h>
 
 static const char * IWF_PACKAGE = "cursescommon";
+//game packages set IWF_GAMENAME instead
 
 cursidle (size_t argc,void * argv) {
 	clear();

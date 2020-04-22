@@ -4,8 +4,10 @@ size of field...	value field contains
 ====================================
 Header:
 sizeof(char16_t)...	byte order mark
-2 * sizeof(intptr_t)...	{0,-1}
-sizeof(uuid_t)...	game number
+sizeof(intptr_t)...	0
+sizeof(intptr_t)...	-1
+sizeof(intptr_t)...	root pointer
+UUID_LENGTH...	game number
 MD4_DIGEST_LENGTH...	game seed
 
 Data:
@@ -15,10 +17,10 @@ sizeof(size_t)...	length of the next 2 fields, each
 	...	mask that shows what areas contain a stale pointer
 
 End:
-sizeof(void*)...	0
+sizeof(intptr_t)...	0
 
 note: no pointers to data not included in the same
-	save file may occur. they must be NULLed on saving.
+	dat file may occur. they must be NULLed on saving.
 	to enable persistant data to call state sensitive data,
 	a plugin library based on dlsym is included in the savefile
 	implementation; it implements referece structs that have

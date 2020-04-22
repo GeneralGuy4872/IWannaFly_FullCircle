@@ -1,12 +1,8 @@
 .c	regular C
 .cc	C++
 
-.inc	modular C snippet to be #include-ed
-.incc	modular C++ snippet to be #include-ed
-	(provides seperation of large translation units, to make wading
-	through code simpler. will also facilitate rapid prototyping on
-	scales smaller than can be justifyed by dynamic linking for the
-	course of the alpha build)
+.inc	modular code snippet to be #include-ed
+	these files contain large amounts of data
 
 .h	C or C++ header
 .struct C struct definitions
@@ -17,9 +13,36 @@
 .tmpl	C++ template header
 
 .*.m4	must be preprocessed with the M4 macro processor
-.PL	perl script used to generate code
-.tsv	data used to generate code
 
 .txt	text
-.hex	bytecode to be executed by curses.
-.dat	a savefile
+.curses	bytecode to be executed by curses.
+
+.dat	a data dump object. savefiles are currently unarchived directories,
+	but may be changed. contains a single navigational database, frozen
+	as a key-value store, using the current addresses as *arbitrary*
+	keys. new addresses are generated upon reloading.
+
+.bin	an array of contiguous data; is read to and from an unsigned char
+	array of uint's of the same width. the address of the array
+	in memory is irrelevant.
+	chunk voxel data uses this format; they are 32*32*32 voxels
+	and use a 15-bit address.
+
+the combination of bin files and dat files should be useable to restore all
+relevant state data.
+
+*.man.* 	a Linux manpage
+*.mdoc.*	a NetBSD manpage
+
+*.m(an|doc).3iwf	a manpage on the api
+*.m(an|doc).5iwf	a manpage on file formats
+*.m(an|doc).6	the engine's manpage
+*.m(an|doc).6iwf	a game package's manpage
+*.m(an|doc).7	the engine's automata layout
+
+*.texinfo	plugin technical documentation,
+		lore reference materials for players and devs
+
+possible build scripts for the project,
+once it reaches the existential threshold:
+build.sh	makefile	CMakeLists.txt

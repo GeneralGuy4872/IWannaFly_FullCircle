@@ -3,13 +3,21 @@ core.autocrlf=false
 **/* = linguist-vendored=false linguist-documentation=false linguist-detectable=false diff
 /manual/**/* = linguist-detectable=true
 /manual/plaintext/**/* = linguist-documentation=true
-/src/**/* = linguist-detectable=true
-
 *.c = linguist-language=C
 *.h = linguist-language=C
 *.cc = linguist-language=C++
 *.hh = linguist-language=C++
-*.H = linguist-language=C
-*.cnode = linguist-language=C
-*.ccnode = linguist-language=C++
-*.nfo = binary diff
+*.def = linguist-language=C
+*.inc = linguist-language=C
+*.struct = linguist-language=C
+*.tmpl = linguist-language=C++
+*.cclass = linguist-language=C++
+*.c.m4 = lingust-language=m4 linguist-language=C
+*.h.m4 = lingust-language=m4 linguist-language=C
+*.cc.m4 = lingust-language=m4 linguist-language=C++
+*.hh.m4 = lingust-language=m4 linguist-language=C++
+*.def.m4 = lingust-language=m4 linguist-language=C
+*.inc.m4 = lingust-language=m4 linguist-language=C
+*.struct.m4 = lingust-language=m4 linguist-language=C
+*.tmpl.m4 = lingust-language=m4 linguist-language=C++
+*.cclass.m4 = lingust-language=m4 linguist-language=C++

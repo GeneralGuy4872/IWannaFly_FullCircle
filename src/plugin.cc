@@ -1,11 +1,7 @@
-/* plugins are loaded by path;
- * plugins should all be in the same directory
- * or they may be loaded twice. additionally, this directory
- * should be accessible through LD_LOAD_PATH by the prefix
- * "IWannaFly/plugins/"
- */
-
 #include "plugin.h"
+#include <libgen.h>
+
+#include "CONFIG.DEF"
 
 extern "C" typedef int (*subroutine)(size_t,void*);
 
@@ -33,12 +29,26 @@ class iwf::plugintable {
 		return 1;
 		}
 	bool loadpluginfile (char * path) {
-		void * handle = dlopen(path,RTLD_NOW | RTLD_PRIVATE);
+		void * handle;
+		if (path == NULL) {
+			fprintf(stderr,"...you want me to take NULL and do what with it?\n");
+			return false;
+		} else if (path[0] == '/') {
+			handle = dlopen(path,RTLD_NOW | RTLD_PRIVATE);
+		} else if (path[0] < ' ') {
+			fprintf(stderr,"refusing to load plugin: %s is not a valid filename",path);
+			return false;
+		} else {
+			std::string newpath = CONFIG_DEFAULT_LIB_PATH;
+			newpath.append(path);
+			newpath.append(CONFIG_PLUGIN_SUFFIX);
+			handle = dlopen(newpath.c_str(),RTLD_NOW | RTLD_PRIVATE);
+			}
 		if (handle == NULL) {
 			fprintf(stderr,"%s\n",dlerror());
-			return 0;
+			return false;
 			}
-		std::string key = path;
+		std::string key = basename(path);
 		return this->loadplugin(key,handle);
 		}
 	subroutine getsub (std::string key,char * symbol) {

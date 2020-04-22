@@ -8,8 +8,6 @@ NCursesw
 Curses Forms
 Curses Menu
 X11
-X11 Raster Font I/O
-Fixed Font
 Cairo on X
 libuuid
 libmd
