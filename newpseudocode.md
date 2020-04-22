@@ -1,13 +1,13 @@
 - `(foo} bar)` is `((foo) bar)`
 - `(foo {bar)` is `(foo (bar))`
-- «T» denotes a type template
+- `«T»` denotes a type template
 ---
 - `.` creates a key-value pair
    -they can be used to create alists
 - single token `}{` denotes a tree root. only 1 may appear in a group of `(`...`)`
   - any combination resulting in `{`...`}` without a tree root present in the same `(`...`)` is ambiguous and not allowed
     - to the left of tree root, `{` is closed by `}` but `}` is closed by `(`
-      - to the left of tree root, `}` is closed by `{` but `{` is closed by `)`
+    - to the right of tree root, `}` is closed by `{` but `{` is closed by `)`
 ---
 - single token `)(` is the same as `) (`
   - except that the `(` has the same quotation as whatever `)` closes
@@ -19,8 +19,8 @@
 ---
 - prefix <CODE>`</CODE> is quote one level
 - prefix `'` is quote recursively
-- m4 quotes are `‘`...`’`
-- metavariables are `<`...`>`
+- m4 quotes are `‘foo’`
+- metavariables are `<foo>`
 - `#include` directives may be used
 ---
 - `¶foo` is a goto label
@@ -28,7 +28,8 @@
 - `[`...`]` is bytewise address arithmatic (without deref)
 - `%[`...`]` is bitwise address arithmatic (without deref)
 - `foo.bar` is a record or object member
-- `foo.;bar` is an object method	//not used for C++
+- `foo.;bar` is an object method
+  -not used for C++
 ---
 *next paragraph is not used for C++*
 - tables and classes are namespaces
