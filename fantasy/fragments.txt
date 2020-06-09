@@ -1,3 +1,7 @@
+� = refer to spoiler character table
+
+***
+
 gnome - I call it a computational engine. it uses thousands of small
 	mechanical parts to store and manipulate data! and as a recent
 	improvement, it is powered by... <B><I>Electricity!</>
@@ -11,18 +15,10 @@ gnome - I call it a computational engine. it uses thousands of small
 
 ***
 
-sourcerer thug - oh, fiesty young street rat, eh? what are you going to do?
-	humans can't cast, so unless--
-mentor - *snrkt*
-thug - ...what are you laughing at, hag?
-mentor - <I>oh, nothing. carry on.</>
-
-***
-
 	*cold open*
 
 (redshirt) - GO TO HELL YOU MONSTERS!!
-���[evil] - <fg=red><B>Oh, I've been to hell. <I>I even <U>brought
+�[2] - <fg=red><B>Oh, I've been to hell. <I>I even <U>brought
 	some of it back with me</>
 
 	*chapter 2 titlecard*
@@ -46,23 +42,21 @@ siren magic instructor - it is easy for us to draw and hold magic; take
 
 ***
 
-���[0] - Stop. that's not necissarry. you are no longer drawing energy from
+
+�[0] - Stop. that's not necissarry. you are no longer drawing energy from
 	a well, or diverting it from a river. you are the precipace of a
 	waterfall, and if you cannot learn to stem the flow soon, you will
-	be eroded away by the current.
+	be eroded away by the current passing through you. here, I can keep
+	you alive until you learn to control it.
 
-	once I am sure you arn't a bigger threat than ���[evil], if only
-	from your inexperiance, you may leave.
+***
+�[0] - You're not the first to seek these monsters.
+
+	you know what they say about the one who fights them...
 
 ***
 
-���[0] - You're not the first to seek these monsters.
-
-	you know wat they say about the one who fights them...
-
-***
-
-���[0] - REMEMBER...
+??? (�[0]) - REMEMBER...
 
 *note: all required characters start getting this event halfway through
 chapter 2*
@@ -90,3 +84,19 @@ extra 2 - well, "<I>hyper-cosmic extradimensional currents induced by
 	exposing potential differentials in persistant background fields of
 	exotic quantum partical reservoirs</I>" is a bit verbose.
 extra 1 - <I><U>but it's percise!</>
+
+***
+
+shady shopkeeper - ...offer void where prohibited, NULL when cast to a
+	pointer...
+(programmer joke)
+
+***
+
+guard #1 - THERE! THAT ONE! THERE'S A 100,000,000 COIN BOUNTY ON THEM!
+guard #2 - That sum could feed my family for a week!
+guard #1 - screw your family, the money is mine!
+	*the first guard stabs the second guard*
+guard commander - advance your career on your own time; AFTER THEM!
+
+***

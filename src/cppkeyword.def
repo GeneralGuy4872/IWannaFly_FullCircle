@@ -12,6 +12,7 @@
 #define UNIONTYPE(N,X) extern "C" union N X;
 
 #define IMPLICIT int;
+#define ATOMIC(T) std::atomic<T>
 
 #else
 
@@ -24,5 +25,6 @@
 #define UNIONTYPE(N,X) typedef union N X N;
 
 #define IMPLICIT
+#define ATOMIC(T) _Atomic T
 #endif
 #endif

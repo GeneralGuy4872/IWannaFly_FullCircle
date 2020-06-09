@@ -3,6 +3,7 @@
 
 #define FILENO int
 #define BYTE unsigned char
+#define addoffset(T,X,Y) (T)(((BYTE*) (X)) + (Y))
 
 #define tosignbit(X) (X < 0 ? 1 : 0)
 #define signbit(X) (X ? -1 : 1)
@@ -13,13 +14,7 @@
 #define sgnf(X) cmpf(X,0)
 #define sgnfd(X) cmpfd(X,0)
 
-//choose the one that runs fastest on your machine.
-//define istrue(X) ((X) ? 1 : 0)
 #define istrue(X) ((X) || 0)
-//define istrue(X) ((X) && 1)
-//define istrue(X) ((X) != 0)
-//define istrue(X) (!!(X))
-
 #define iff(X,Y) (istrue(X) == istrue(Y))
 #define logicxor(X,Y) (istrue(X) != istrue(Y))
 

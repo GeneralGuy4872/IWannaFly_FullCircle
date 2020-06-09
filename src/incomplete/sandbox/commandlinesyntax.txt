@@ -1,0 +1,12 @@
+foo(bar,qux,zot) ... call a function
+
+foo=bar ... assign a value to a variable
+!foo ... toggle a flag
+foo+=bar ... add a value to a variable
+foo-=bar ... subtract a value from a variable
+foo++ ... increment a variable
+foo-- ... decrement a variable
+
+foo/bar ... subdirectory bar in foo
+foo[bar] ... access a field
+foo{bar=baz,qux=zot} ... alter fields

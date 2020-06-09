@@ -8,6 +8,11 @@
 #else
 #include <cstdint>
 #include <cstddef>
+#endif
+
+#include "util.def"
+
+#ifdef __cplusplus
 extern "C" {
 #endif
 

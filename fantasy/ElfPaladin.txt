@@ -36,7 +36,7 @@ delagate from <mountains further east, border> - there have been certain
 supplies, including ampel food, but no soldiers. we will attempt a
 rendezous at the southern border.
 mayor - (ampel food?...)
-delagate from <north; you are standing with them> -
+delagate from <north> (you are standing with them) -
 	I can provide 4 soldiers: 3 archers and a paladin.
 	valiant soldiers from our small village.
 entering siren - then you seem to be in need of a caster.

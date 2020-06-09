@@ -5,6 +5,9 @@
 //the path to the libraries
 #define CONFIG_DEFAULT_LIB_PATH "/usr/local/lib/games/IWannaFly"
 
+//the path to the game's angelscript modules
+#define CONFIG_DEFAULT_ASMODULE_PATH "/usr/local/share/lib/games/IWannaFly"
+
 //the path to the dialog files; both .hex and .txt
 #define CONFIG_DIALOG_PATH "/usr/local/lib/games/IWannaFly"
 

@@ -1,23 +1,35 @@
 core.autocrlf=false
 
-**/* = linguist-vendored=false linguist-documentation=false linguist-detectable=false diff
-/manual/**/* = linguist-detectable=true
-/manual/plaintext/**/* = linguist-documentation=true
 *.c = linguist-language=C
 *.h = linguist-language=C
+*.m = linguist-language=objc
+*.mm = linguist-language=objc++
 *.cc = linguist-language=C++
 *.hh = linguist-language=C++
+*.hm = linguist-language=objc
+*.hmm = linguist-language=objc++
 *.def = linguist-language=C
 *.inc = linguist-language=C
+*.inl = linguist-language=C
 *.struct = linguist-language=C
 *.tmpl = linguist-language=C++
 *.cclass = linguist-language=C++
-*.c.m4 = lingust-language=m4 linguist-language=C
-*.h.m4 = lingust-language=m4 linguist-language=C
-*.cc.m4 = lingust-language=m4 linguist-language=C++
-*.hh.m4 = lingust-language=m4 linguist-language=C++
-*.def.m4 = lingust-language=m4 linguist-language=C
-*.inc.m4 = lingust-language=m4 linguist-language=C
-*.struct.m4 = lingust-language=m4 linguist-language=C
-*.tmpl.m4 = lingust-language=m4 linguist-language=C++
-*.cclass.m4 = lingust-language=m4 linguist-language=C++
+*.as = linguist-language=AngelScript
+*.m4 = linguist-language=m4
+*.c.m4 = linguist-language=m4 linguist-language=C
+*.h.m4 = linguist-language=m4 linguist-language=C
+*.m.m4 = linguist-language=m4 linguist-language=objc
+*.mm.m4 = linguist-language=m4 linguist-language=objc++
+*.cc.m4 = linguist-language=m4 linguist-language=C++
+*.hh.m4 = linguist-language=m4 linguist-language=C++
+*.hm.m4 = linguist-language=m4 linguist-language=objc
+*.hmm.m4 = linguist-language=m4 linguist-language=objc++
+*.def.m4 = linguist-language=m4 linguist-language=C
+*.inc.m4 = linguist-language=m4 linguist-language=C
+*.inl.m4 = linguist-language=m4 linguist-language=C
+*.struct.m4 = linguist-language=m4 linguist-language=C
+*.tmpl.m4 = linguist-language=m4 linguist-language=C++
+*.cclass.m4 = linguist-language=m4 linguist-language=C++
+*.as.m4 = linguist-language=m4 linguist-language=AngelScript
+*.awk = linguist-language=awk
+*.PL = linguist-language=perl

@@ -2,14 +2,14 @@
 
 #if 1
 template<typename ... argv>
-bool exists(std::map<argv...> * me,std::map<argv...>::key_type query) {
-	return me->find(query) != me->end();
+bool exists(std::map<argv...> * adhoc,std::map<argv...>::key_type query) {
+	return (adhoc->find(query) != adhoc->end());
 	}
 #else
 template<typename ... argv>
-bool exists(std::map<argv...> * me,std::map<argv...>::key_type query) {
+bool exists(std::map<argv...> * adhoc,std::map<argv...>::key_type query) {
 	try {
-		me->at(query);
+		adhoc->at(query);
 	} catch (std::out_of_bounds) {
 		return 0;
 		}

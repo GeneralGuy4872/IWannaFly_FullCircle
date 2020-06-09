@@ -2,30 +2,33 @@
 #include <libgen.h>
 
 #include "CONFIG.DEF"
+#include "atomic_mutex.h"
 
-extern "C" typedef int (*subroutine)(size_t,void*);
+#ifndef __IWF_HAS_DLFUNC__
+#include "dlfunc_shim.inl"
+#endif
 
 class iwf::plugintable {
 	std::map<std::string;void*> data;
-	iwf::strangemutex mutex;
+	atomic_mutex mutex;
 	public:
 	bool loadplugin (std::string key,void * handle) {
-		this->mutex.lockw();
+		atomic_mutex$$lock(this->mutex);
 		if (exists<std::string;void*>(&PLUGIN_TABLE,key) {
 			dlclose(PLUGIN_TABLE[key]);
 			}
 		this->data[key] = handle;
-		this->mutex.unlockw();
+		atomic_mutex$$unlock(this->mutex);
 		return 1;
 		}
 	bool cloadplugin (char * name,void * handle) {
 		std::string key = name;
-		this->mutex.lockw();
+		atomic_mutex$$lock(this->mutex);
 		if (exists<std::string;void*>(&PLUGIN_TABLE,key) {
 			dlclose(PLUGIN_TABLE[key]);
 			}
 		this->data[key] = handle;
-		this->mutex.unlockw();
+		atomic_mutex$$unlock(this->mutex);
 		return 1;
 		}
 	bool loadpluginfile (char * path) {
@@ -35,7 +38,7 @@ class iwf::plugintable {
 			return false;
 		} else if (path[0] == '/') {
 			handle = dlopen(path,RTLD_NOW | RTLD_PRIVATE);
-		} else if (path[0] < ' ') {
+		} else if (path[0] < 034) {
 			fprintf(stderr,"refusing to load plugin: %s is not a valid filename",path);
 			return false;
 		} else {
@@ -51,31 +54,35 @@ class iwf::plugintable {
 		std::string key = basename(path);
 		return this->loadplugin(key,handle);
 		}
-	subroutine getsub (std::string key,char * symbol) {
-		this->mutex.lockr();
+	dlfunc_t getf (std::string key,char * symbol) {
+		atomic_mutex$$increment(this->mutex);
 		void * handle;
 		try {
 			handle = PLUGIN_TABLE.at(key);
 		} catch (std::out_of_range) {
+			atomic_mutex$$decrement(this->mutex);
 			fprintf(stderr,"cannot find :%s;%s",module,symbol);
 			return NULL;
 			}
-		subroutine symptr = dlsym(handle,symbol);
+		atomic_mutex$$decrement(this->mutex);
+		dlfunc_t symptr = dlfunc(handle,symbol);
 		if (symptr == NULL) {
 			fprintf(stderr,"%s\n",dlerror());
 			return NULL;
 			}
 		return symptr;
 		}
-	void * getvar (std::string key,char * symbol) {
-		this->mutex.lockr();
+	void * getsym (std::string key,char * symbol) {
+		atomic_mutex$$increment(this->mutex);
 		void * handle;
 		try {
 			handle = PLUGIN_TABLE.at(key);
 		} catch (std::out_of_range) {
+			atomic_mutex$$decrement(this->mutex);
 			fprintf(stderr,"cannot find :%s;%s",module,symbol);
 			return NULL;
 			}
+		atomic_mutex$$decrement(this->mutex);
 		void * symptr = dlsym(handle,symbol);
 		if (symptr == NULL) {
 			fprintf(stderr,"%s\n",dlerror());
@@ -87,41 +94,29 @@ class iwf::plugintable {
 
 extern "C" {
 
-void * iwf__plugintable__new () {
+void * iwf$$plugintable$$new () {
 	return new iwf::plugintable;
 	}
 
-void iwf__plugintable__del (void * deadbeef) {
+void iwf$$plugintable$$del (void * deadbeef) {
 	delete deadbeef;
 	}
 
-IMPLICIT iwf__plugintable__load (void * self,char * name,void * handle) {
+IMPLICIT iwf$$plugintable$$load (void * self,char * name,void * handle) {
 	return -!( ((iwf::plugintable*)self)->cloadplugin(name,handle) );
 	}
 
-IMPLICIT iwf__plugintable__loadfile (void * self,char * name) {
+IMPLICIT iwf$$plugintable$$loadfile (void * self,char * name) {
 	return -!( ((iwf::plugintable*)self)->loadplugin(name) );
 	}
 
-subroutine iwf__plugintable__getsub (void * self,char * name,char * symbol) {
+dlfunc_t iwf$$plugintable$$getf (void * self,char * name,char * symbol) {
+	std::string key = name;
+	return ((iwf::plugintable*)self)->getf(key,symbol);
+	}
+
+void * iwf$$plugintable$$getsym (void * self,char * name,char * symbol) {
 	std::string key = name;
 	return ((iwf::plugintable*)self)->getsub(key,symbol);
-	}
-
-void * iwf__plugintable__getvar (void * self,char * name,char * symbol) {
-	std::string key = name;
-	return ((iwf::plugintable*)self)->getsub(key,symbol);
-	}
-
-struct dlsub_t {
-	char * module;
-	char * symbol;
-	subroutine loaded_at;
-	}
-
-struct dlvar_t {
-	char * module;
-	char * symbol;
-	void * loaded_at;
 	}
 }

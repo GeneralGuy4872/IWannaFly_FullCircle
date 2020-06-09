@@ -5,55 +5,55 @@
 #include "structops.h"
 
 void meminvert (void * acc,size_t size) {
-	uint8_t * q = acc;
+	byteptr q = acc;
 	for (int n = 0;n < size;n++) {
 		q[n] = ~(q[n]);
 		}
 	}
 
 void memandset (void * lval,void * rval,size_t size) {
-	uint8_t * x = lval;
-	uint8_t * y = rval;
+	byteptr x = lval;
+	byteptr y = rval;
 	for (int n = 0;n < size;n++) {
 		x[n] &= y[n];
 		}
 	}
 
 void memorset (void * lval,void * rval,size_t size) {
-	uint8_t * x = lval;
-	uint8_t * y = rval;
+	byteptr x = lval;
+	byteptr y = rval;
 	for (int n = 0;n < size;n++) {
 		x[n] |= y[n];
 		}
 	}
 
 void memnandset (void * lval,void * rval,size_t size) {
-	uint8_t * x = lval;
-	uint8_t * y = rval;
+	byteptr x = lval;
+	byteptr y = rval;
 	for (int n = 0;n < size;n++) {
 		x[n] = ~(x[n] & y[n]);
 		}
 	}
 
 void memnorset (void * lval,void * rval,size_t size) {
-	uint8_t * x = lval;
-	uint8_t * y = rval;
+	byteptr x = lval;
+	byteptr y = rval;
 	for (int n = 0;n < size;n++) {
 		x[n] = ~(x[n] | y[n]);
 		}
 	}
 
 void memxorset (void * lval,void * rval,size_t size) {
-	uint8_t * x = lval;
-	uint8_t * y = rval;
+	byteptr x = lval;
+	byteptr y = rval;
 	for (int n = 0;n < size;n++) {
 		x[n] ^= y[n];
 		}
 	}
 
 void memxnorset (void * lval,void * rval,size_t size) {
-	uint8_t * x = lval;
-	uint8_t * y = rval;
+	byteptr x = lval;
+	byteptr y = rval;
 	for (int n = 0;n < size;n++) {
 		x[n] = ~(x[n] ^ y[n]);
 		}
@@ -66,8 +66,8 @@ void memxnorset (void * lval,void * rval,size_t size) {
 #define memge(X,Y,Z) (memcmp(X,Y,Z) >= 0)
 
 void memswap(void * x,void * y,size_t size) {
-	uint8_t * xx = x;
-	uint8_t * yy = y;
+	byteptr xx = x;
+	byteptr yy = y;
 	uint8_t tmp;
 	for (int n,n < size_t,n++) {
 		tmp = 0;

@@ -3,6 +3,6 @@
 #include <stdint.h>
 #include <sys/types.h>
 #include <md4.h>
-#include "uuidtypes.def"
-typedef UUID_TYPE MD4_t[MD4_DIGEST_LENGTH];
+#include "util.def"
+typedef BYTE MD4_t[MD4_DIGEST_LENGTH];
 #endif

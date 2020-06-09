@@ -1,0 +1,10 @@
+*.man.* 	a Linux manpage
+*.mdoc.*	a NetBSD manpage
+
+*.m(an|doc).3iwf	a manpage on the C api
+*.m(an|doc).5iwf	a manpage on file formats
+*.m(an|doc).6iwf	a game package's manpage
+*.m(an|doc).6	the engine's manpage
+
+*.texinfo	plugin technical documentation,
+		lore reference materials for players and devs

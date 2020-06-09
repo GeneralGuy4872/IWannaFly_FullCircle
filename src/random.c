@@ -19,16 +19,16 @@ int coin_flip_nickel () {
 	}
 
 unsigned roll (unsigned number,unsigned sides,bool off) {
-	unsigned acc;
+	unsigned register acc;
 	for (unsigned n;n < number;n++) {
 		acc += (rand() % sides) + off;
 		}
 	return acc;
 	}
 
-signed short roll_bonus (unsigned number) {
+signed roll_bonus (unsigned number) {
 	number = (2 * number) + 1;
-	signed short acc;
+	signed register acc;
 	for (unsigned n;n < number;n++) {
 		acc += (rand() % 3) - 1;
 		}

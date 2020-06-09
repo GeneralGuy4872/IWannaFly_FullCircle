@@ -9,6 +9,6 @@ extern class iwf::plugintable {
 	bool loadplugin (std::string key,void * handle);
 	bool cloadplugin (char * name,void * handle);
 	bool loadpluginfile (char * path);
-	subroutine getsub (std::string key,char * symbol);
-	void * getsub (std::string key,char * symbol);
+	dlfunc_t getf (std::string key,char * symbol);
+	void * getsym (std::string key,char * symbol);
 	}

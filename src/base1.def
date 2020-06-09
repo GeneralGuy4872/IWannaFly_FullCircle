@@ -1,7 +1,7 @@
 #ifndef __GG4872_BASE1_DEF__
 #define __GG4872_BASE1_DEF__
 
-#define invbase1(T,X) (((T) -1) << (X))
-#define base1(T,X) ~invertbase1(T,X)
+#define invbase1(T,X) (((T) -1) << (((CHAR_BIT * sizeof(T)) - 1) & X))
+#define base1(T,X) ~invbase1(T,X)
 
 #endif

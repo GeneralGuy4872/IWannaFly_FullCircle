@@ -8,7 +8,6 @@ extern "C" {
 #endif
 
 extern char * getsafe ();
-extern IMPLICIT cat (char * filename);
 
 #ifdef __cplusplus
 }

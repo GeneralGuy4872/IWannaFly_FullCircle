@@ -13,7 +13,7 @@ extern "C" {
 
 extern int coin_flip_nickel();
 extern unsigned roll(unsigned number,unsigned sides,_Bool off);
-extern signed short roll_bonus(unsigned number);
+extern signed roll_bonus(unsigned number);
 extern char randchar();
 
 #ifdef __cplusplus
