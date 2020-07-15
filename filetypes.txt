@@ -1,25 +1,21 @@
 .c	C of some description
 .cc	C++
-.m	Objective C
-.mm	Objective C++
 
 .inc	modularized code
 .inl	inline functions
 
+
 .h	C or C++ header
-.h_	C only header
-.struct C struct definitions
 .def	C preprocessor macro file
 
 .hh	C++ only header
-.cclass	C++ class header
 .tmpl	C++ template header
 
-.hm	Objective C header
-.hmm	Objective C++ header
+.smart_h
+	header that uses preprocessor variables starting with `#IMPORT___`
+	to determin what must be included
 
 .*.m4	must be preprocessed with the M4 macro processor
-.*.nbsp	must be preprocessed with the command `tr -d '\xff'`
 
 .txt	text
 .curses	bytecode to be executed by curses.

@@ -1,0 +1,11 @@
+#ifndef __GG4872__LOOPS__
+#define __GG4872__LOOPS__
+
+#ifndef __cplusplus
+#include <stdbool.h>
+#endif
+
+#define BEGINAGAIN for (bool again = 1;again;) {again = 0
+#define forever for (;;)
+
+#endif

@@ -1,15 +1,50 @@
-C
-C++
-M4
-Irrlicht
-OpenGL-mesa
-NCurses
-NCursesw
-Curses Forms
-Curses Menu
-X11
-Cairo on X
-libuuid
-libmd
-jsdev
-doxygen
+Dependancies
+- C standard libraries
+- C++ standard libraries
+- system libraries
+- Irrlicht
+- OpenGL-mesa
+- NCurses
+- NCursesw
+- Curses Forms
+- Curses Menu
+- Cairo on X
+- ?libmd?
+- jsdev
+- s7 extension language
+- ?X Athena Widgets?
+
+To build
+- C/C++ compiler toolchain
+  - gcc reccommended
+- ?M4?
+- make
+- shell redirection
+- shell pipes
+
+To run
+- X11 session
+- X Virtual Terminal (x2)
+  - XTerm, Unicode, 256-color recommended
+  - the program must be invoked with the dev file path of the terminal it
+    is **not** invoked on as one of its arguments.
+- invocation arguments are parsed into a scheme alist
+  - ((argv[odd] . argv[even]) ...)
+
+To play
+- Keyboard with Numeric keypad
+- Mouse
+- Gamepad with at least
+  - 2x analogue stick
+  - 2x throttle or trigger
+  - hat or d-pad
+  - 11 buttons
+
+To debug
+- external debugger program
+  - gdb reccommended
+- X Virtual Terminal (+1)
+
+other
+- doxygen
+- makeinfo

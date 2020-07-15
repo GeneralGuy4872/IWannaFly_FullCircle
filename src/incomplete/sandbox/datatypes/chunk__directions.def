@@ -1,0 +1,19 @@
+#ifdef ___IMPORT
+#undef ___IMPORT
+#define UP 0
+#define DOWN 1
+#define NORTH 2
+#define SOUTH 3
+#define WEST 4
+#define EAST 5
+#endif
+
+#ifdef ___UNPORT
+#undef ___UNPORT
+#undef UP
+#undef DOWN
+#undef NORTH
+#undef SOUTH
+#undef WEST
+#undef EAST
+#endif

@@ -1,0 +1,11 @@
+player should awaken in an alley, with no money,
+no weapons aside from a shiny copper pipe
+
+upon trying to leave the allyway, they suprise a mugger.
+the player kills the mugger with a single attack.
+they drop a throwing knife, and 2 wanted posters (WANTED1.txt and
+WANTED2.txt).
+
+before reading these, it should be noted that the prices in the game are
+typically given in kilo-currency or kilo-credits, and are always divisible
+by 10 or 25.

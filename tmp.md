@@ -3,42 +3,41 @@ IWannaFly (working title)
 
 ***Pre-Pre-Alpha version...idek***
 
-A Nearly Realtime RPG Engine written in C, C++, and lua
--------------------------------------------------------
+A Nearly Realtime RPG Engine written in C, C++, an an undetermined scripting language
+--------------------------------------------------------------
 
 At this point, I've learned a bunch of stuff on both the programming and
 metaprogramming\* level, and I think I have a pretty good idea of how to
 move forward. This project was started primarily as a self-study
 opportunity, and it's been a fun journey.
 
-
-I have now settled on a language, an overall structure, and some
-libraries. from here, I do not forsee any further false starts and hope
-to have smooth(ish) sailing through to a working alpha!
+I have now settled on a language, an overall structure, and some libraries.
+from here, I do not forsee any further false starts and hope to have
+smooth(ish) sailing through to a working alpha!
 
 The game engine uses the
 [Irrlicht Engine](http://irrlicht.sourceforge.net/) for rendering 3d
 graphics, [Cairo Graphics](https://www.cairographics.org/) for rendering
-pictures, [NCurses](https://invisible-island.net/ncurses/) for rendering
-in-game dialog, and [lua](http://www.lua.org/) for both extensions and a
-command line\
+pictures, [NCurses](https://invisible-island.net/ncurses/) for
+rendering in-game dialog, and [ChaiScript](http://chaiscript.com/) for both
+extensions and a command line *(2 seperate instances)*.\
   *additional dependancies will follow...*
 
 use of an [external debugger](https://www.gnu.org/software/gdb/) is
 recommended if **Bad Things** start happening.
 
 C code will use notation in variable names to seperate namespaces, using
-`$$` in place of `::` *(this requires that a compiler support the
-extension detailed in ISO 9899 Annex J.5.2)*
+`$$` in place of `::` *(this requires that a compiler support the extension
+detailed in ISO 9899 Annex J.5.2)*
 
 2 example games will be provided: a high fantasy game with a wide cast of
 playable characters, and a cyberpunk game with a single customizable
-character. chunks can be connected in such a way to form wormholes that
-are one-way or bidirectional.
+character. chunks can be connected in such a way to form wormholes that are
+one-way or bidirectional.
 
-when reporting bugs, please note if the bug concerns the engine, or one
-of the games, and which part of the engine or game; additionally, if the
-bug concerns a freshly loaded state, try *turning it off and on again*.
+when reporting bugs, please note if the bug concerns the engine,
+or one of the games, and which part of the engine or game; additionally, if
+the bug concerns a freshly loaded state, try *turning it off and on again*.
 
 CODING STYLE
 ============
@@ -46,24 +45,22 @@ CODING STYLE
 occasionally, a type of C coding called "Object Style C" will be used,
 which takes the following form:
 `namespace$$pseudo_class$$method(pseudo_object,arg,arg,arg...)`
+functions that in fortran would be called "subroutines" are also used, and
+will be denoted by returning an implicit int or the SYSINT macro (which 
+evaluates to the empty string *(implicit int)* in C and to `int` in C++)
 
-functions that in fortran would be called "subroutines" are also used,
-and will be denoted by returning an implicit int or the SYSINT macro
-(which evaluates to the empty string *(implicit int)* in C and to `int`
-in C++)
-
-the types in `<stdint.h>` (or <cstdint>) should be used when an integer
-of a specific width is required, with the exception that `char` should be
+the types in `<stdint.h>` (or <cstdint>) should be used when an integer of
+a specific width is required, with the exception that `char` should be
 prefferred to `int8_t`, and `unsigned char` should be prefferred to
-`uint8_t`. if an interger bitfield uses less than the full number of
-bytes in an int, then it should be signed; otherwise it should
-(*usually*) be unsigned.
+`uint8_t`. if an interger bitfield uses less than the full number of bytes
+in an int, then it should be signed; otherwise it should (*usually*) be
+unsigned.
 
 `struct`s should be catagorized into bitpacked structs and loosly-packed
 structs. every field of a bitpacked struct should have an explicit width,
 and should be of type `signed`, `unsigned`, or `bool`. a loosly-packed
-struct should never use explicit-width fields. bitpacked structs should
-eventually be replaced with interger bitfields.
+struct should never use explicit-width fields. bitpacked structs should be
+replaced with interger bitfields.
 
 since `this` is a reserved word in C++, and `self` is a reserved word in
 Objective-C, when using Object-Style-C, the object variable will be named
@@ -89,8 +86,8 @@ variables with generic names follow the following conventions:
 
 a naming system similar to
 [Systems Hungarian](https://en.wikipedia.org/wiki/Hungarian_notation)
-is revived for the pourpose of manually mangling C functions that can
-take multiple argument types, as this allows such functions to maintain C
+is revived for the pourpose of manually mangling C functions that can take
+multiple argument types, as this allows such functions to maintain C
 linkage while also having faux overloads. this is similar to functions in
 the C standard library such as `abs()` and `fabs()`.
 
@@ -114,13 +111,12 @@ files should use the following extensions:
   - `*.txt` : raw text
   - `*.ro4` : ciphertext (see below)
   - `*.curses` : bytecode for a curses interpreter
-  - `*.lua` : a lua script
 
 files ending in .ro4 contain severe spoilers, and have been ciphered by
 applying a [Circular Shift](https://en.wikipedia.org/wiki/Circular_shift)
-of 4 to every byte of the file (the result is the same in either
-direction like in a rot13 cipher); the program I use is provided in
-`nybbleswap.c`, which is designed to be used in a shell pipeline.\
+of 4 to every byte of the file (the result is the same in either direction
+like in a rot13 cipher); the program I use is provided in `nybbleswap.c`,
+which is designed to be used in a shell pipeline.\
 to cipher a file:
 `cat plaintext.txt | nybbleswap > ciptertext.ro4`\
 to uncipher a file:
@@ -132,17 +128,8 @@ to edit a file:
 
 ---
 
-*at various points in development, I have entertained using the following
-libraries, but have since decided to go with a different design:
-- Guile
-- Perl
-- Raylib
-- GLX
-- Angelscript
-- s7 scheme
-- Chaiscript
-earlier branches of the source tree may include broken code that uses
-these libraries.*
+**Publisher is not liable for Bad Things happening due to usage of this
+code.**
 
 ---
 
