@@ -40,6 +40,26 @@ when reporting bugs, please note if the bug concerns the engine, or one
 of the games, and which part of the engine or game; additionally, if the
 bug concerns a freshly loaded state, try *turning it off and on again*.
 
+BUILDING
+========
+
+at the moment, compilable code lives in `/src/working/*`. to compile, run
+the `build.sh` script from the same directory. please report any bugs that
+occur:
+- if the problem is during compilation, include your toolchain's name,
+  version, naitive architecture, and target architecture, as well as
+  command-line flags and steps you have taken to fix the bug.
+- if the problem is in the linking stage, please include the above as well
+  as the versions of the libraries you are linking to, your opengl and glsl
+  versions, and your system os/kernel/distribution.
+- if the program has an error while running, include all of the above and
+  any error output. also include the state of the second terminal (i.e. can
+  you type on it? is the cursor in the correct place? is the text the
+  correct color?)
+
+if you found a bug and were able to fix it yourself, please report it
+anyway.
+
 CODING STYLE
 ============
 

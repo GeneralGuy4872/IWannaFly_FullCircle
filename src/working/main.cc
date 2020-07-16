@@ -4,13 +4,15 @@
  *  prealpha  *
  **************/
 
+#define SNAPSHOT "MORNING/16/07/2020"
+
 /* part of this program has been created using the toutorials at
  * http://irrlicht.sourceforge.net/docu/pages.html
  */
 
 /* this program currently requires a second terminal; this may be anything
- * that can be passed to the program as argv[1] and fopened "r+". stderr
- * should also be redirected to the same file. invocation might be:
+ * that can be passed to the program as argv[1] and fopened "r+".
+ * invocation might be:
  *
  * Iwannafly /dev/pts/1 savefile 2>~/logfile
  *
@@ -22,7 +24,6 @@
 #define RGBColor(R,G,B) irr::video::SColor(0xFF,R,G,B)
 #define RGBAColor(R,G,B,A) irr::video::SColor(A,R,G,B)
 
-
 #include <cstdio>
 #include <cstdint>
 #include <cmath>
@@ -30,14 +31,21 @@
 
 #include <map>
 #include <string>
+#include <atomic>
 
 #include <irrlicht/irrlicht.h>
 //#include <lua5.3/lua.hpp>
 
+#include <unistd.h>
+#include <pthread.h>
+
 extern "C" {
-	#include <pthread.h>
 	#include <curses.h>
-	}
+	}	//not C++ safe
+
+std::atomic_bool SCRAM;
+std::atomic<int16_t> PING;
+std::atomic<uint16_t> JITTER;
 
 namespace iwf { namespace datatypes {
 class camcoord {
@@ -68,51 +76,192 @@ namespace irrcontext {
 	}
 
 //lua_State * LSTATE;
-std::map<std::string,pthread_t *> THREADS;
 iwf::datatypes::camcoord CAMCOORD;
 irr::scene::ICameraSceneNode * CAMERA;
+pthread_mutex_t CAMLOCK = PTHREAD_MUTEX_INITIALIZER; 
+volatile std::atomic_bool STEALCURSOR;
 
-class MyEventReciever : public irr::IEventReceiver {
+class MainEventReciever : public irr::IEventReceiver {
 	public:
-    	virtual bool OnEvent (const irr::SEvent& event) {
-        	if (event.EventType == irr::EET_KEY_INPUT_EVENT) {
-			KeyIsDown[event.KeyInput.Key] = event.KeyInput.PressedDown;
-			return false;
-		}}
+	virtual bool OnEvent (const irr::SEvent& event) {
+		switch (event.EventType) {
+			case irr::EET_MOUSE_INPUT_EVENT : switch (event.MouseInput.Event) {
+				case irr::EMIE_LMOUSE_PRESSED_DOWN : {
+puts("\033[1;36mBEGIN LMOUSE\033[m");
+					STEALCURSOR = true;
+//					irrcontext::cursctrl->setVisible(0);
+					irrcontext::cursctrl->setPosition(0.5f,0.5f);
+					this->mouseCenter = irrcontext::cursctrl->getPosition();
+puts("\033[1;36mEND LMOUSE\033[m");
+					} break;
+				case irr::EMIE_MOUSE_MOVED : if (STEALCURSOR && (PING < 32)) {
+puts("\033[1;36mBEGIN MOUSE MOVE\033[m");
+					pthread_mutex_lock(&CAMLOCK);
+					CAMCOORD.el += (event.MouseInput.Y - this->mouseCenter.Y) * (180 / M_PI) * (1 / 1000.0) * irrcontext::deltatime;
+						if (CAMCOORD.el >= 0.0) {
+							CAMCOORD.el = 0 - (M_PI / 1000);
+						} else if (CAMCOORD.el <= -M_PI) {
+							CAMCOORD.el = -(M_PI - (M_PI / 1000));
+							}
+					CAMCOORD.az += (event.MouseInput.X - this->mouseCenter.X) * (180 / M_PI) * (1 / 1000.0) * irrcontext::deltatime;
+						while (CAMCOORD.az < -M_PI) {
+							CAMCOORD.az += 2 * M_PI;
+						} while (CAMCOORD.az > M_PI) {
+							CAMCOORD.az -= 2 * M_PI;
+							}
+					pthread_mutex_unlock(&CAMLOCK);
+					irrcontext::cursctrl->setPosition(0.5f,0.5f);
+					PING++;
+puts("\033[1;36mEND MOUSE MOVE\033[m");
+					} break;
+				default : break;
+				}
+			case (irr::EET_KEY_INPUT_EVENT) : {
+				if (event.KeyInput.PressedDown) {
+					switch (event.KeyInput.Key) {
 
-	virtual bool IsKeyDown(irr::EKEY_CODE keyCode) {
-		return KeyIsDown[keyCode];
+						case irr::KEY_KEY_W : {
+puts("\033[1;36mBEGIN KEYPRESS W\033[m");
+							pthread_mutex_lock(&CAMLOCK);
+							CAMCOORD.el += 5 * irrcontext::deltatime;
+							if (CAMCOORD.el >= 0.0) {
+								CAMCOORD.el = 0 - (M_PI / 1000);
+								}
+							pthread_mutex_unlock(&CAMLOCK);
+puts("\033[1;36mEND KEYPRESS W\033[m");
+							} break;
+
+						case irr::KEY_KEY_S : {
+puts("\033[1;36mBEGIN KEYPRESS S\033[m");
+							pthread_mutex_lock(&CAMLOCK);
+							CAMCOORD.el -= 5 * irrcontext::deltatime;
+							if (CAMCOORD.el <= -M_PI) {
+								CAMCOORD.el = -(M_PI - (M_PI / 1000));
+								}
+							pthread_mutex_unlock(&CAMLOCK);
+puts("\033[1;36mEND KEYPRESS S\033[m");
+							} break;
+
+						case irr::KEY_KEY_A : {
+puts("\033[1;36mBEGIN KEYPRESS A\033[m");
+							pthread_mutex_lock(&CAMLOCK);
+							CAMCOORD.az -= 5 * irrcontext::deltatime;
+							while (CAMCOORD.az < -M_PI) {
+								CAMCOORD.az += 2 * M_PI;
+								}
+							pthread_mutex_unlock(&CAMLOCK);
+puts("\033[1;36mEND KEYPRESS A\033[m");
+							} break;
+
+						case irr::KEY_KEY_D : {
+puts("\033[1;36mBEGIN KEYPRESS D\033[m");
+							pthread_mutex_lock(&CAMLOCK);
+							CAMCOORD.az += 5 * irrcontext::deltatime;
+							while (CAMCOORD.az > M_PI) {
+								CAMCOORD.az -= 2 * M_PI;
+								}
+							pthread_mutex_unlock(&CAMLOCK);
+puts("\033[1;36mEND KEYPRESS D\033[m");
+							} break;
+
+						case irr::KEY_ESCAPE : {
+puts("\033[1;36mBEGIN KEYPRESS ESC\033[m");
+							STEALCURSOR = 0;
+							irrcontext::cursctrl->setVisible(1);
+puts("\033[1;36mEND KEYPRESS ESC\033[m");
+							} break;
+
+						default : break;
+				}}} break;
+			default : break;
+			}
 		}
-
-	SYSINT MyEventReceiver() {
-		for (int i = 0;i < irr::KEY_KEY_CODES_COUNT;i++) {
-			KeyIsDown[i] = false;
-		}}
-
 	private:
-	bool KeyIsDown[irr::KEY_KEY_CODES_COUNT];
+	irr::core::vector2di mouseCenter;
 	};
 
-MyEventReciever RECIEVER;
+MainEventReciever RECIEVER;
+SCREEN * CURSCREEN;
 
-SYSINT initialize (char * argv0,char * argv1) {
+void * iwf$$threads$$jitterbug$$loop (void * dummy) {
+	for (;;) {
+puts("\033[95mPING++;\033[m");
+	PING++;
+puts("\033[95mif (PING == -1) {\033[m");
+	if (PING == -1) {
+		SCRAM = true;
+		return -1;
+		}
+	JITTER = (JITTER + (PING * 2)) / 2;
+puts("\033[95musleep(5000);\033[m");
+	usleep(5000);
+	}}
+
+pthread_t iwf$$threads$$jitterbug;
+
+void * iwf$$threads$$curses$$function (void * input) {
+	char *(*argv)[] = input;
 	for (int fg = 0;fg < 8;fg++) {
 		for (int bg = 0;bg < 8;bg++) {
 			init_pair(fg | (bg << 3),fg,bg);
 		}}
-
-	FILE * dev = fopen(argv1,"r+");
-
-	if (dev == NULL) {
+	FILE * devfile = fopen((*argv)[1],"r+");
+	if (devfile == NULL) {
 		fprintf(stderr,"%s\n(Not a typewriter?)\n",strerror(errno));
-		printf("usage: %s <tty> ...\n",argv0);
-		exit(1);
+		printf("usage: %s <another tty> <$TERM of tty> ...\n",(*argv)[0]);
+		SCRAM = true;
+		return 1;
 		}
 
-	newterm(NULL,dev,dev);
+	CURSCREEN = newterm((*argv)[2],devfile,devfile);
+	set_term(CURSCREEN);
+	
 	raw();
 	noecho();
 	keypad(NULL,1);
+
+	mvprintw(3,3,"IWannaFly");
+	mvprintw(4,4,"prealpha devtest");
+	mvprintw(5,5,"revision snapshot:");
+	mvprintw(6,5,SNAPSHOT);
+
+	irr::core::vector3df placeholder;
+	int placeholder2;
+
+	for (;;) {
+puts("\033[3;32mpthread_mutex_lock(&CAMLOCK);\033[m");
+		pthread_mutex_lock(&CAMLOCK);
+puts("\033[3;32mvprintw(… × 3\033[m");
+		mvprintw(8,8,"camera azimuth   : %+3.10f°",CAMCOORD.az * (180 / M_PI));
+		mvprintw(9,8,"camera elevation : %+3.10f°",CAMCOORD.el * (180 / M_PI));
+		mvprintw(11,8,"camera basis vector: %+3.10f°",CAMCOORD.el * (180 / M_PI));
+puts("\033[3;32mplaceholder = CAMCOORD.euclid();\033[0");
+		placeholder = CAMCOORD.euclid();
+puts("\033[3;32mpthread_mutex_unlock(&CAMLOCK);\033[0");
+		pthread_mutex_unlock(&CAMLOCK);
+puts("\033[3;32mvprintw(… × 4\033[0");
+		mvprintw(12,10,"%+2.10fx",placeholder.X);
+		mvprintw(13,10,"%+2.10fy",placeholder.Y);
+		mvprintw(14,10,"%+2.10fz",placeholder.Z);
+		mvprintw(16,8,"camera locked? >%s",STEALCURSOR ? "no " : "yes");
+puts("\033[3;32placeholder2 = JITTER;\033[m");
+		placeholder2 = JITTER;
+puts("\033[3;32mvprintw(… × 1\033[0");
+		mvprintw(17,8,"adverage jitter : %f",placeholder2 / 2.0);
+puts("\033[3;32mrefresh();\033[m");
+		refresh();
+puts("\033[3;32msleep(1);\033[m");
+		sleep(1);
+	}};
+
+pthread_t iwf$$threads$$curses;
+
+SYSINT initialize (char *argv[]) {
+	setvbuf(stdout, NULL, _IONBF, 0);
+	SCRAM = 0;
+
+	pthread_create(&iwf$$threads$$curses,NULL,iwf$$threads$$curses$$function,argv);
+	pthread_create(&iwf$$threads$$jitterbug,NULL,iwf$$threads$$jitterbug$$loop,NULL);
 
 	irrcontext::device = irr::createDevice(irr::video::EDT_OPENGL,irr::core::dimension2d<irr::u32>(640, 480),16,false,false,false,&RECIEVER);
 	irrcontext::driver = irrcontext::device->getVideoDriver();
@@ -122,10 +271,9 @@ SYSINT initialize (char * argv0,char * argv1) {
 	irrcontext::cursctrl = irrcontext::device->getCursorControl();
 	irrcontext::timer = irrcontext::device->getTimer();
 
-	irrcontext::guienv->addStaticText(L"IWannaFly Devtest prealpha version 0.0.9001",irr::core::rect<irr::s32>(10,10,260,22),1);
+	irrcontext::guienv->addStaticText(L"IWannaFly Devtest prealpha snapshot " SNAPSHOT,irr::core::rect<irr::s32>(10,10,260,22),1);
 	CAMERA = irrcontext::smgr->addCameraSceneNode(NULL,irr::core::vector3df(0,0,0),irr::core::vector3df(1,1,1));
 	CAMERA->setUpVector(irr::core::vector3df(0,0,1));
-	irrcontext::cursctrl->setVisible(false);
 
 	for (int x = 0;x < 2;x += 1) {
 		for (int y = 0;y < 2;y += 1) {
@@ -153,40 +301,35 @@ SYSINT initialize (char * argv0,char * argv1) {
 //	}
 
 main (int argc, char *argv[]) {
+	
 	if (argc < 2) {
-		printf("usage: %s <tty> ...\n",argv[0]);
+		printf("usage: %s <another tty> <$TERM of tty> ...\n",argv[0]);
 		exit(1);
 		}
-	initialize(argv[0],argv[1]);
+	initialize(argv);
 	while (irrcontext::device->run()) {
-		if (RECIEVER.IsKeyDown(irr::KEY_KEY_W)) {
-			CAMCOORD.el += 5 * irrcontext::deltatime;
-				if (CAMCOORD.el >= 0.0) {
-					CAMCOORD.el = 0 - (M_PI / 1000);
-				}}
-		if (RECIEVER.IsKeyDown(irr::KEY_KEY_S)) {
-			CAMCOORD.el -= 5 * irrcontext::deltatime;
-				if (CAMCOORD.el <= -M_PI) {
-					CAMCOORD.el = -(M_PI - (M_PI / 1000));
-				}}
-		if (RECIEVER.IsKeyDown(irr::KEY_KEY_A)) {
-			CAMCOORD.az -= 5 * irrcontext::deltatime;
-				while (CAMCOORD.az < -M_PI) {
-					CAMCOORD.az += 2 * M_PI;
-				}}
-		if (RECIEVER.IsKeyDown(irr::KEY_KEY_D)) {
-			CAMCOORD.az += 5 * irrcontext::deltatime;
-				while (CAMCOORD.az > M_PI) {
-					CAMCOORD.az -= 2 * M_PI;
-				}}
-
+puts("PING = 0;");
+		PING = 0;
+puts("if (SCRAM) exit(0);");
+		if (SCRAM) exit(0);
+puts("pthread_mutex_lock(&CAMLOCK);");
+		pthread_mutex_lock(&CAMLOCK);
+puts("CAMERA->setTarget(CAMCOORD.euclid());");
 		CAMERA->setTarget(CAMCOORD.euclid());
+puts("pthread_mutex_unlock(&CAMLOCK);");
+		pthread_mutex_unlock(&CAMLOCK);
+puts("irrcontext::driver->beginScene(true, true, RGBAColor(0,0,0xAA,0xF0));");
 		irrcontext::driver->beginScene(true, true, RGBAColor(0,0,0xAA,0xF0));
+puts("irrcontext::smgr->drawAll();");
 		irrcontext::smgr->drawAll();
+puts("irrcontext::guienv->drawAll();");
 		irrcontext::guienv->drawAll();
+puts("irrcontext::driver->endScene();");
 		irrcontext::driver->endScene();
-
+puts("irrcontext::now = irrcontext::timer->getTime();");
 		irrcontext::now = irrcontext::timer->getTime();
+puts("irrcontext::deltatime = (irrcontext::now - irrcontext::then) / 1000.0;");
 		irrcontext::deltatime = (irrcontext::now - irrcontext::then) / 1000.0;
+puts("irrcontext::then = irrcontext::now;");
 		irrcontext::then = irrcontext::now;
-	}}
+		}}
