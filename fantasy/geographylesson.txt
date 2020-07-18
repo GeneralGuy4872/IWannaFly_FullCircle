@@ -1,0 +1,22 @@
+Court aid - You've never left the <Starting City>, eh? well, let me give
+	you a quick run down of our situation. we've got the <Yellow Empire>
+	and it's vassals bordering us to our southeast, the <Red Empire>
+	and it's client states to the west, and the <Blue Empire> to the
+	south; all of whom are totalitarion dystopias with no regard for
+	the wellbeing of the people. ever since we declared our little
+	city-state to be soverign, well... they started out all trying to
+	capture it at the same time; next thing you know, they're all
+	fighting eachother instead. by the time they get that all sorted
+	out, we got to thinking, we're right in the shadow of the siren
+	lands, why not ask them for help?
+
+[1] - the elders were hesitant at first, but it's been very benificial for
+	both of us. we've had a safe place to come over the wall and launch
+	covert operations, and they have protection from any enemies that
+	might mistake them for an easy target.
+
+Court aid - and your people have also been eager to trade with us for
+	fruits and spices
+
+[1] - well, there's certain things that just won't grow in the polar
+	mountains... and they all taste so good!

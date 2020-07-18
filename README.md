@@ -131,9 +131,10 @@ files should use the following extensions:
   - `*.H` : C or C++ header
   - `*.inc` : transclusion, for editing conveniance
 - data files
-  - `*.txt` : raw text
+  - `*.txt` : raw utf-8 text
+  - `*.strings` : nul-terminated utf-8 strings, formatted with CGI codes
+    (don't open in an editor that cannot handle C0 control characters)
   - `*.ro4` : ciphertext (see below)
-  - `*.curses` : bytecode for a curses interpreter
   - `*.lua` : a lua script
 
 files ending in .ro4 contain severe spoilers, and have been ciphered by

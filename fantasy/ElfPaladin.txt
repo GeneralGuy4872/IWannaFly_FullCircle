@@ -1,10 +1,4 @@
-/* same event takes place early in the avian black mage quest as well
- * (ch 2) ; the two selections are thus mutually exclusive.
- *
- * this method of having alternate character options show up in
- * eachother's stories will reduce the number of needed storylines
- *
- * this event has your typical court scene, with an atypical court.
+/* this event has your typical court scene, with an atypical court.
  * most of the things discussed here are of some importance,
  * with plenty of conspirecy and intrigue to sustain sidequests for
  * the majority of the game's first quarter

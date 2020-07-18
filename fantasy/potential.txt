@@ -1,5 +1,5 @@
-thief, chapter 2, dream
-=======================
+thief/rogue, chapter 2, dream
+=============================
 
 [0] -	You're asking yourself the wrong question.
 
