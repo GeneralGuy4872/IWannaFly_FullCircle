@@ -1,5 +1,0 @@
-after the first quarter of the game, partys can be merged. doing so
-requires that both games be in the same global chapter, that the game is
-saved in a "Designated Area", that 2 individuals are not duplicated, and
-that the subspell "Wormhole - Summon Party" is known by a member of the
-party to be merged into.

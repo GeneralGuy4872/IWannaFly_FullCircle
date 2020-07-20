@@ -1,9 +1,0 @@
-//if the uuid implementation you use is different, adjust appropriately
-
-#ifndef UUID_TYPE
-#define UUID_TYPE unsigned char
-#endif
-
-#ifndef UUID_LENGTH
-#define UUID_LENGTH 16
-#endif
