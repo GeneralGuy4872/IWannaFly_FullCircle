@@ -32,9 +32,17 @@ C code will use notation in variable names to seperate namespaces, using
 extension detailed in ISO 9899 Annex J.5.2)*
 
 2 example games will be provided: a high fantasy game with a wide cast of
-playable characters, and a cyberpunk game with a single customizable
-character. chunks can be connected in such a way to form wormholes that
-are one-way or bidirectional.
+playable characters and fixed story, and a cyberpunk game with a single
+custom character and dynamic story.
+
+one of the primary features of the game is that it involves full 3D
+navigation, through the inclusion of characters have free flight or
+underwater breathing capabilities.
+
+another feature is that chunks _do not have to be_ connected in a way that
+forms a flat manifold, which when combined with the above, can form
+interesting and mind-bending mazes, similar to the ones found in
+[early text adventure games](https://en.wikipedia.org/wiki/Colossal_Cave_Adventure).
 
 when reporting bugs, please note if the bug concerns the engine, or one
 of the games, and which part of the engine or game; additionally, if the
@@ -43,22 +51,24 @@ bug concerns a freshly loaded state, try *turning it off and on again*.
 BUILDING
 ========
 
-at the moment, compilable code lives in `/src/working/*`. to compile, run
-the `build.sh` script from the same directory. please report any bugs that
-occur:
+compilable code lives in `/src/working/*`. to compile, cd there and run
+the `build.sh` script. please report any bugs that occur:
+
 - if the problem is during compilation, include your toolchain's name,
   version, naitive architecture, and target architecture, as well as
   command-line flags and steps you have taken to fix the bug.
-- if the problem is in the linking stage, please include the above as well
-  as the versions of the libraries you are linking to, your opengl and glsl
-  versions, and your system os/kernel/distribution.
-- if the program has an error while running, include all of the above and
-  any error output. also include the state of the second terminal (i.e. can
-  you type on it? is the cursor in the correct place? is the text the
-  correct color?)
 
-if you found a bug and were able to fix it yourself, please report it
-anyway.
+- if the problem is in the linking stage, please include the above as
+  well as the versions of the libraries you are linking to, your opengl
+  and glsl versions, and your system os/kernel/distribution.
+
+- if the program has an error while running, include all of the above,
+  the terminal programs, the invocation, and any error output. also
+  include the state of both terminals (screenshots, what happens if you
+  type on them, etc) and if the savefile is corrupted.
+
+- if you found a bug and were able to fix it yourself, please report it
+  anyway. please include what you did to fix it!
 
 CODING STYLE
 ============
@@ -165,7 +175,8 @@ libraries, but have since decided to go with a different design:
 earlier branches of the source tree may include broken code that uses
 these libraries.*
 
----
+LICENSE
+=======
 
 The project, as a complete entity, is licensed under the terms of the GNU
 General Public License, Version 2.0, or at your option, any later version.
