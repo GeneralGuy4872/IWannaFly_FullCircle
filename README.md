@@ -11,17 +11,16 @@ metaprogramming\* level, and I think I have a pretty good idea of how to
 move forward. This project was started primarily as a self-study
 opportunity, and it's been a fun journey.
 
-
 I have now settled on a language, an overall structure, and some
 libraries. from here, I do not forsee any further false starts and hope
 to have smooth(ish) sailing through to a working alpha!
 
 The game engine uses the
 [Irrlicht Engine](http://irrlicht.sourceforge.net/) for rendering 3d
-graphics, [Cairo Graphics](https://www.cairographics.org/) for rendering
-pictures, [NCurses](https://invisible-island.net/ncurses/) for rendering
-in-game dialog, and [lua](http://www.lua.org/) for both extensions and a
-command line\
+graphics, [Cairo Graphics](https://www.cairographics.org/) for 2d graphics,
+[NCurses](https://invisible-island.net/ncurses/) for interactive menus,
+`<stdio.h>` for story dialog, and [lua](https://www.lua.org/) for scripting
+and a command line.\
   *additional dependancies will follow...*
 
 use of an [external debugger](https://www.gnu.org/software/gdb/) is
@@ -95,6 +94,12 @@ and should be of type `signed`, `unsigned`, or `bool`. a loosly-packed
 struct should never use explicit-width fields. bitpacked structs should
 eventually be replaced with interger bitfields.
 
+sincle-pourpose classes for storing global state, to me at least, seems a
+wholly useless concept; this is an interface without an instance. I will
+try to implement these as namespaces (either C++ namespaces or using $$ as
+described elsewhere), and will attempt to refer to such namespaces as
+"daemons" (cf. system daemon) if the interface contains functions.
+
 since `this` is a reserved word in C++, and `self` is a reserved word in
 Objective-C, when using Object-Style-C, the object variable will be named
 `opaque` for `void *` pointers to C++ objects, or `object` for pointers
@@ -113,8 +118,7 @@ variables with generic names follow the following conventions:
 - `n` and `m` are generic numbers, usually for-loop intergal counters
 - `tmp` is a temporary variable, usually holding an intermidiate value.
 - `T` is a type in a template
-- `L` is a length (ℓ); it breaks from the usual capitalization rules
-  because of the `1`/`l`/`I` rule
+- `L` is a lua engine
 - `data` is the main data member of an object
 
 a naming system similar to
@@ -163,17 +167,26 @@ to edit a file:
 
 ---
 
-*at various points in development, I have entertained using the following
-libraries, but have since decided to go with a different design:
+at various points in development, I have tried using the following
+libraries, but have moved away for them:
+
 - Guile
-- Perl
 - Raylib
-- GLX
-- Angelscript
+- Perl
+- OpenGL/GLX
+- Python
+- tcl
 - s7 scheme
+- TinyScheme
 - Chaiscript
+- SQLite
+
 earlier branches of the source tree may include broken code that uses
-these libraries.*
+these libraries. the reasons for changing are varied, and variously include
+the APIs being too low level, not lowlevel enough, too big, inadequate
+documentation, and license propagation conflict (specifically, using some
+libraries listed here would have resulted in a malformed combination of
+incompatible licenses).
 
 LICENSE
 =======

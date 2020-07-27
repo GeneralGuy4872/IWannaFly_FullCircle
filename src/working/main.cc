@@ -4,7 +4,7 @@
  *  prealpha  *
  **************/
 
-#define SNAPSHOT "NIGHT/20/07/2020"
+#define SNAPSHOT "AFTERNOON/26/07/2020"
 
 /* this program currently requires a second terminal to be used; this is
  * done by passing the terminal's device file (which can be obtained with
@@ -38,6 +38,7 @@
 
 #include <irrlicht/irrlicht.h>
 #include <lua5.3/lua.hpp>
+#include <lua5.3/lauxlib.h>
 
 #include <unistd.h>
 #include <pthread.h>
@@ -53,6 +54,8 @@ std::atomic<char> JITTER;
 std::atomic<char> JITTERMAX;
 pthread_mutex_t JITTER_ADV_LOCK = PTHREAD_MUTEX_INITIALIZER;
 float JITTER_ADVERAGE;
+typedef std::map<char,irr::scene::IMeshSceneNode *> NODES_t;
+NODES_t NODES;
 
 #define THREAD__MAIN 0
 #define THREAD__EVENT 1
@@ -97,8 +100,8 @@ namespace irrcontext {
 iwf::datatypes::camcoord CAMCOORD;
 irr::scene::ICameraSceneNode * CAMERA;
 pthread_mutex_t CAMLOCK = PTHREAD_MUTEX_INITIALIZER; 
-volatile std::atomic_bool STEALCURSOR;
-volatile std::atomic_bool YINVERT;
+std::atomic_bool STEALCURSOR;
+std::atomic_bool YINVERT;
 
 /***EVENT LOOP***/
 
@@ -128,7 +131,9 @@ class MainEventReciever : public irr::IEventReceiver {
 					this->mouseCenter = irrcontext::cursctrl->getPosition();
 					CHECKPOINT(THREAD__EVENT,__LINE__);
 					} break;
-				case irr::EMIE_MOUSE_MOVED : if (STEALCURSOR) {
+				case irr::EMIE_MOUSE_MOVED : if (!STEALCURSOR) {
+					return false;
+				} else {
 					CHECKPOINT(THREAD__EVENT,__LINE__);
 					pthread_mutex_lock(&CAMLOCK);
 					CAMCOORD.el += (event.MouseInput.Y - this->mouseCenter.Y) * (YINVERT ? -1 : 1) * (180 / M_PI) * (1 / 1000.0) * irrcontext::deltatime;
@@ -228,7 +233,7 @@ MainEventReciever RECIEVER;
 
 void * iwf$$threads$$jitterbug$$loop (void * dummy) {
 	double localbuffer = 0.0;
-	for (;;) {
+	for (;;usleep(POLLTIME)) {
 	CHECKPOINT(THREAD__JITTERBUG,__LINE__);
 	JITTER++;
 	if (JITTER == -1) {
@@ -242,8 +247,7 @@ void * iwf$$threads$$jitterbug$$loop (void * dummy) {
 		JITTER_ADVERAGE = localbuffer;
 		pthread_mutex_unlock(&JITTER_ADV_LOCK);
 		}
-	CHECKPOINT(THREAD__JITTERBUG,__LINE__);
-	usleep(POLLTIME);
+	CHECKPOINT(THREAD__JITTERBUG,__LINE__);	
 	}}
 
 pthread_t iwf$$threads$$jitterbug;
@@ -287,7 +291,7 @@ void * iwf$$threads$$curses$$function (void * input) {
 	int tmp4;
 	int tmp5;
 
-	for (;;) {
+	for (;;sleep(1)) {
 		CHECKPOINT(THREAD__NCURSES,__LINE__);
 		pthread_mutex_lock(&CAMLOCK);
 		mvprintw(8,8,"camera azimuth   : % 15.10f°",CAMCOORD.az * (180 / M_PI));
@@ -321,10 +325,29 @@ void * iwf$$threads$$curses$$function (void * input) {
 		CHECKPOINT(THREAD__NCURSES,__LINE__);
 		refresh();
 		CHECKPOINT(THREAD__NCURSES,__LINE__);
-		sleep(1);
 	}};
 
 pthread_t iwf$$threads$$curses;
+
+/***CHANGE THE COLORS***/
+
+// lua code created using toutorials at lua.org
+
+static int LFunc$$changecolor (lua_State * L) {
+	int tmp[5];
+	for (ptrdiff_t i = 0;i < 5;i++) {
+		tmp[i] = lua_tointeger(L,i + 1);
+	}{
+	NODES_t::iterator i = NODES.find(tmp[0]);
+	if (i != NODES.end()) {
+		irrcontext::meshmanipr->setVertexColors(i->second->getMesh(),RGBAColor(tmp[1],tmp[2],tmp[3],tmp[4]));
+		return 0;
+	}}}
+
+static const struct luaL_Reg LLib$$changecolor [] = {
+	{"changecolor",LFunc$$changecolor},
+	{NULL,NULL}
+	};
 
 /***INTERNAL SCRIPTING LUA THREAD***/
 
@@ -334,6 +357,8 @@ std::string SCRIPTJOB;
 
 void * iwf$$threads$$lua__scripting$$function (void * dummy) {
 	lua_State * L = luaL_newstate();
+	luaL_newlib(L,LLib$$changecolor);
+	lua_setglobal(L,"lib");
 	for (;;usleep(POLLTIME)) {
 		pthread_mutex_lock(&SCRIPTPASS);
 		CHECKPOINT(THREAD__LUA_SCRIPTING,__LINE__);
@@ -354,11 +379,18 @@ pthread_t iwf$$threads$$lua__scripting;
 
 void * iwf$$threads$$lua__commandline$$function (void * dummy) {
 	lua_State * L = luaL_newstate();
+	luaL_newlib(L,LLib$$changecolor);
+	lua_setglobal(L,"lib");
+	printf("IWannaFly lua commandline\n]> ");
 	for (std::string buffer;;) {
 		CHECKPOINT(THREAD__LUA_COMMANDLINE,__LINE__);
 		getline(std::cin,buffer);
 		CHECKPOINT(THREAD__LUA_COMMANDLINE,__LINE__);
 		luaL_dostring(L,buffer.c_str());
+		CHECKPOINT(THREAD__LUA_COMMANDLINE,__LINE__);
+		buffer.clear();
+		CHECKPOINT(THREAD__LUA_COMMANDLINE,__LINE__);
+		printf("Done\n]> ");
 		}
 	return NULL;
 	}
@@ -389,22 +421,20 @@ SYSINT initialize (char *argv[]) {
 	CAMERA = irrcontext::smgr->addCameraSceneNode(NULL,irr::core::vector3df(0,0,0),irr::core::vector3df(1,1,1));
 	CAMERA->setUpVector(irr::core::vector3df(0,0,1));
 
-	for (int x = 0;x < 2;x += 1) {
-		for (int y = 0;y < 2;y += 1) {
-			for (int z = 0;z < 2;z += 1) {
-			irr::scene::IMeshSceneNode * tmp = irrcontext::smgr->addCubeSceneNode(
-				10.0,
-				NULL,
-				((z << 2)|(y << 1)|x),
-				irr::core::vector3df(
-					(x ? 25 : -25),
-					(y ? 25 : -25),
-					(z ? 25 : -25)));
-			irrcontext::meshmanipr->setVertexColors(tmp->getMesh(),RGBColor(
-				((0xFF * x) | 0x55),
-				((0xFF * y) | 0x55),
-				((0xFF * z) | 0x55)));
-	}}}
+	for (int x = -1;x < 2;x += 1) {
+		for (int y = -1;y < 2;y += 1) {
+			for (int z = -1;z < 2;z += 1) {
+				if (x || y || z) {
+					irr::scene::IMeshSceneNode * tmp = irrcontext::smgr->addCubeSceneNode(
+						10.0,
+						NULL,
+						((z * 9) + (y * 3) + x),
+						irr::core::vector3df(
+							(x * 25),
+							(y * 25),
+							(z * 25)));
+					NODES[(z * 9) + (y * 3) + x] = tmp;
+		}}}}
 	irrcontext::smgr->addLightSceneNode();
 	}
 
