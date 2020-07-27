@@ -18,9 +18,17 @@ use of an [external debugger](https://www.gnu.org/software/gdb/) is
 recommended if **Bad Things** start happening.
 
 2 example games will be provided: a high fantasy game with a wide cast of
-playable characters, and a cyberpunk game with a single customizable
-character. chunks can be connected in such a way to form wormholes that
-are one-way or bidirectional.
+playable characters and fixed story, and a cyberpunk game with a single
+custom character and dynamic story.
+
+one of the primary features of the game is that it involves full 3D
+navigation, through the inclusion of characters have free flight or
+underwater breathing capabilities.
+
+another feature is that chunks _do not have to be_ connected in a way that
+forms a flat manifold, which when combined with the above, can form
+interesting and mind-bending mazes, similar to the ones found in
+[early text adventure games](https://en.wikipedia.org/wiki/Colossal_Cave_Adventure).
 
 BUILDING
 ========
