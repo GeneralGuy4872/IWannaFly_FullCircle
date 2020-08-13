@@ -48,7 +48,8 @@ interesting for scientific study; and terrifying for *several* reasons.
 
 in the present day,
 [the dragons](https://tvtropes.org/pmwiki/pmwiki.php/Main/TheEmpire) are
-all gone and
+[all gone](https://tvtropes.org/pmwiki/pmwiki.php/Main/TacticalWithdrawal)
+and
 [the sirens](https://tvtropes.org/pmwiki/pmwiki.php/Main/LaResistance) use
 the fortifications to defend their
 [quiet civilization](https://tvtropes.org/pmwiki/pmwiki.php/Main/HiddenElfVillage)
