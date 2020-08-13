@@ -38,6 +38,13 @@ any bugs that occur, according to the instructions at the
 [devel](https://github.com/GeneralGuy4872/IWannaFly_FullCircle/tree/devel)
 branch.
 
+NOTE
+====
+
+If the version numbers switch to Beta before compleate and in-depth
+documentation of the engine (spread accross doxygen, manpages, and texinfo)
+is provided, this should be bug-reported immediately.
+
 LICENSE
 =======
 
