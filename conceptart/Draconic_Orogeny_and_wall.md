@@ -8,7 +8,7 @@ that subsumes the polar subcontinent, now occupied by sirens. Severe
 ([astronomically recent](https://commons.wikimedia.org/wiki/File:CMB_Timeline300_no_WMAP.jpg))
 past from the [LVB](https://en.wikipedia.org/wiki/Luminous_blue_variable)
 [companion](https://en.wikipedia.org/wiki/Binary_star) to the
-(sun-like)[https://en.wikipedia.org/wiki/Solar_analog] star which the
+[sun-like](https://en.wikipedia.org/wiki/Solar_analog) star which the
 planet orbits caused massive disruption to the entire
 [lithosphere](https://en.wikipedia.org/wiki/Lithosphere) in this
 region; the evidence of this time is in the layers of rock exposed in the
@@ -32,12 +32,14 @@ layers are as follows (top to bottom, I forgot to draw some of them):
 - [Blueschist](https://en.wikipedia.org/wiki/Blueschist)
 - [Gniess](https://en.wikipedia.org/wiki/Gneiss) (*absent from drawing*)
 
-in the upper layers, intrusions of 
+in the upper layers,
+[intrusions](https://en.wikipedia.org/wiki/Intrusive_rock#Structural_types)
+of 
 [Gabbero](https://en.wikipedia.org/wiki/Gabbro)[norite](https://en.wikipedia.org/wiki/Norite),
 Granite, [Diorite](https://en.wikipedia.org/wiki/Diorite),
 [Syenite](https://en.wikipedia.org/wiki/Syenite), and 
 [Foidolite](https://en.wikipedia.org/wiki/Foidolite) are present
-(*absent from drawing*); at lower
+(*but not in the drawing*); at lower
 levels, intrusions are of
 [Kimberlite](https://en.wikipedia.org/wiki/Kimberlite) with
 [Peridotite](https://en.wikipedia.org/wiki/Peridotite) [Xenoliths](https://en.wikipedia.org/wiki/Xenolith)
