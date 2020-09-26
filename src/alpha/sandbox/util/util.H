@@ -40,15 +40,15 @@ extern unsigned long long usquaredll(unsigned long long n);
 extern int cmpll(signed long long a,signed long long b);
 extern int ucmpll(unsigned long long a,unsigned long long b);
 
-extern float maxf(float a,float b);
-extern float minf(float a,float b);
-extern float squaredf(float n);
-extern int cmpf(float a,float b);
+extern float fmaxf(float a,float b);
+extern float fminf(float a,float b);
+extern float fsquaredf(float n);
+extern int fcmpf(float a,float b);
 
-extern double maxfd(double a,double b);
-extern double minfd(double a,double b);
-extern double squaredfd(double n);
-extern int cmpfd(double a,double b);
+extern double fmax(double a,double b);
+extern double fmin(double a,double b);
+extern double fsquared(double n);
+extern int fcmp(double a,double b);
 
 extern double norm2xy(double x,double y);
 extern double norm2xyz(double x,double y,double z);

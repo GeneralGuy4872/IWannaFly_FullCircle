@@ -1,0 +1,14 @@
+//parent is: ./main.cc
+
+namespace irrcontext {
+	irr::IrrlichtDevice * device;
+	irr::video::IVideoDriver * driver;
+	irr::scene::ISceneManager * smgr;
+	irr::gui::IGUIEnvironment * guienv;
+	irr::scene::IMeshManipulator * meshmanipr;
+	irr::gui::ICursorControl * cursctrl;
+	irr::ITimer * timer;
+	double deltatime;
+	uint32_t then;
+	uint32_t now;
+	}

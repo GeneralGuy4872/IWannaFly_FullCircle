@@ -2,7 +2,6 @@
 #define __GG4872_UTIL_DEF__
 
 #define FILENO int
-#define BYTE unsigned char
 #define addoffset(T,X,Y) (T)(((BYTE*) (X)) + (Y))
 
 #define tosignbit(X) (X < 0 ? 1 : 0)
@@ -11,8 +10,8 @@
 #define sgn(X) cmp(X,0)
 #define sgnl(X) cmpl(X,0)
 #define sgnll(X) cmpll(X,0)
-#define sgnf(X) cmpf(X,0)
-#define sgnfd(X) cmpfd(X,0)
+#define fsgnf(X) fcmpf(X,0)
+#define fsgn(X) fcmp(X,0)
 
 #define istrue(X) ((X) || 0)
 #define iff(X,Y) (istrue(X) == istrue(Y))

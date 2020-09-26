@@ -17,7 +17,8 @@ to have smooth(ish) sailing through to a working alpha!
 
 The game engine uses the
 [Irrlicht Engine](http://irrlicht.sourceforge.net/) for rendering 3d
-graphics, [Cairo Graphics](https://www.cairographics.org/) for 2d graphics,
+graphics, the [Open Dynamics Engine](http://www.ode.org/) for physics,
+[Cairo Graphics](https://www.cairographics.org/) for 2d graphics,
 [NCurses](https://invisible-island.net/ncurses/) for interactive menus,
 `<stdio.h>` for story dialog, and [lua](https://www.lua.org/) for scripting
 and a command line.\
@@ -73,32 +74,35 @@ CODING STYLE
 ============
 
 occasionally, a type of C coding called "Object Style C" will be used,
-which takes the following form:
-`namespace$$pseudo_class$$method(pseudo_object,arg,arg,arg...)`
+which takes the following form: 
+`namespace$$pseudo_class$$method(pseudo_object,arg,arg,arg...)` 
+The order of the method call and the object are just reversed.
 
 functions that in fortran would be called "subroutines" are also used,
 and will be denoted by returning an implicit int or the SYSINT macro
 (which evaluates to the empty string *(implicit int)* in C and to `int`
 in C++)
 
-the types in `<stdint.h>` (or <cstdint>) should be used when an integer
+the types in `<stdint.h>` (or `<cstdint>`) should be used when an integer
 of a specific width is required, with the exception that `char` should be
 prefferred to `int8_t`, and `unsigned char` should be prefferred to
 `uint8_t`. if an interger bitfield uses less than the full number of
-bytes in an int, then it should be signed; otherwise it should
-(*usually*) be unsigned.
+bytes in an int, then it should be signed; otherwise it should (*usually*)
+be unsigned.
 
 `struct`s should be catagorized into bitpacked structs and loosly-packed
 structs. every field of a bitpacked struct should have an explicit width,
 and should be of type `signed`, `unsigned`, or `bool`. a loosly-packed
-struct should never use explicit-width fields. bitpacked structs should
-eventually be replaced with interger bitfields.
+struct should never use explicit-width fields; a bitpacked struct should
+never contain a type with implementation defined width (i.e. pointers). all
+bitpacked structs should be replaced with intergals and manual packing
+functions before beta.
 
-sincle-pourpose classes for storing global state, to me at least, seems a
-wholly useless concept; this is an interface without an instance. I will
-try to implement these as namespaces (either C++ namespaces or using $$ as
-described elsewhere), and will attempt to refer to such namespaces as
-"daemons" (cf. system daemon) if the interface contains functions.
+single-pourpose classes for storing global state should be avoided in
+favor of namespaces. these namespaces will be called "daemons" (cf. system
+daemon) if they contain functions.
+
+`goto` may be used in place of `break` when the latter looks ambiguous.
 
 since `this` is a reserved word in C++, and `self` is a reserved word in
 Objective-C, when using Object-Style-C, the object variable will be named
@@ -109,24 +113,24 @@ similarly, since `new` is a keyword in C++ with a compleatly different
 meaning, an object that is being constructed by a function will be named
 `nova`. `input` may be employed as the primary, or only, argument of a
 function. `output` will be the return value. `acc` is an **acc**umulator,
-and should be a register variable.
+and should always (and only) be a register variable.
 
 variables with generic names follow the following conventions:
 - `x`, `y`, `z`, and `w` refer to coordinates. `w` isn't used often.
-- `i` and `j` are `for`-loop iterators, either in the sense of  C++
-  `::iterator`s or in the sense of intergal counters
-- `n` and `m` are generic numbers, usually for-loop intergal counters
-- `tmp` is a temporary variable, usually holding an intermidiate value.
+- `i` and `j` are `for`-loop iterators, either a C++ `::iterator` or an
+  intergal counter
+- `n` and `m` are generic numbers, usually `for`-loop intergal counters
+- `tmp` is a temporary variable, usually holding an intermidiate value or
+  a local copy of a shared resource.
 - `T` is a type in a template
 - `L` is a lua engine
 - `data` is the main data member of an object
 
-a naming system similar to
-[Systems Hungarian](https://en.wikipedia.org/wiki/Hungarian_notation)
-is revived for the pourpose of manually mangling C functions that can
-take multiple argument types, as this allows such functions to maintain C
-linkage while also having faux overloads. this is similar to functions in
-the C standard library such as `abs()` and `fabs()`.
+some library functions use a naming system similar to the standard library
+to denote the type of argument that they take (c.f. `man abs`, `man fabs`,
+[Systems Hungarian](https://en.wikipedia.org/wiki/Hungarian_notation)). the
+libraries that do this are written in C, and do not use operator
+overloading.
 
 FILENAMES
 =========
@@ -199,6 +203,10 @@ modularly independant of the project, but which are being published for the
 first time as part of the project, at a later date under a less restrictive
 liscense.
 
+Additionally, there are some files in the project that are offered under
+the terms of the license that applies to the toutorials that I used to
+create their initial contents.
+
 *note: I originally intended to liscense the project under the GPLv3, and
 some parts of the source code archive have comments to this intent; I have
 since chosen to commit to the GPLv2 "or later" because of various potential
@@ -209,10 +217,6 @@ signifigant disdain for legal trolls suppressing the advancement of
 knowladge, and I personally believe this liscense to be the best way of
 preventing such from happening in my relm of works.***
 
----
-
-\**note: as I've been learning, one of the things I've been teaching myself
-has also been the git system; as a result, instead of branching the repo
-at two specific "flag day" points of development, I *forked* it instead.
-Mistakes were made. If you want to see these relics (you really don't),
-I will leave them as-is.*
+(even minimalizing the number of dependancies as I have, the license
+propogation portion of my project has been extreamly time-consuming and
+stressful)

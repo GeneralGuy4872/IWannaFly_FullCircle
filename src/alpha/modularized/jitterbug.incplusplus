@@ -1,0 +1,20 @@
+//parent file is: ./main.cc
+
+void * iwf$$threads$$jitterbug$$loop (void * dummy) {
+	double localbuffer = 0.0;
+	for (;;usleep(POLLTIME)) {
+	CHECKPOINT(THREAD__JITTERBUG,__LINE__);
+	JITTER++;
+	if (JITTER == -1) {
+		SCRAM = true;
+		return NULL;
+		}
+	CHECKPOINT(THREAD__JITTERBUG,__LINE__);
+	localbuffer = ((JITTER * 3) + localbuffer) / 4;
+	if (!pthread_mutex_trylock(&JITTER_ADV_LOCK)) {
+		CHECKPOINT(THREAD__JITTERBUG,__LINE__);
+		JITTER_ADVERAGE = localbuffer;
+		pthread_mutex_unlock(&JITTER_ADV_LOCK);
+		}
+	CHECKPOINT(THREAD__JITTERBUG,__LINE__);	
+	}}

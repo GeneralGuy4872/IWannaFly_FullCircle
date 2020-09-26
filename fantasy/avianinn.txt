@@ -1,7 +1,9 @@
-Hello, traveler!
-you are welcome to stay in our village,
-so long as you bare us no ill will.
+Hello, traveler! You are welcome to stay in our village, so long as you bare us no ill will.Rooms are 3 [3;96more chunksm a night.Hmm? What's [3;93mthis[m made of? Electrum? Why would I want that?Thanks! Your room is the [1;7mfirst one on the right[[m.*They hand you a key with the number 1 on it*Thanks! Your room is the [1;7msecond one on the right[m.*They hand you a key with the number 2 on it*Thanks! Your room is the [1;7mthird one on the right[m.*They hand you a key with the number 3 on it*Thanks! Your room is the [1;7mlast one on the right[m.*They hand you a key with the number 4 on it*Thanks! Your room is the [1;7mfirst one on the left[m.*They hand you a key with the number 5 on it*Thanks! Your room is the [1;7msecond one on the left[m.*They hand you a key with the number 6 on it*Thanks! Your room is the [1;7mthird one on the left[m.*They hand you a key with the number 7 on it*Thanks! Your room is the [1;7mlast one on the left[m.*They hand you a key with the number 8 on it*Come again!
 
-hmm? what's this made of? silver? gold?
-why would I need want that?
-rooms are 3 ore a night.
+Comments:
+The script that calls this file will randomly choose a room for the player,
+and recall the lines accordingly. The Sirens have no currency, and have an
+abundant supply of precious metals, which forces the player to barter
+various common items from elsewhere in the game's world for goods and
+services.
+

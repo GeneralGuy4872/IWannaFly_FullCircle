@@ -1,0 +1,25 @@
+//parent file is: ./main.cc
+
+// written with the help of toutorials at https://www.lua.org/pil/24.html
+
+pthread_mutex_t SCRIPTPASS = PTHREAD_MUTEX_INITIALIZER;
+bool SCRIPTGO;
+std::string SCRIPTJOB;
+
+void * iwf$$threads$$lua__scripting$$function (void * dummy) {
+	lua_State * L = luaL_newstate();
+	luaL_newlib(L,LLib$$changecolor);
+	lua_setglobal(L,"lib");
+	for (;;usleep(POLLTIME)) {
+		pthread_mutex_lock(&SCRIPTPASS);
+		CHECKPOINT(THREAD__LUA_SCRIPTING,__LINE__);
+		if (SCRIPTGO) {
+			luaL_dostring(L,SCRIPTJOB.c_str());
+			SCRIPTJOB.clear();
+			SCRIPTGO = false;
+			}
+		pthread_mutex_unlock(&SCRIPTPASS);
+		CHECKPOINT(THREAD__LUA_SCRIPTING,__LINE__);
+		}
+	return NULL;
+	}

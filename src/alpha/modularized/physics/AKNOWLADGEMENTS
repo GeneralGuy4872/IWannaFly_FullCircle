@@ -1,0 +1,8 @@
+The code in this directory is derived from a toutorial at
+https://compusciencing.github.io/starting-with-ode.html
+and the ODE manual at http://www.ode.org/ode-latest-userguide.html
+(both retrieved July/Augest 2020)
+
+I am choosing to use ODE under the LGPL 2.1 license
+
+Irrlicht documentation is at http://irrlicht.sourceforge.net/docu/

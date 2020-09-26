@@ -1,0 +1,125 @@
+//parent file is: ./main.cc
+
+//ERROR -- INCOMPLETE CITATION
+/* part of this program has been created using the toutorials at
+ * http://irrlicht.sourceforge.net/docu/pages.html
+ *
+ * (on a related note, have I mentioned the Ship of Theseus today?)
+ */
+
+class MainEventReciever : public irr::IEventReceiver {
+	public:
+	virtual bool OnEvent (const irr::SEvent& event) {
+		CHECKPOINT(THREAD__EVENT,__LINE__);
+		if (JITTER >= JITTERMAX) {
+			CHECKPOINT(THREAD__EVENT,__LINE__);
+			return false;	//did nothing
+			}
+		CHECKPOINT(THREAD__EVENT,__LINE__);
+		switch (event.EventType) {
+			CHECKPOINT(THREAD__EVENT,__LINE__);
+			case irr::EET_MOUSE_INPUT_EVENT : switch (event.MouseInput.Event) {
+				CHECKPOINT(THREAD__EVENT,__LINE__);
+				case irr::EMIE_LMOUSE_PRESSED_DOWN : {
+					CHECKPOINT(THREAD__EVENT,__LINE__);
+					STEALCURSOR = true;
+					irrcontext::cursctrl->setVisible(0);
+					irrcontext::cursctrl->setPosition(0.5f,0.5f);
+					this->mouseCenter = irrcontext::cursctrl->getPosition();
+					CHECKPOINT(THREAD__EVENT,__LINE__);
+					} break;
+				case irr::EMIE_MOUSE_MOVED : if (!STEALCURSOR) {
+					return false;
+				} else {
+					CHECKPOINT(THREAD__EVENT,__LINE__);
+					pthread_mutex_lock(&CAMLOCK);
+					CAMCOORD.el += (event.MouseInput.Y - this->mouseCenter.Y) * (YINVERT ? -1 : 1) * (180 / M_PI) * (1 / 1000.0) * irrcontext::deltatime;
+						if (CAMCOORD.el >= 0.0) {
+							CAMCOORD.el = 0 - (M_PI / 1000);
+						} else if (CAMCOORD.el <= -M_PI) {
+							CAMCOORD.el = -(M_PI - (M_PI / 1000));
+							}
+					CAMCOORD.az += (event.MouseInput.X - this->mouseCenter.X) * (180 / M_PI) * (1 / 1000.0) * irrcontext::deltatime;
+						while (CAMCOORD.az < -M_PI) {
+							CAMCOORD.az += 2 * M_PI;
+						} while (CAMCOORD.az > M_PI) {
+							CAMCOORD.az -= 2 * M_PI;
+							}
+					pthread_mutex_unlock(&CAMLOCK);
+					irrcontext::cursctrl->setPosition(0.5f,0.5f);
+					CHECKPOINT(THREAD__EVENT,__LINE__);
+					} break;
+				default : break;
+				}
+			case (irr::EET_KEY_INPUT_EVENT) : {
+				CHECKPOINT(THREAD__EVENT,__LINE__);
+				if (event.KeyInput.PressedDown) {
+					CHECKPOINT(THREAD__EVENT,__LINE__);
+					switch (event.KeyInput.Key) {
+
+						case irr::KEY_KEY_W : {
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							pthread_mutex_lock(&CAMLOCK);
+							CAMCOORD.el += 5 * irrcontext::deltatime;
+							if (CAMCOORD.el >= 0.0) {
+								CAMCOORD.el = 0 - (M_PI / 1000);
+								}
+							pthread_mutex_unlock(&CAMLOCK);
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							} break;
+
+						case irr::KEY_KEY_S : {
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							pthread_mutex_lock(&CAMLOCK);
+							CAMCOORD.el -= 5 * irrcontext::deltatime;
+							if (CAMCOORD.el <= -M_PI) {
+								CAMCOORD.el = -(M_PI - (M_PI / 1000));
+								}
+							pthread_mutex_unlock(&CAMLOCK);
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							} break;
+
+						case irr::KEY_KEY_A : {
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							pthread_mutex_lock(&CAMLOCK);
+							CAMCOORD.az -= 5 * irrcontext::deltatime;
+							while (CAMCOORD.az < -M_PI) {
+								CAMCOORD.az += 2 * M_PI;
+								}
+							pthread_mutex_unlock(&CAMLOCK);
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							} break;
+
+						case irr::KEY_KEY_D : {
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							pthread_mutex_lock(&CAMLOCK);
+							CAMCOORD.az += 5 * irrcontext::deltatime;
+							while (CAMCOORD.az > M_PI) {
+								CAMCOORD.az -= 2 * M_PI;
+								}
+							pthread_mutex_unlock(&CAMLOCK);
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							} break;
+
+						case irr::KEY_ESCAPE : {
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							STEALCURSOR = 0;
+							irrcontext::cursctrl->setVisible(1);
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							} break;
+
+						case irr::KEY_KEY_Y : {
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							YINVERT = !YINVERT;
+							} break;
+
+						default : break;
+				}}} break;
+			default : break;
+			}
+		CHECKPOINT(THREAD__EVENT,__LINE__);
+		return false;
+		}
+	private:
+	irr::core::vector2di mouseCenter;
+	};

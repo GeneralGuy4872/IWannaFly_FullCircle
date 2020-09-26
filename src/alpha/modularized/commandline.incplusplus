@@ -1,0 +1,21 @@
+//parent file is: ./main.cc
+
+// written with the help of toutorials at https://www.lua.org/pil/24.html
+
+void * iwf$$threads$$lua__commandline$$function (void * dummy) {
+	lua_State * L = luaL_newstate();
+	luaL_newlib(L,LLib$$changecolor);
+	lua_setglobal(L,"lib");
+	printf("IWannaFly lua commandline\n]> ");
+	for (std::string buffer;;) {
+		CHECKPOINT(THREAD__LUA_COMMANDLINE,__LINE__);
+		getline(std::cin,buffer);
+		CHECKPOINT(THREAD__LUA_COMMANDLINE,__LINE__);
+		luaL_dostring(L,buffer.c_str());
+		CHECKPOINT(THREAD__LUA_COMMANDLINE,__LINE__);
+		buffer.clear();
+		CHECKPOINT(THREAD__LUA_COMMANDLINE,__LINE__);
+		printf("Done\n]> ");
+		}
+	return NULL;
+	}

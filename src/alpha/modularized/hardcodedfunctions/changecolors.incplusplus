@@ -1,0 +1,29 @@
+// parent file is: ../main.cc
+
+/* this function will be part of the public-facing API, but the calling
+ * convention will be different:
+ *
+ * changecolor(octant,x,y,z,r,g,b,a)
+ *
+ * octant in the range [13,13]
+ * x, y, and z truncated to 5 bits
+ * r, g, b, and a truncated to 8 bits
+ */
+
+// created using toutorials at https://www.lua.org/pil/24.html
+
+static int LFunc$$changecolor (lua_State * L) {
+	int tmp[5];
+	for (ptrdiff_t i = 0;i < 5;i++) {
+		tmp[i] = lua_tointeger(L,i + 1);
+	}{
+	NODES_t::iterator i = NODES.find(tmp[0]);
+	if (i != NODES.end()) {
+		irrcontext::meshmanipr->setVertexColors(i->second->getMesh(),RGBAColor(tmp[1],tmp[2],tmp[3],tmp[4]));
+		return 0;
+	}}}
+
+static const struct luaL_Reg LLib$$changecolor [] = {
+	{"changecolor",LFunc$$changecolor},
+	{NULL,NULL}
+	};

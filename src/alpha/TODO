@@ -1,0 +1,16 @@
+- Redo chunk renderer (*AGAIN*)
+  - cache all 26 border chunk addresses
+    - colliding with an edge that connects to address 0 deals void damage
+      and imparts a force of 10 gees on the player in a direction
+      perpindicular to the interface (handled by the function that
+      re-alignes the global coordinate system when chunk boundries are
+      crossed)
+  - store chunk priority in case of two chunks being rendered in the same
+    space
+    - the interface to the chunk that is not rendered is is blocked by a
+      flat quad with an opaque ripple texture
+    - priority is only relevant between chunks with the same taxicab norm
+      from octant 0
+    - a negative priority chunk is a room boundry, and uses a different
+      ripple texture. the chunk is never loaded, and crossing the boundry
+      causes a hard reload of all world-related engine state.

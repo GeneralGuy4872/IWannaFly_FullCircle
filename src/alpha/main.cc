@@ -69,6 +69,8 @@ std::atomic_int EXELINE[THREADCOUNT];
 
 /***CUSTOM CLASSES***/
 
+#define DRAG(P,U,C,A) (.5 * P * (U * U) * C * A)
+
 namespace iwf { namespace datatypes {
 class camcoord {
 	public:
@@ -83,7 +85,7 @@ class camcoord {
 		return tmp;
 	}};
 }}
-                  
+
 namespace irrcontext {
 	irr::IrrlichtDevice * device;
 	irr::video::IVideoDriver * driver;

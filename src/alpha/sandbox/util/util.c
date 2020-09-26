@@ -235,7 +235,7 @@ __attribute__((const)) ucmpll(unsigned long long a,unsigned long long b) {
 
 /*---FLOATS---*/
 
-float __attribute__((const)) maxf(float a,float b) {
+float __attribute__((const)) fmaxf (float a,float b) {
 	if (a >= b) {
 		return a;
 		}
@@ -243,7 +243,7 @@ float __attribute__((const)) maxf(float a,float b) {
 		return b;
 		}
 
-float __attribute__((const)) minf(float a,float b) {
+float __attribute__((const)) fminf (float a,float b) {
 	if (a <= b) {
 		return a;
 		}
@@ -251,11 +251,11 @@ float __attribute__((const)) minf(float a,float b) {
 		return b;
 		}
 
-float __attribute__((const)) squaredf (float n) {
+float __attribute__((const)) fsquaredf (float n) {
 	return n * n
 	}
 
-__attribute__((const)) cmpf(float a,float b) {
+__attribute__((const)) fcmpf (float a,float b) {
 	if (a == b) {
 		return 0;
 		}
@@ -270,11 +270,11 @@ __attribute__((const)) cmpf(float a,float b) {
 		}
 	}
 
-#define sgnf(X) cmpf(X,0)
+#define fsgnf (X) fcmpf(X,0)
 
 /*---DOUBLES---*/
 
-double __attribute__((const)) maxfd(double a,double b) {
+double __attribute__((const)) fmax (double a,double b) {
 	if (a >= b) {
 		return a;
 		}
@@ -282,7 +282,7 @@ double __attribute__((const)) maxfd(double a,double b) {
 		return b;
 		}
 
-double __attribute__((const)) minfd(double a,double b) {
+double __attribute__((const)) fmin (double a,double b) {
 	if (a <= b) {
 		return a;
 		}
@@ -290,11 +290,11 @@ double __attribute__((const)) minfd(double a,double b) {
 		return b;
 		}
 
-double __attribute__((const)) squaredfd(double n) {
+double __attribute__((const)) fsquared (double n) {
 	return n * n
 	}
 
-__attribute__((const)) cmpf(float a,float b) {
+__attribute__((const)) fcmp (double a,double b) {
 	if (a == b) {
 		return 0;
 		}
@@ -309,18 +309,18 @@ __attribute__((const)) cmpf(float a,float b) {
 		}
 	}
 
-#define sgnfd(X) cmpfd(X,0)
+#define sgnfd(X) fcmp(X,0)
 
 double __attribute__((const)) norm2xy(double x,double y) {
-	return sqrt(fdsquared(x)+fdsquared(y));
+	return sqrt(fsquared(x)+fsquared(y));
 	}
 
 double __attribute__((const)) norm2xyz(double x,double y,double z) {
-	return sqrt(fdsquared(x)+fdsquared(y)+fdsquared(z));
+	return sqrt(fsquared(x)+fsquared(y)+fsquared(z));
 	}
 
 double __attribute__((const)) norm2xyzw(double x,double y,double z,double w) {
-	return sqrt(fdsquared(x)+fdsquared(y)+fdsquared(z)+fdsquared(z));
+	return sqrt(fsquared(x)+fsquared(y)+fsquared(z)+fsquared(z));
 	}
 
 /*---STDIN---*/

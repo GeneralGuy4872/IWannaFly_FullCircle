@@ -1,0 +1,16 @@
+//parent is: ../main.cc
+
+namespace iwf { namespace datatypes {
+class camcoord {
+	public:
+	double az;
+	double el;
+
+	irr::core::vector3df euclid () {
+		irr::core::vector3df tmp;
+		tmp.X = sin(this->el) * cos(this->az);
+		tmp.Y = sin(this->el) * sin(this->az);
+		tmp.Z = cos(this->el);
+		return tmp;
+	}};
+}}
