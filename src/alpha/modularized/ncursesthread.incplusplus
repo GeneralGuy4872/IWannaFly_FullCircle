@@ -21,10 +21,10 @@ void * iwf$$threads$$curses$$function (void * input) {
 	noecho();
 	keypad(NULL,1);
 
-	mvprintw(3,3,"IWannaFly");
-	mvprintw(4,4,"prealpha devtest");
-	mvprintw(5,5,"revision snapshot:");
-	mvprintw(6,5,SNAPSHOT);
+	mvprintw(2,3,"IWannaFly");
+	mvprintw(3,4,"prealpha devtest");
+	mvprintw(4,5,"revision snapshot:");
+	mvprintw(4,5,SNAPSHOT);
 
 	irr::core::vector3df placeholder;
 	float placeholder2;
@@ -36,37 +36,47 @@ void * iwf$$threads$$curses$$function (void * input) {
 	int tmp5;
 
 	for (;;sleep(1)) {
-		CHECKPOINT(THREAD__NCURSES,__LINE__);
 		pthread_mutex_lock(&CAMLOCK);
-		mvprintw(8,8,"camera azimuth   : % 15.10f°",CAMCOORD.az * (180 / M_PI));
-		mvprintw(9,8,"camera elevation : % 15.10f°",CAMCOORD.el * (180 / M_PI));
-		mvprintw(11,8,"camera basis vector:");
+		mvprintw(6,8,"camera azimuth   : % 15.10f°",CAMCOORD.az * (180 / M_PI));
+		mvprintw(7,8,"camera elevation : % 15.10f°",CAMCOORD.el * (180 / M_PI));
+
+		mvprintw(8,8,"camera basis vector:");
 		placeholder = CAMCOORD.euclid();
 		pthread_mutex_unlock(&CAMLOCK);
-		CHECKPOINT(THREAD__NCURSES,__LINE__);
-		mvprintw(12,10,"% 12.10fx",placeholder.X);
-		mvprintw(13,10,"% 12.10fy",placeholder.Y);
-		mvprintw(14,10,"% 12.10fz",placeholder.Z);
-		mvprintw(16,8,"cursor grabbed? >%s",STEALCURSOR ? "yes" : "no ");
-		CHECKPOINT(THREAD__NCURSES,__LINE__);
+		mvprintw(9,10,"% 12.10fx",placeholder.X);
+		mvprintw(9,35,"% 12.10fy",placeholder.Y);
+		mvprintw(9,60,"% 12.10fz",placeholder.Z);
+
+		mvprintw(11,8,"camera position:");
+		pthread_mutex_lock(&CAMLOCK);
+		placeholder = CAMERA_POS_BUFFER;
+		pthread_mutex_unlock(&CAMLOCK);
+		mvprintw(12,10,"% 15.10fx",placeholder.X);
+		mvprintw(12,35,"% 15.10fy",placeholder.Y);
+		mvprintw(12,60,"% 15.10fz",placeholder.Z);
+
+		mvprintw(14,8,"player position:");
+		pthread_mutex_lock(&CAMLOCK);
+		placeholder = PLAYER_POS_BUFFER;
+		pthread_mutex_unlock(&CAMLOCK);
+		mvprintw(15,10,"% 15.10fx",placeholder.X);
+		mvprintw(15,35,"% 15.10fy",placeholder.Y);
+		mvprintw(15,60,"% 15.10fz",placeholder.Z);
+
+		mvprintw(17,8,"player velocity:");
+		pthread_mutex_lock(&CAMLOCK);
+		mvprintw(18,10,"% 15.10fx",(*PLAYER_VELOCITY)[0]);
+		mvprintw(18,35,"% 15.10fy",(*PLAYER_VELOCITY)[1]);
+		mvprintw(18,60,"% 15.10fz",(*PLAYER_VELOCITY)[2]);
+		pthread_mutex_unlock(&CAMLOCK);
+
+		mvprintw(20,8,"cursor grabbed? >%s",STEALCURSOR ? "yes" : "no ");
+
 		pthread_mutex_lock(&JITTER_ADV_LOCK);
-		mvprintw(17,8,"adverage jitter : %4.4f",JITTER_ADVERAGE);
+		mvprintw(21,8,"adverage jitter : %4.4f",JITTER_ADVERAGE);
 		pthread_mutex_unlock(&JITTER_ADV_LOCK);
-
-		CHECKPOINT(THREAD__NCURSES,__LINE__);
 		tmp = JITTERMAX;
-		mvprintw(18,8,"(max jitter : %3i)",tmp);
-		CHECKPOINT(THREAD__NCURSES,__LINE__);
+		mvprintw(22,8,"(max jitter : %3i)",tmp);
 
-		tmp0 = EXELINE[0];
-		tmp1 = EXELINE[1];
-		tmp2 = EXELINE[2];
-		tmp4 = EXELINE[4];
-		tmp5 = EXELINE[5];
-		CHECKPOINT(THREAD__NCURSES,__LINE__);
-		mvprintw(20,8,"line of execution : % 4i  % 4i  % 4i  SELF  % 4i  % 4i",tmp0,tmp1,tmp2,tmp4,tmp5);
-
-		CHECKPOINT(THREAD__NCURSES,__LINE__);
 		refresh();
-		CHECKPOINT(THREAD__NCURSES,__LINE__);
 	}};

@@ -7,8 +7,47 @@ namespace irrcontext {
 	irr::gui::IGUIEnvironment * guienv;
 	irr::scene::IMeshManipulator * meshmanipr;
 	irr::gui::ICursorControl * cursctrl;
+	irr::scene::IMetaTriangleSelector * trisel;
+	irr::scene::ISceneNodeAnimator * colresanim;
+	std::map<irr::scene::IMeshSceneNode *,irr::scene::ITriangleSelector *> dictionary;
 	irr::ITimer * timer;
 	double deltatime;
 	uint32_t then;
 	uint32_t now;
 	}
+
+namespace IWF {
+namespace FUNC {
+
+::irr::scene::IMeshSceneNode * initcube (float size = 10,::irr::scene::ISceneNode * parent = NULL,::irr::core::vector3df position = ::irr::core::vector3df(0,0,0),::irr::core::vector3df rotation = ::irr::core::vector3df(0,0,0),::irr::core::vector3df scale = ::irr::core::vector3df(1,1,1)) {
+	irr::scene::IMeshSceneNode * retval = ::irrcontext::smgr->addCubeSceneNode(size,parent,-1,position,rotation,scale);
+	irr::scene::ITriangleSelector * tri = ::irrcontext::smgr->createTriangleSelector(retval->getMesh(),retval);
+	retval->setTriangleSelector(tri);
+	::irrcontext::trisel->addTriangleSelector(tri);
+	::irrcontext::dictionary[retval] = tri;
+	return retval;
+	}
+
+::irr::scene::IMeshSceneNode * initcubef (float size = 10,::irr::scene::ISceneNode * parent = NULL,float positionx = 0, float positiony = 0, float positionz = 0,float rotationx = 0, float rotationy = 0, float rotationz = 0,float scalex = 1, float scaley = 1, float scalez = 1) {
+	irr::core::vector3df position = {positionx,positiony,positionz};
+	irr::core::vector3df rotation = {rotationx,rotationy,rotationz};
+	irr::core::vector3df scale = {scalex,scaley,scalez};
+	return ::IWF::FUNC::initcube(size,parent,position,rotation,scale);
+	}
+
+::irr::scene::IMeshSceneNode * initidcube (float size = 10,::irr::scene::ISceneNode * parent = NULL,int32_t id = -1,::irr::core::vector3df position = ::irr::core::vector3df(0,0,0),::irr::core::vector3df rotation = ::irr::core::vector3df(0,0,0),::irr::core::vector3df scale = ::irr::core::vector3df(1,1,1)) {
+	irr::scene::IMeshSceneNode * retval = ::irrcontext::smgr->addCubeSceneNode(size,parent,id,position,rotation,scale);
+	irr::scene::ITriangleSelector * tri = ::irrcontext::smgr->createTriangleSelector(retval->getMesh(),retval);
+	retval->setTriangleSelector(tri);
+	::irrcontext::trisel->addTriangleSelector(tri);
+	::irrcontext::dictionary[retval] = tri;
+	return retval;
+	}
+
+::irr::scene::IMeshSceneNode * initidcubef (float size = 10,::irr::scene::ISceneNode * parent = NULL,int32_t id = -1,float positionx = 0, float positiony = 0, float positionz = 0,float rotationx = 0, float rotationy = 0, float rotationz = 0,float scalex = 1, float scaley = 1, float scalez = 1) {
+	irr::core::vector3df position = {positionx,positiony,positionz};
+	irr::core::vector3df rotation = {rotationx,rotationy,rotationz};
+	irr::core::vector3df scale = {scalex,scaley,scalez};
+	return ::IWF::FUNC::initidcube(size,parent,id,position,rotation,scale);
+	}
+}}

@@ -7,6 +7,10 @@ pthread_mutex_t JITTER_ADV_LOCK = PTHREAD_MUTEX_INITIALIZER;
 float JITTER_ADVERAGE;
 typedef std::map<char,irr::scene::IMeshSceneNode *> NODES_t;
 NODES_t NODES;
+double (*PLAYER_VELOCITY)[4];
+irr::core::vector3df PLAYER_POS_BUFFER;
+irr::core::vector3df CAMERA_POS_BUFFER;
+bool * CAMERA_MANUAL_OVERRIDE;
 
 #define THREAD__MAIN 0
 #define THREAD__EVENT 1
@@ -19,6 +23,7 @@ std::atomic_int EXELINE[THREADCOUNT];
 #define CHECKPOINT(X,Y) EXELINE[X] = Y
 
 irr::scene::ICameraSceneNode * CAMERA;
+irr::scene::IMeshSceneNode * PLAYER;
 pthread_mutex_t CAMLOCK = PTHREAD_MUTEX_INITIALIZER; 
 std::atomic_bool STEALCURSOR;
 std::atomic_bool YINVERT;

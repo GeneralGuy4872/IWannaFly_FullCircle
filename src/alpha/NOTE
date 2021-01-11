@@ -1,0 +1,32 @@
+SOLID BODY (NOT ELASTIC) FOR PLAYER
+
+---
+
+Drop voxel-style terrain use geom-style terrain and offload live
+organization to Irrlicht; static data file for a geom is:
+
+unsigned char : red
+unsigned char : green
+unsigned char : blue
+unsigned char : alpha
+unsigned char : metallic
+unsigned char : softness
+unsigned char : lightsource
+unsigned q16.16 : size x
+unsigned q16.16 : size y
+unsigned q16.16 : size z
+unsigned char : x resolution
+unsigned char : y resolution
+unsigned char : z resolution
+unsigned q16.16 [x res][y res]
+unsigned q16.16 [x res][z res]
+unsigned q16.16 [y res][z res]
+
+data file is read into memory as needed just like a texture would be
+
+---
+
+characters and entities should display as sprites for now (set of 24); low-
+poly hitbox can be added
+
+

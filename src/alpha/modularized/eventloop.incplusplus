@@ -91,6 +91,14 @@ class MainEventReciever : public irr::IEventReceiver {
 							CHECKPOINT(THREAD__EVENT,__LINE__);
 							} break;
 
+						case irr::KEY_KEY_Q : {
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							pthread_mutex_lock(&CAMLOCK);
+							puts("working");
+							pthread_mutex_unlock(&CAMLOCK);
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							} break;
+
 						case irr::KEY_KEY_S : {
 							CHECKPOINT(THREAD__EVENT,__LINE__);
 							pthread_mutex_lock(&CAMLOCK);

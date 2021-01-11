@@ -4,7 +4,7 @@
  *  prealpha  *
  **************/
 
-#define SNAPSHOT "AFTERNOON/07/AUG/2020"
+#define SNAPSHOT "NIGHT/10/JAN/2021"
 
 /* this program currently requires a second terminal to be used; this is
  * done by passing the terminal's device file (which can be obtained with
@@ -78,6 +78,8 @@ SYSINT initialize (char *argv[]) {
 	setvbuf(stdout, NULL, _IONBF, 0);
 	SCRAM = 0;
 	JITTERMAX = 0xF;
+	PLAYER_VELOCITY = calloc(3,sizeof(double));
+	CAMERA_MANUAL_OVERRIDE = calloc(1,sizeof(bool));
 
 	pthread_create(&iwf$$threads$$curses,NULL,iwf$$threads$$curses$$function,argv);
 	pthread_create(&iwf$$threads$$jitterbug,NULL,iwf$$threads$$jitterbug$$loop,NULL);
@@ -91,23 +93,21 @@ SYSINT initialize (char *argv[]) {
 	irrcontext::meshmanipr = irrcontext::smgr->getMeshManipulator();
 	irrcontext::cursctrl = irrcontext::device->getCursorControl();
 	irrcontext::timer = irrcontext::device->getTimer();
+	irrcontext::trisel = irrcontext::smgr->createMetaTriangleSelector();
 
 	irrcontext::guienv->addStaticText(L"IWannaFly Devtest prealpha snapshot " SNAPSHOT,irr::core::rect<irr::s32>(10,10,260,22),1);
 	CAMERA = irrcontext::smgr->addCameraSceneNode(NULL,irr::core::vector3df(0,0,0),irr::core::vector3df(1,1,1));
 	CAMERA->setUpVector(irr::core::vector3df(0,0,1));
+	PLAYER = IWF::FUNC::initidcube(.4,NULL,20);
+	irrcontext::colresanim = irrcontext::smgr->createCollisionResponseAnimator(irrcontext::trisel,CAMERA,irr::core::vector3df(.2,.2,.2),irr::core::vector3df(0,0,-0.98),irr::core::vector3df(0,0,0.001));
+	PLAYER->addAnimator(irrcontext::colresanim);
+	irrcontext::meshmanipr->setVertexColors(PLAYER->getMesh(),RGBColor(0x55,0x55,0xFF));
 
 	for (int x = -1;x < 2;x += 1) {
 		for (int y = -1;y < 2;y += 1) {
 			for (int z = -1;z < 2;z += 1) {
 				if (x || y || z) {
-					irr::scene::IMeshSceneNode * tmp = irrcontext::smgr->addCubeSceneNode(
-						10.0,
-						NULL,
-						((z * 9) + (y * 3) + x),
-						irr::core::vector3df(
-							(x * 25),
-							(y * 25),
-							(z * 25)));
+					irr::scene::IMeshSceneNode * tmp = IWF::FUNC::initidcubef(10.0,NULL,((z * 9) + (y * 3) + x),(x * 25),(y * 25),(z * 25));
 					NODES[(z * 9) + (y * 3) + x] = tmp;
 		}}}}
 	irrcontext::smgr->addLightSceneNode();
@@ -125,23 +125,31 @@ main (int argc, char *argv[]) {
 	while (irrcontext::device->run()) {
 		JITTER = 0;
 		if (SCRAM) exit(0);
-		CHECKPOINT(THREAD__MAIN,__LINE__);
 		pthread_mutex_lock(&CAMLOCK);
+		if (*CAMERA_MANUAL_OVERRIDE) {
+			CAMERA->setPosition(irr::core::vector3df(0,0,0));
+			(*CAMERA_MANUAL_OVERRIDE) = false;
+			}
 		CAMERA->setTarget(CAMCOORD.euclid());
+		CAMERA_POS_BUFFER = CAMERA->getPosition();
+		PLAYER_POS_BUFFER = PLAYER->getPosition();
+		{
+			irr::core::vector3df tmp = PLAYER->getPosition();
+			tmp.X = tmp.X + (*PLAYER_VELOCITY)[0];
+			tmp.Y = tmp.Y + (*PLAYER_VELOCITY)[1];
+			tmp.Z = tmp.Z + (*PLAYER_VELOCITY)[2];
+			PLAYER->setPosition(tmp);
+			CAMERA->setPosition(tmp);		
+		}
 		pthread_mutex_unlock(&CAMLOCK);
-		CHECKPOINT(THREAD__MAIN,__LINE__);
-		irrcontext::driver->beginScene(true, true, RGBAColor(0,0,0xAA,0xF0));
-		CHECKPOINT(THREAD__MAIN,__LINE__);
+		irrcontext::driver->beginScene(true, true, RGBAColor(0,0,0x55,0xEE));
 		irrcontext::smgr->drawAll();
-		CHECKPOINT(THREAD__MAIN,__LINE__);
 		irrcontext::guienv->drawAll();
-		CHECKPOINT(THREAD__MAIN,__LINE__);
 		irrcontext::driver->endScene();
-		CHECKPOINT(THREAD__MAIN,__LINE__);
+		(*PLAYER_VELOCITY)[0] = ((int)(((*PLAYER_VELOCITY)[0] / 2) * 1000000)) / 1000000.0;	//if this underflows, then the optimizer is screwing you
+		(*PLAYER_VELOCITY)[1] = ((int)(((*PLAYER_VELOCITY)[1] / 2) * 1000000)) / 1000000.0;
+		(*PLAYER_VELOCITY)[2] = ((int)(((*PLAYER_VELOCITY)[2] / 2) * 1000000)) / 1000000.0;
 		irrcontext::now = irrcontext::timer->getTime();
-		CHECKPOINT(THREAD__MAIN,__LINE__);
 		irrcontext::deltatime = (irrcontext::now - irrcontext::then) / 1000.0;
-		CHECKPOINT(THREAD__MAIN,__LINE__);
 		irrcontext::then = irrcontext::now;
-		CHECKPOINT(THREAD__MAIN,__LINE__);
 		}}

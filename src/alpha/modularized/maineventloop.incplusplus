@@ -57,6 +57,26 @@ class MainEventReciever : public irr::IEventReceiver {
 					CHECKPOINT(THREAD__EVENT,__LINE__);
 					switch (event.KeyInput.Key) {
 
+						case irr::KEY_SPACE : {
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							pthread_mutex_lock(&CAMLOCK);
+							if ((*PLAYER_VELOCITY)[2]) {
+								(*PLAYER_VELOCITY)[2] = 1 + (1 / (*PLAYER_VELOCITY)[2]);
+							} else {
+								(*PLAYER_VELOCITY)[2] = 1;
+								}
+							pthread_mutex_unlock(&CAMLOCK);
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							} break;
+
+						case irr::KEY_KEY_Q : {
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							pthread_mutex_lock(&CAMLOCK);
+							(*CAMERA_MANUAL_OVERRIDE) = true;
+							pthread_mutex_unlock(&CAMLOCK);
+							CHECKPOINT(THREAD__EVENT,__LINE__);
+							} break;
+
 						case irr::KEY_KEY_W : {
 							CHECKPOINT(THREAD__EVENT,__LINE__);
 							pthread_mutex_lock(&CAMLOCK);
